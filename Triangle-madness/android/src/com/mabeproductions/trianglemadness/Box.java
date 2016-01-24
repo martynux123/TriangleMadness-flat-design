@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Box {
 
 	// Settings
-	private boolean debugMode = true;
+	private boolean debugMode = false;
 	private float size = 0.1f;
 	
 	// Variables

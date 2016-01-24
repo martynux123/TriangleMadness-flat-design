@@ -37,9 +37,6 @@ public class GameSc implements Screen {
 		background = new Texture(Gdx.files.internal("Textures/background.png"));
 		batch = new SpriteBatch();
 		
-		
-		
-		
 		box = new Box(this);
 		
 		txt = new Texture(Gdx.files.internal("Textures/Enemies/Boxers/Enemy.png"));

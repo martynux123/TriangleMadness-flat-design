@@ -16,7 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Enemy {
 
-	private final boolean debugMode = true;
+	private final boolean debugMode = false;
 
 	private GameSc g;
 	private int x = 100;
@@ -76,7 +76,7 @@ public class Enemy {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (true) {
+				while (y-10 < Gdx.graphics.getHeight()) {
 					try {
 						Thread.sleep(50);
 
@@ -87,6 +87,7 @@ public class Enemy {
 						e.printStackTrace();
 					}
 				}
+				
 			}
 		}).start();
 	}
