@@ -1,16 +1,17 @@
 package com.mabeproductions.trianglemadness;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class GameMenu implements Screen {
 	
@@ -26,12 +27,19 @@ public class GameMenu implements Screen {
 	private int angleMid = 0;
 	private int angleOut = 0;
 	private Texture play;
-	private ShapeRenderer r;
+	private BitmapFont font;
+	
+	
 	
 	public GameMenu(GameRunner runner){
+		
+		
+		
+
+		
+		
 		this.runner = runner;
 		batch = new SpriteBatch();
-		
 		
 		bg[0] = new Texture(Gdx.files.internal("Textures/Menu/1.png"));
 		bg[1] = new Texture(Gdx.files.internal("Textures/Menu/2.png"));
@@ -46,8 +54,6 @@ public class GameMenu implements Screen {
 		playBtn = new Rectangle(Gdx.graphics.getWidth()/2-btn.findRegion("Middle_circle").getRegionWidth()/2,
 				Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight()/2,
 				btn.findRegion("Middle_circle").getRegionWidth(),btn.findRegion("Middle_circle").getRegionHeight());
-		
-		r = new ShapeRenderer();
 		
 		menuThread();
 	}
