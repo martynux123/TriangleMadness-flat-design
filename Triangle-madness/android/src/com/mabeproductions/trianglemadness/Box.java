@@ -12,8 +12,8 @@ import com.badlogic.gdx.math.Vector2;
 public class Box {
 
 	// Settings
-	private boolean debugMode = false;
-	private float size = 0.3f;
+	private boolean debugMode = true;
+	private float size = 0.1f;
 	
 	// Variables
 	private int touchX;
@@ -54,6 +54,7 @@ public class Box {
 			
 				touchX = Gdx.input.getX();
 				touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);
+				bounds.setPosition(touchX, touchY);
 				g.isFinger = false;
 				
 		}

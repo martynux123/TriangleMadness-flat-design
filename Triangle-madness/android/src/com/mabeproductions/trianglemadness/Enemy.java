@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Enemy {
@@ -23,6 +24,7 @@ public class Enemy {
 	public static final int UNIFORM_HEIGHT=120;
 	private  int width = 60;
 	private  int height = 60;
+	public Rectangle bounds;
 	
 	private Texture currentTexture;
 	
@@ -33,10 +35,7 @@ public class Enemy {
 		this.y = y;
 		this.height=height;
 		this.speed=speed;
-		
-		
-		
-		update();
+		startThread();
 		
 	}
 	public int getY(){
@@ -58,11 +57,15 @@ public class Enemy {
 	}
 	
 	public void update(){
-		new Thread(new Runnable() {
 			
-			@Override
-			public void run() {
-				while(true){
+			
+	}
+	
+	private void startThread(){
+		new Thread(new Runnable() {
+		@Override
+		public void run() {
+			while(true){
 				try {
 					Thread.sleep(50);
 					
@@ -73,10 +76,9 @@ public class Enemy {
 					
 					e.printStackTrace();
 				}
-				}
 			}
-		}).start();
-			
+		}
+	}).start();
 	}
 	
 	
