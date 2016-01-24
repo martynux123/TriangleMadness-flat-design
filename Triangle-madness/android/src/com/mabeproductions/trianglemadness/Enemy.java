@@ -27,7 +27,8 @@ public class Enemy {
 	private int width = 60;
 	private int height = 60;
 	public Rectangle bounds;
-
+	private int tickCount = 0;
+	
 	private Texture currentTexture;
 
 	public Enemy(int x, int y, int speed, int width, int height, Texture currentTexture) {
@@ -37,7 +38,6 @@ public class Enemy {
 		this.y = y;
 		this.height = height;
 		this.speed = speed;
-		startThread();
 		bounds = new Rectangle(x, y, width, height);
 	}
 
@@ -53,10 +53,12 @@ public class Enemy {
 
 		bounds.set(x, y, width, height);
 
+		//Drawing enemy
 		batch.begin();
 		batch.draw(currentTexture, x, y, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT);
 		batch.end();
-
+		
+		//Debugging
 		if (debugMode) {
 			shape.begin();
 			shape.setAutoShapeType(true);
@@ -65,30 +67,16 @@ public class Enemy {
 			shape.rect(bounds.x, bounds.y, bounds.getWidth(), bounds.getHeight());
 			shape.end();
 		}
-
+		
 	}
 
 	public void update() {
+		//Moving every 30 ticks for optimization purposes
+		if(tickCount >= 30){
+			y += speed;
+			tickCount = 0;
+		}
+		tickCount++;
 
-	}
-
-	private void startThread() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (y-10 < Gdx.graphics.getHeight()) {
-					try {
-						Thread.sleep(50);
-
-						y += speed;
-
-					} catch (InterruptedException e) {
-
-						e.printStackTrace();
-					}
-				}
-				
-			}
-		}).start();
 	}
 }

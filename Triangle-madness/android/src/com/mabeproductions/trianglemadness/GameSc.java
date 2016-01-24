@@ -53,6 +53,12 @@ public class GameSc implements Screen {
 			@Override
 			public void run() {
 				while(true){
+					try {
+						//Sleeping a thread for thread delays to be alike
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					update();
 				}
 				
@@ -114,10 +120,13 @@ public class GameSc implements Screen {
 			
 			if(!(snakes.get(i).isAlive)){
 				snakes.remove(i);
-				System.out.println(snakes.size());
 			}
 			
 			
+		}
+		
+		for (int i = 0; i < enemies.size(); i++) {
+			enemies.get(i).update();
 		}
 		
 	}
@@ -131,7 +140,7 @@ public class GameSc implements Screen {
 		public void run() {
 			while(true){
 				int x = r.nextInt(Gdx.graphics.getWidth()-50);
-				int y = r.nextInt(Gdx.graphics.getHeight()-50);
+				int y = r.nextInt(Gdx.graphics.getHeight()-800);
 				int delay = r.nextInt((6000-2000)+1)+2000;
 				int speed = MathUtils.random(50, 150);
 				float angle = (float) r.nextInt((110-30)+1)+30;
@@ -158,7 +167,7 @@ public class GameSc implements Screen {
 			public void run() {
 				while(true){
 					int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth()-Enemy.UNIFORM_WIDTH);
-					int y = 0;
+					int y = 0/* - Enemy.UNIFORM_HEIGHT*/;
 //					int speed = MathUtils.random(10, 30);
 					int speed = 15;
 					int delay = MathUtils.random(400, 600);
@@ -229,10 +238,5 @@ public class GameSc implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
-	
-	
-	
-	
 
 }

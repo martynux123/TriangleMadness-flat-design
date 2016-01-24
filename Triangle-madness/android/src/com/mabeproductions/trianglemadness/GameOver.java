@@ -66,10 +66,10 @@ public class GameOver implements Screen{
 		
 		
 		buttonAgain = new TextButton(" ", styleAgain);
-		buttonAgain.setBounds(Gdx.graphics.getWidth()/2+120, Gdx.graphics.getHeight()/2+50, 500,200 );
+		buttonAgain.setBounds(Gdx.graphics.getWidth()/2+120, Gdx.graphics.getHeight()/2+50, 600,200 );
 		
 		buttonMenu = new TextButton(" ", styleMenu);
-		buttonMenu.setBounds(Gdx.graphics.getWidth()/2-590, Gdx.graphics.getHeight()-740, 500,200 );
+		buttonMenu.setBounds(Gdx.graphics.getWidth()/2-590, Gdx.graphics.getHeight()-740, 600,200 );
 		
 		stage.addActor(buttonAgain);
 		stage.addActor(buttonMenu);
