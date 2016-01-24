@@ -1,5 +1,6 @@
 package com.mabeproductions.trianglemadness;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -114,8 +115,7 @@ public class GameMenu implements Screen {
 		*/
 		
 		if(playBtn.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.justTouched()){
-			runner.menu=false;
-			runner.play();
+			runner.setScreen(new GameSc(runner));
 			
 			
 		}
@@ -143,11 +143,10 @@ public class GameMenu implements Screen {
 
 	@Override
 	public void dispose() {
-		if(runner.menu==false){
 		runner.getScreen().dispose();
 		btn.dispose();
 		batch.dispose();
-		}
+		
 	}
 
 

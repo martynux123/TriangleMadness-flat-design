@@ -23,7 +23,7 @@ public class GameOver implements Screen{
 	public GameOver(GameRunner runner){
 		this.runner = runner;
 		gameOverThread();
-		//Gdx.app.exit();		
+		
 		over[0] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0001.png"));
 		over[1] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0004.png"));
 		over[2] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0007.png"));
@@ -53,7 +53,7 @@ public class GameOver implements Screen{
 			public void run() {
 				while(true){
 					try {
-						Thread.sleep(100);
+						Thread.sleep(50);
 						
 					} catch (InterruptedException e) {
 						
@@ -82,41 +82,32 @@ public class GameOver implements Screen{
 		batch.begin();
 		batch.draw(over[index],0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
-		
-		}
-		
-	
-		
+		}	
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		runner.getScreen().dispose();	
 	}
 
 }

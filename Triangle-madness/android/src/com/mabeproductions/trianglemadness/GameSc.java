@@ -3,6 +3,7 @@ package com.mabeproductions.trianglemadness;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -105,6 +106,7 @@ public class GameSc implements Screen {
 	public void update(){
 		
 		box.update();
+		
 		for (int i = 0; i < snakes.size(); i++) {
 			snakes.get(i).update();
 		}
@@ -148,7 +150,6 @@ public class GameSc implements Screen {
 		}
 	}).start();
 	
-		box.update();
 	}
 	
 	private void enemyThread(){
@@ -183,7 +184,6 @@ public class GameSc implements Screen {
 			}
 		}).start();
 		
-		box.update();
 	}
 	
 	
@@ -215,11 +215,10 @@ public class GameSc implements Screen {
 
 	@Override
 	public void dispose() {
-		if(runner.menu==false){
-			runner.getScreen().dispose();
-			shape.dispose();
-			batch.dispose();
-			}
+		runner.getScreen().dispose();
+		shape.dispose();
+		batch.dispose();
+			
 		
 		
 	}

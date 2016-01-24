@@ -1,7 +1,6 @@
 package com.mabeproductions.trianglemadness;
 
-import java.util.Timer;
-
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,8 +24,7 @@ public class Box {
 	public Rectangle bounds;
 	private boolean isTouched;
 	private ShapeRenderer shape;
-	private boolean isAlreadyTouched = true;
-	// SUTVARKYTI BOUNDUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+	private boolean shouldScreenChange = false;
 	
 
 	
@@ -86,10 +84,8 @@ public class Box {
 			for (int i = 0; i < g.snakes.size(); i++) {
 				for (int y = 0; y < g.snakes.get(i).snake.size(); y++) {
 					
-					if (bounds.contains(g.snakes.get(i).snake.get(y).x, g.snakes.get(i).snake.get(y).y) && isAlreadyTouched) {
-						isAlreadyTouched = false;
-						g.runner.play=false;
-						g.runner.gameOver();
+					if (bounds.contains(g.snakes.get(i).snake.get(y).x, g.snakes.get(i).snake.get(y).y) && !shouldScreenChange) {
+						shouldScreenChange = true;
 						}
 				}
 			}
@@ -101,6 +97,13 @@ public class Box {
 	}
 
 	public void render(SpriteBatch batch) {
+		
+		
+		if(shouldScreenChange){
+			g.runner.setScreen(new GameOver(g.runner));
+			shouldScreenChange = false;
+		}
+		
 		// Only drawing bounds if debug mode is on
 		if (debugMode) {
 			shape.setAutoShapeType(true);
