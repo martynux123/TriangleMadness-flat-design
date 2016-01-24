@@ -101,7 +101,7 @@ public class GameSc implements Screen {
 				}
 				
 		for (int i = 0; i < enemies.size(); i++) {
-			enemies.get(i).render(batch);
+			enemies.get(i).render(batch, shape);
 		}
 
 	}

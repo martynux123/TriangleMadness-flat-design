@@ -77,6 +77,17 @@ public class Box {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		try{
+			for (int i = 0; i < g.enemies.size(); i++) {
+					
+					if (bounds.overlaps(g.enemies.get(i).bounds) && !shouldScreenChange) {
+						shouldScreenChange = true;
+					}
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
 	}
 
