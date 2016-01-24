@@ -28,10 +28,12 @@ public class GameSc implements Screen {
 	private Texture background;
 	public GameRunner runner;
 	Texture txt;
+	public boolean isFinger = true;
 	
-	public GameSc(GameRunner runner) {
+	public GameSc(GameRunner runner, boolean isFinger) {
 		this.runner = runner;
-	
+		this.isFinger = isFinger;
+		
 		background = new Texture(Gdx.files.internal("Textures/background.png"));
 		batch = new SpriteBatch();
 		

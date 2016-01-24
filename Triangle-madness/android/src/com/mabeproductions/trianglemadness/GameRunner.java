@@ -7,7 +7,6 @@ public class GameRunner extends Game{
 	@Override
 	public void create() {
 		this.setScreen(new GameMenu(this));
-		
 	}
 	
 

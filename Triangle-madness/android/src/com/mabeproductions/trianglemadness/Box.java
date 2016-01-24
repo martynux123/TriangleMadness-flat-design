@@ -22,11 +22,10 @@ public class Box {
 	private Texture box;
 	private Vector2 pos;
 	public Rectangle bounds;
-	private boolean isTouched;
+	private boolean isTouched = true;
 	private ShapeRenderer shape;
 	private boolean shouldScreenChange = false;
 	
-
 	
 	public Box(GameSc g) {
 		this.g = g;
@@ -36,50 +35,34 @@ public class Box {
 		bounds = new Rectangle(pos.x, pos.y, size, size);
 		
 		shape = new ShapeRenderer();
+		
 	}
 
 	public void update() {
 
 		// Getting touch coords
-		touchX = Gdx.input.getX();
-		touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);
 
 		// Checking if box is touched and setting isTouched to true
-		if (Gdx.input.justTouched() && bounds.contains(touchX, touchY))
-			isTouched = true;
+		//if (Gdx.input.justTouched() && bounds.contains(touchX, touchY))
+			//isTouched = true;
 
-		// Moving box the touchX and touchY if it's touched
-		if (isTouched) {
-
-			if (Gdx.input.isTouched()) {
-
-				pos.x = touchX - size / 2;
-				pos.y = touchY - size / 2;
-				bounds.setPosition(pos.x, pos.y);
-
-			} else {
-				isTouched = false;
-			}
-
-		}
-
-		// Out Of Bounds
-		if (pos.x < 0) {
-			pos.x = 0;
+		
+		
+		
+		// Moving the touchX and touchY if it's touched
+		if (isTouched && Gdx.input.isTouched()) {
+			
+				touchX = Gdx.input.getX();
+				touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);
+				g.isFinger = false;
+				
 		}
 		
-		if (pos.x > Gdx.graphics.getWidth() - size) {
-			pos.x = Gdx.graphics.getWidth() - size;
+		if(!Gdx.input.isTouched() && isTouched==true && g.isFinger==false){
+			shouldScreenChange = true;
 		}
 		
-		if (pos.y < 0) {
-			pos.y = 0;
-		}
-		
-		if (pos.y > Gdx.graphics.getHeight() - size) {
-			pos.y = Gdx.graphics.getHeight() - size;
-		}
-		
+
 		try{
 			for (int i = 0; i < g.snakes.size(); i++) {
 				for (int y = 0; y < g.snakes.get(i).snake.size(); y++) {
@@ -115,10 +98,11 @@ public class Box {
 		}
 
 		// Drawing a box
-		
+		/*
 		batch.begin();
 		batch.draw(box, pos.x, pos.y, size, size);
 		batch.end();
+	*/
 	}
 
 }

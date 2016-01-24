@@ -13,6 +13,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 public class GameMenu implements Screen {
+	
+	
+	
+	public boolean isFinger = true;
 	public Rectangle playBtn;
 	public GameRunner runner;
 	private int index;
@@ -23,7 +27,6 @@ public class GameMenu implements Screen {
 	private int angleOut = 0;
 	private Texture play;
 	private ShapeRenderer r;
-	
 	
 	public GameMenu(GameRunner runner){
 		this.runner = runner;
@@ -78,10 +81,13 @@ public class GameMenu implements Screen {
 	}
 	
 	
+	
+	
 	@Override
 	public void show() {
 
 		
+	
 	}
 
 	@Override
@@ -115,9 +121,7 @@ public class GameMenu implements Screen {
 		*/
 		
 		if(playBtn.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.justTouched()){
-			runner.setScreen(new GameSc(runner));
-			
-			
+			runner.setScreen(new GameSc(runner,isFinger));
 		}
 		
 	}
