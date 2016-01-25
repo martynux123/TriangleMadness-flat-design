@@ -29,13 +29,18 @@ public class GameMenu implements Screen {
 	private int angleMid = 0;
 	private int angleOut = 0;
 	private Texture play;
+	
 	private BitmapFont font;
 	
+	//GameSc screen object(later initialized in constructor).
+	private GameSc GameScreen;
+	private boolean gameScreenSwitch;
 	
 	
 	public GameMenu(GameRunner runner){
 		
-		
+		//See Line: 142 - WORKS
+		GameScreen = new GameSc(runner);
 		
 
 		
@@ -60,6 +65,7 @@ public class GameMenu implements Screen {
 		menuThread();
 	}
 	public void menuThread(){
+		
 		index = 0;
 		new Thread(new Runnable() {
 			
@@ -129,9 +135,13 @@ public class GameMenu implements Screen {
 		*/
 		
 		if(playBtn.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.justTouched()){
-			runner.setScreen(new GameSc(runner,isFinger));
-		}
+			gameScreenSwitch=true;
 		
+		}
+		if(gameScreenSwitch){
+		runner.setScreen(GameScreen);
+			gameScreenSwitch=false;
+		}
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class Snake{
 	private float length;
 	public boolean isAlive = true;
 	private Rectangle bounds;
-	
+	private int tickCount;
 
 	public Snake(float angle, Vector2 pos, long delay, float length) {
 		this.angle = angle;
@@ -28,7 +28,7 @@ public class Snake{
 		this.delay = delay;
 		this.length = length;
 		
-		threadRunner();
+		
 		for (int i = 0; i < length; i++) {
 
 			if (i == 0)
@@ -45,61 +45,68 @@ public class Snake{
 	}
 
 	public void update() {
-
-	}
-
-	private void threadRunner() {
-
-		new Thread(new Runnable() {
-
-			public void run() {
-				// Dabar isAlive=true;
-				while (isAlive) {
-
-					try {
-
-						Thread.sleep(delay);
-						Vector2 lastPos = snake.get(snake.size() - 1);
-						Vector2 offSet = MathUtils.moveAlongAngle2(angle, 17);
-						Vector2 finalPos = lastPos.add(offSet);
-						//bounds = new Rectangle(lastPos.x + offSet.x, lastPos.y + offSet.y, 50, 50);
-
-						snake.remove(0);
-						snake.add(new Vector2(lastPos.x + offSet.x, lastPos.y + offSet.y));
-						
-
-						if (snake.get(snake.size() - 1).y > Gdx.graphics.getHeight() - 40) {
-							angle += 90;
-							snake.remove(0);
-						}
-
-						if (snake.get(snake.size() - 1).y < 0) {
-							angle += 90;
-							snake.remove(0);
-						}
-						if (snake.get(snake.size() - 1).x < 0) {
-							angle += 90;
-							snake.remove(0);
-						}
-						if (snake.get(snake.size() - 1).x > Gdx.graphics.getWidth() - 40) {
-							angle += 90;
-							snake.remove(0);
-
-						}
-
-					} catch (Exception e) {
-					}
-					
-					if (snake.size() == 1) {
-						isAlive = false;
-						snake.remove(0);
-					}
-
+		if(tickCount >= 30){
+			try {
+				
+				int randAngle = com.badlogic.gdx.math.MathUtils.random(40,90);
+				int randAngle1 = com.badlogic.gdx.math.MathUtils.random(40,90);
+				int randAngle2= com.badlogic.gdx.math.MathUtils.random(40,90);
+				int randAngle3 = com.badlogic.gdx.math.MathUtils.random(40,90);
+				
+				Vector2 lastPos = snake.get(snake.size() - 1);
+				Vector2 offSet = MathUtils.moveAlongAngle2(angle, 17);
+				Vector2 finalPos = lastPos.add(offSet);
+				
+				
+				snake.remove(0);
+				snake.add(new Vector2(lastPos.x + offSet.x, lastPos.y + offSet.y));
+				
+				
+				if (snake.get(snake.size() - 1).y > Gdx.graphics.getHeight() + 60) {
+					angle += randAngle;
+					snake.remove(0);
 				}
+				
+				if (snake.get(snake.size() - 1).y < -20) {
+					angle += randAngle1;
+					snake.remove(0);
+				}
+				if (snake.get(snake.size() - 1).x < -20) {
+					angle += randAngle2;
+					snake.remove(0);
+				}
+				if (snake.get(snake.size() - 1).x > Gdx.graphics.getWidth() + 60) {
+					angle += randAngle3;
+					snake.remove(0);
+					
+				}
+				if(angle>=360){
+					angle = 0;
+				}
+				
+			} catch (Exception e) {
 			}
+			
+			if (snake.size() == 1) {
+				isAlive = false;
+				snake.remove(0);
+			}
+			
+			
+			
+			
+			
+			tickCount = 0;
+		}
+		tickCount++;
 
-		}).start();
+		
+		
+		
+
 	}
+
+	
 
 	public void render(ShapeRenderer renderer) {
 
@@ -115,7 +122,7 @@ public class Snake{
 //			renderer.rect(snake.get(i).x, snake.get(i).y, 0, 0, 50, 50, 1, 1, 45);
 			
 			for (int j = 0; j < snake.size(); j++) {
-				if(i+1<snake.size()){
+				if(i+1<snake.size()-1){
 					renderer.rectLine(snake.get(i).x, snake.get(i).y, snake.get(i+1).x, snake.get(i+1).y, 10);
 				}
 			}
