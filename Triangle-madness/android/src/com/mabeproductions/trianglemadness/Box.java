@@ -1,9 +1,11 @@
 package com.mabeproductions.trianglemadness;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,7 +15,7 @@ public class Box {
 
 	// Settings
 	private boolean debugMode = false;
-	private float size = 0.6f;
+	private float size = 0.4f;
 
 	// Variables
 	private int touchX;
@@ -28,10 +30,11 @@ public class Box {
 	
 	//GameOver screen object(later initialized in constructor).
 	private GameOver gameOver;
-
+	private ParticleEffect emitter;
+	private AssetManager mngr;
 	
 	public Box(GameSc g) {
-		
+		mngr = new AssetManager();
 		
 		
 		this.g = g;
@@ -46,9 +49,9 @@ public class Box {
 
 		shape = new ShapeRenderer();
 
-		
-		//DOESN"T WORK : See Line: 125
-		//gameOver = new GameOver(g.runner);
+		emitter = new ParticleEffect();
+		emitter.load(Gdx.files.internal("Particles/movement_particles_default.p"), Gdx.files.internal(""));
+		emitter.scaleEffect(2);
 		
 	}
 
@@ -65,6 +68,8 @@ public class Box {
 		if(Gdx.input.justTouched() && bounds.contains(touchX, touchY)){
 			isTouched = true;
 		}
+		
+		
 		
 	if(!Gdx.input.isTouched())
 		isTouched = false;
@@ -121,7 +126,11 @@ public class Box {
 
 		// Drawing a box
 		
-		 batch.begin(); batch.draw(ball, pos.x, pos.y, size, size);
+		 batch.begin(); 
+		 batch.draw(ball, pos.x, pos.y, size, size);
+		 emitter.setPosition(pos.x + size/2, pos.y + size/2);
+		 emitter.update(Gdx.graphics.getDeltaTime());
+		 emitter.draw(batch);
 		 batch.end();
 		 
 	}
