@@ -15,7 +15,7 @@ public class Box {
 
 	// Settings
 	private boolean debugMode = false;
-	private float size = 0.4f;
+	private float size = 0.6f;
 
 	// Variables
 	private int touchX;
@@ -77,7 +77,7 @@ public class Box {
 				
 				if(isTouched){
 				pos.x = touchX - size/2;
-				pos.y = touchY - size/2;
+				pos.y = touchY - (size/2)+size;
 			
 				bounds.setPosition(pos.x, pos.y);
 				}
