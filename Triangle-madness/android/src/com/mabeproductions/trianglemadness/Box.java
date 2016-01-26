@@ -50,7 +50,7 @@ public class Box {
 		shape = new ShapeRenderer();
 
 		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/BubblePart"), Gdx.files.internal(""));
+		emitter.load(Gdx.files.internal("Particles/BubblePart1"), Gdx.files.internal(""));
 		emitter.scaleEffect(2);
 		
 	}
