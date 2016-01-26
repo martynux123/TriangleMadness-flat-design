@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Box {
 
 	// Settings
-	private boolean debugMode = true;
+	private boolean debugMode = false;
 	private float size = 0.6f;
 
 	// Variables
@@ -122,7 +122,7 @@ public class Box {
 
 		if (shouldScreenChange) {
 			
-			g.runner.setScreen(new GameOver(g.runner)/*gameOver*/);
+			g.runner.setScreen(g.runner.over);
 			
 			shouldScreenChange = false;
 		}

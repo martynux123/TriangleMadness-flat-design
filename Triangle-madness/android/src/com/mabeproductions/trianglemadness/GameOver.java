@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
+import android.view.textservice.SuggestionsInfo;
+
 public class GameOver implements Screen {
 
 	public GameRunner runner;
@@ -34,10 +36,7 @@ public class GameOver implements Screen {
 	private TextButtonStyle styleAgain, styleMenu;
 	private TextButton buttonAgain, buttonMenu;
 	private Stage stage;
-	private Box box;
 	private BitmapFont font;
-	private boolean isFinger;
-	private boolean menuOff;
 	private boolean isOnMenu;
 	private boolean isOnPlay;
 	
@@ -102,7 +101,8 @@ public class GameOver implements Screen {
 
 	@Override
 	public void show() {
-
+		runner.pausedGameScreen = new GameSc(runner);
+		runner.pausedGameScreen.pause();
 	}
 
 	public void gameOverThread() {
@@ -138,7 +138,10 @@ public class GameOver implements Screen {
 		if (buttonAgain.isPressed()) {
 			isOnMenu = true;
 			if (isOnMenu) {
-				runner.setScreen(GameScreen);
+//				runner.setScreen(GameScreen);
+				GameSc currentGameSc = runner.pausedGameScreen;
+				currentGameSc.resume();
+				runner.setScreen(currentGameSc);
 				isOnMenu = false;
 			}
 		}
@@ -147,7 +150,7 @@ public class GameOver implements Screen {
 		if (buttonMenu.isPressed()) {
 			isOnPlay = true;
 			if (isOnPlay) {
-				runner.setScreen(gameMenu);
+				runner.setScreen(runner.GameMen);
 				isOnPlay= false;
 			}
 		}

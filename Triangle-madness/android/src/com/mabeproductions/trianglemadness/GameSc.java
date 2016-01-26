@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameSc implements Screen {
 
+	public boolean game_paused = false;
 	private SpriteBatch batch;
 	public Box box;
 	private ShapeRenderer shape;
@@ -27,7 +28,6 @@ public class GameSc implements Screen {
 	public GameRunner runner;
 	Texture txt;
 	Texture enemy2;
-	
 
 
 	public GameSc(GameRunner runner) {
@@ -67,12 +67,7 @@ public class GameSc implements Screen {
 			}
 		}).start();
 
-		//Turetu pagal ideja pradeti po 3sek kiekviena karta kai, paleidzia screena, bet tai daro tik tada, kai spaudi try again, o jeigu is menu spaudi play, kazkodel neveikia. 
-		//Jauciu reik kokio booleano. Kad timeri pradetu skaiciuoti nuo tada, kai ijungtas GameScreenas. 
 		
-		//Siaip istikruju problema yra tame, kad kai mes esam MenuScreene, jau pradeda veikti gameScreenas, taip neturetu buti, bet kazkodel taip yra.
-		//Pabandyk kai isijungsi appa iskart paspausti play ir palauk koki 3-4sek. kai paspausi play, jau bus pradeje spawnintis snakes, boxai ir t.t
-		//Manau cia tiesiog irgi ez, bet durnas eroras. :)
 		Timer t = new Timer();
 				t.schedule(new TimerTask() {
 					
@@ -91,8 +86,6 @@ public class GameSc implements Screen {
 	@Override
 	public void show() {
 
-		// initialize
-
 	}
 
 	@Override
@@ -103,6 +96,8 @@ public class GameSc implements Screen {
 	@Override
 
 	public void render(float dt) {
+		if(game_paused)
+			return;
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -127,6 +122,9 @@ public class GameSc implements Screen {
 	}
 
 	public void update() {
+		
+		if(game_paused)
+			return;
 
 		box.update();
 
@@ -168,6 +166,10 @@ public class GameSc implements Screen {
 			@Override
 			public void run() {
 				while (true) {
+					
+					if(game_paused)
+						return;
+					
 					System.out.println(snakes.size());
 					int x = r.nextInt(Gdx.graphics.getWidth() - 50);
 					int y = r.nextInt(Gdx.graphics.getHeight() - 900);
@@ -211,6 +213,10 @@ public class GameSc implements Screen {
 			@Override
 			public void run() {
 				while (true) {
+					
+					if(game_paused)
+						return;
+					
 					int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
 					int y = -Enemy.UNIFORM_HEIGHT;
 					// int speed = MathUtils.random(10, 30);
@@ -245,6 +251,10 @@ public class GameSc implements Screen {
 			@Override
 			public void run() {
 				while (true) {
+					
+					if(game_paused)
+						return;
+					
 					int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
 					int y = Gdx.graphics.getHeight() + Enemy.UNIFORM_HEIGHT;
 					int speed = -13;
@@ -290,12 +300,12 @@ public class GameSc implements Screen {
 
 	@Override
 	public void pause() {
-
+		game_paused = true;
 	}
 
 	@Override
 	public void resume() {
-
+		game_paused = false;
 	}
 
 	@Override

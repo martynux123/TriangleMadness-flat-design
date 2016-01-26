@@ -33,14 +33,14 @@ public class GameMenu implements Screen {
 	private BitmapFont font;
 	
 	//GameSc screen object(later initialized in constructor).
-	private GameSc GameScreen;
+//	private GameSc GameScreen;
 	private boolean gameScreenSwitch;
 	
 	
 	public GameMenu(GameRunner runner){
 		
 		//See Line: 142 - WORKS
-		GameScreen = new GameSc(runner);
+//		GameScreen = new GameSc(runner);
 		
 
 		
@@ -139,7 +139,9 @@ public class GameMenu implements Screen {
 		
 		}
 		if(gameScreenSwitch){
-		runner.setScreen(GameScreen);
+			GameSc currentGameSc = runner.pausedGameScreen;
+			currentGameSc.resume();
+			runner.setScreen(currentGameSc);
 			gameScreenSwitch=false;
 		}
 	}
