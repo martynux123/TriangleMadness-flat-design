@@ -187,6 +187,15 @@ public class GameOver implements Screen {
 	@Override
 	public void dispose() {
 		runner.getScreen().dispose();
+		batch.dispose();
+		stage.dispose();
+		atlasAgain.dispose();
+		atlasMenu.dispose();
+		skinAgain.dispose();
+		skinMenu.dispose();
+		font.dispose();
+	
+		
 	}
 
 }

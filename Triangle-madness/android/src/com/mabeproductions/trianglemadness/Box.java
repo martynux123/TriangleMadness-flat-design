@@ -79,7 +79,7 @@ public class Box {
 				
 				if(isTouched){
 				pos.x = touchX - size/2;
-				pos.y = touchY - (size/2)+size+5;
+				pos.y = touchY - (size/2)+size+20;
 			
 				bounds.setPosition(pos.x, pos.y);
 				}

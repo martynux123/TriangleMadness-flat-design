@@ -229,6 +229,8 @@ public class GameSc implements Screen {
 
 	@Override
 	public void dispose() {
+		
+		
 		runner.getScreen().dispose();
 		shape.dispose();
 		batch.dispose();
