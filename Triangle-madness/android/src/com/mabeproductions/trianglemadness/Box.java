@@ -50,7 +50,7 @@ public class Box {
 		shape = new ShapeRenderer();
 
 		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/movement_particles_default.p"), Gdx.files.internal(""));
+		emitter.load(Gdx.files.internal("Particles/BubblePart"), Gdx.files.internal(""));
 		emitter.scaleEffect(2);
 		
 	}
@@ -127,10 +127,10 @@ public class Box {
 		// Drawing a box
 		
 		 batch.begin(); 
-		 batch.draw(ball, pos.x, pos.y, size, size);
 		 emitter.setPosition(pos.x + size/2, pos.y + size/2);
 		 emitter.update(Gdx.graphics.getDeltaTime());
 		 emitter.draw(batch);
+		 batch.draw(ball, pos.x, pos.y, size, size);
 		 batch.end();
 		 
 	}
