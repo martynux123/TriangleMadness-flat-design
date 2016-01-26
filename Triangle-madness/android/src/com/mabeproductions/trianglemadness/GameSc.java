@@ -66,17 +66,11 @@ public class GameSc implements Screen {
 		}).start();
 
 		
-		Timer t = new Timer();
-				t.schedule(new TimerTask() {
-					
-					@Override
-					public void run() {
-						
+		
 						enemyThread();
 						enemyFromTopThread();
 											
-					}
-				}, 3000);
+				
 
 	}
 
@@ -145,8 +139,7 @@ public class GameSc implements Screen {
 			public void run() {
 				while (true) {
 					
-					if(game_paused)
-						return;
+					if(!game_paused){
 					
 					int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
 					int y = -Enemy.UNIFORM_HEIGHT;
@@ -167,7 +160,7 @@ public class GameSc implements Screen {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
+					}
 				}
 
 			}
@@ -183,8 +176,8 @@ public class GameSc implements Screen {
 			public void run() {
 				while (true) {
 					
-					if(game_paused)
-						return;
+					if(!game_paused){
+						
 					
 					int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
 					int y = Gdx.graphics.getHeight() + Enemy.UNIFORM_HEIGHT;
@@ -203,12 +196,12 @@ public class GameSc implements Screen {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					}
 
 				}
 
 			}
 		}).start();
-
 	}
 
 

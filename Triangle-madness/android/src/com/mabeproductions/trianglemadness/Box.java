@@ -27,6 +27,8 @@ public class Box {
 	private boolean isTouched;
 	private ShapeRenderer shape;
 	private boolean shouldScreenChange;
+	private boolean vibrate;
+	
 	
 	//GameOver screen object(later initialized in constructor).
 	private GameOver gameOver;
@@ -77,7 +79,7 @@ public class Box {
 				
 				if(isTouched){
 				pos.x = touchX - size/2;
-				pos.y = touchY - (size/2)+size;
+				pos.y = touchY - (size/2)+size+5;
 			
 				bounds.setPosition(pos.x, pos.y);
 				}
@@ -89,6 +91,11 @@ public class Box {
 					
 					if (bounds.overlaps(g.enemies.get(i).bounds) && !shouldScreenChange) {
 						shouldScreenChange = true;
+						vibrate=true;
+						if(vibrate){
+							Gdx.input.vibrate(200);
+							vibrate=false;
+						}
 					}
 			}
 			
@@ -96,6 +103,11 @@ public class Box {
 				
 				if (bounds.overlaps(g.enemies2.get(i).bounds) && !shouldScreenChange) {
 					shouldScreenChange = true;
+					vibrate=true;
+					if(vibrate){
+						Gdx.input.vibrate(200);
+						vibrate=false;
+					}
 				}
 			}
 			

@@ -140,6 +140,7 @@ public class GameOver implements Screen {
 			if (isOnMenu) {
 //				runner.setScreen(GameScreen);
 				GameSc currentGameSc = runner.pausedGameScreen;
+				//currentGameSc.pause();
 				currentGameSc.resume();
 				runner.setScreen(currentGameSc);
 				isOnMenu = false;
