@@ -77,24 +77,6 @@ public class Box {
 				bounds.setPosition(pos.x, pos.y);
 				}
 				
-				
-		
-		
-
-		try{
-			for (int i = 0; i < g.snakes.size(); i++) {
-				for (int y = 0; y < g.snakes.get(i).snake.size(); y++) {
-					
-					if (bounds.contains(g.snakes.get(i).snake.get(y).x, g.snakes.get(i).snake.get(y).y) && !shouldScreenChange) {
-						shouldScreenChange = true;
-						
-						}
-				}
-			}
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
 		try{
 			
 			

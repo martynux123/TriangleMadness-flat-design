@@ -20,7 +20,6 @@ public class GameSc implements Screen {
 	private SpriteBatch batch;
 	public Box box;
 	private ShapeRenderer shape;
-	public ArrayList<Snake> snakes;
 	public ArrayList<Enemy> enemies;
 	public ArrayList<Enemy> enemies2;
 	// Created Texture.
@@ -43,7 +42,6 @@ public class GameSc implements Screen {
 
 		enemy2 = new Texture(Gdx.files.internal("Textures/Enemies/Enemy2.png"));
 
-		snakes = new ArrayList<Snake>();
 		enemies = new ArrayList<Enemy>();
 		enemies2 = new ArrayList<Enemy>();
 		shape = new ShapeRenderer();
@@ -74,7 +72,6 @@ public class GameSc implements Screen {
 					@Override
 					public void run() {
 						
-						snakeThread();
 						enemyThread();
 						enemyFromTopThread();
 											
@@ -107,10 +104,6 @@ public class GameSc implements Screen {
 		batch.end();
 		box.render(batch);
 
-		for (int i = 0; i < snakes.size(); i++) {
-
-			snakes.get(i).render(shape);
-		}
 
 		for (int i = 0; i < enemies.size(); i++) {
 			enemies.get(i).render(batch, shape);
@@ -128,19 +121,6 @@ public class GameSc implements Screen {
 
 		box.update();
 
-		for (int i = 0; i < snakes.size(); i++) {
-			snakes.get(i).update();
-
-		}
-
-		for (int i = 0; i < snakes.size(); i++) {
-
-			if (!(snakes.get(i).isAlive)) {
-				snakes.remove(i);
-			}
-
-		}
-
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) != null) {
 
@@ -154,55 +134,6 @@ public class GameSc implements Screen {
 
 			}
 		}
-
-	}
-
-	private void snakeThread() {
-
-		new Thread(new Runnable() {
-			Random r = new Random();
-			// float[]anglem = {30,40,50,60,70,80,90,100};
-
-			@Override
-			public void run() {
-				while (true) {
-					
-					if(game_paused)
-						return;
-					
-					System.out.println(snakes.size());
-					int x = r.nextInt(Gdx.graphics.getWidth() - 50);
-					int y = r.nextInt(Gdx.graphics.getHeight() - 900);
-					int delay = r.nextInt((6000 - 2000) + 1) + 2000;
-					int speed = MathUtils.random(30, 70);
-					float angle = MathUtils.random(0, 360);
-					int length = MathUtils.random(15, 25);
-					try {
-						Thread.sleep(delay);
-						if (angle >= 135 && angle <= 225) {
-							spawnSnake(x, Gdx.graphics.getHeight(), angle, length, speed);
-						}
-						if (angle <= 45 && angle >= 315) {
-							spawnSnake(x, 0, angle, length, speed);
-						}
-						if (angle >= 225 && angle <= 315) {
-							spawnSnake(Gdx.graphics.getWidth(), y, angle, length, speed);
-
-						}
-						if (angle <= 45 && angle <= 135) {
-							spawnSnake(0, y, angle, length, speed);
-
-						}
-						System.out.println(angle);
-						// System.out.println(delay);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-				}
-
-			}
-		}).start();
 
 	}
 
@@ -280,11 +211,6 @@ public class GameSc implements Screen {
 
 	}
 
-	public void spawnSnake(int x, int y, float angle, int length, int speed) {
-		Snake snake = new Snake(angle, new Vector2(x, y), speed, length);
-		snakes.add(snake);
-
-	}
 
 	public void spawnEnemy(int x, int y, int speed, Texture currentTexture) {
 		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, txt);
