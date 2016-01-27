@@ -53,7 +53,7 @@ public class GameSc implements Screen {
 		rockettxt = new Texture(Gdx.files.internal("Textures/Enemies/rocket.png"));
 
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		spawnRocket(0, (int) box.getPos().y, 15, -90, rockettxt);
+		spawnRocket(Gdx.graphics.getWidth() + 100 /*kad pirma raketa nesimatytu, atspawninam ja uz ekrano ribu*/, (int) box.getPos().y, 15, -90, rockettxt);
 
 		new Thread(new Runnable() {
 
