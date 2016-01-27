@@ -78,7 +78,7 @@ private ParticleEffect emitter;
 		batch.begin();
 		//emitter.setPosition(x+60, y+80);
 		if(rot==-90){
-			emitter.setPosition(x+60, y+85);
+			emitter.setPosition(x+60, y+95);
 			emitter.update(Gdx.graphics.getDeltaTime());
 			emitter.draw(batch);
 		}
