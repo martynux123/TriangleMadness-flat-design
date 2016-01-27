@@ -152,7 +152,7 @@ public class GameSc implements Screen {
 		
 			if(randomDirection==0){
 				if (rocketTickCount >= rocketDelayTickCount) {
-					rocketDelayTickCount = MathUtils.random(5000, 6000);
+					rocketDelayTickCount = MathUtils.random(4000, 5000);
 					
 					spawnRocket(-100, (int) box.getPos().y/2, 15, -90, rockettxt, emitter);
 					rocketTickCount = 0;
@@ -163,7 +163,7 @@ public class GameSc implements Screen {
 			
 			if(randomDirection==1){
 				if (rocketTickCount >= rocketDelayTickCount) {
-					rocketDelayTickCount = MathUtils.random(5000, 6000);
+					rocketDelayTickCount = MathUtils.random(4000, 5000);
 					
 					spawnRocket(Gdx.graphics.getWidth()+100, (int) box.getPos().y/2, -15, 90, rockettxt, emitter);
 					rocketTickCount = 0;

@@ -78,12 +78,12 @@ private ParticleEffect emitter;
 		batch.begin();
 		//emitter.setPosition(x+60, y+80);
 		if(rot==-90){
-			emitter.setPosition(x+60, y+80);
+			emitter.setPosition(x+60, y+85);
 			emitter.update(Gdx.graphics.getDeltaTime());
 			emitter.draw(batch);
 		}
-		if(rot==+90){
-			emitter.setPosition(x+120, y+80);
+		if(rot==90){
+			emitter.setPosition(x-55, y+400);
 			emitter.update(Gdx.graphics.getDeltaTime());
 			emitter.draw(batch);
 		}
@@ -108,7 +108,7 @@ private ParticleEffect emitter;
 		}
 		
 		if(rot==90){
-			bounds.setPosition(x - rocket.getWidth()*scale*scale, y + 60 +rocket.getHeight()*scale - 10);
+			bounds.setPosition(x - rocket.getWidth()*scale*scale-100, y + 60 +rocket.getHeight()*scale - 10);
 			
 		}
 		//TICK count.
