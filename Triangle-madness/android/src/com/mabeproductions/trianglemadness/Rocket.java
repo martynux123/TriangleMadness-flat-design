@@ -20,7 +20,7 @@ private int tickCount;
 private Texture rocket;
 private Rectangle bounds;
 private ShapeRenderer render;
-private final boolean debugRocket=true;
+private final boolean debugRocket=false;
 private int rot;
 private TextureRegion region;
 
@@ -78,7 +78,7 @@ private ParticleEffect emitter;
 		batch.begin();
 		//emitter.setPosition(x+60, y+80);
 		if(rot==-90){
-			emitter.setPosition(x+60, y+95);
+			emitter.setPosition(x+60, y+100);
 			emitter.update(Gdx.graphics.getDeltaTime());
 			emitter.draw(batch);
 		}
