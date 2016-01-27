@@ -9,6 +9,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -33,7 +35,7 @@ public class GameSc implements Screen {
 	private int rocketDelayTickCount = 15000;
 	private int randomDirection;
 	
-	
+	private ParticleEffect emitter;
 
 	public GameSc(GameRunner runner) {
 		this.runner = runner;
@@ -52,8 +54,13 @@ public class GameSc implements Screen {
 		shape = new ShapeRenderer();
 		rockettxt = new Texture(Gdx.files.internal("Textures/Enemies/rocket.png"));
 
+		
+		emitter = new ParticleEffect();
+		emitter.load(Gdx.files.internal("Particles/fire"), Gdx.files.internal(""));
+		emitter.scaleEffect(2);
+		
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		spawnRocket(Gdx.graphics.getWidth() + 100 /*kad pirma raketa nesimatytu, atspawninam ja uz ekrano ribu*/, (int) box.getPos().y, 15, -90, rockettxt);
+		spawnRocket(Gdx.graphics.getWidth() + 100 /*kad pirma raketa nesimatytu, atspawninam ja uz ekrano ribu*/, (int) box.getPos().y, 15, -90, rockettxt, emitter);
 
 		new Thread(new Runnable() {
 
@@ -147,7 +154,7 @@ public class GameSc implements Screen {
 				if (rocketTickCount >= rocketDelayTickCount) {
 					rocketDelayTickCount = MathUtils.random(5000, 6000);
 					
-					spawnRocket(-100, (int) box.getPos().y/2, 15, -90, rockettxt);
+					spawnRocket(-100, (int) box.getPos().y/2, 15, -90, rockettxt, emitter);
 					rocketTickCount = 0;
 				}
 				rocketTickCount++;
@@ -158,7 +165,7 @@ public class GameSc implements Screen {
 				if (rocketTickCount >= rocketDelayTickCount) {
 					rocketDelayTickCount = MathUtils.random(5000, 6000);
 					
-					spawnRocket(Gdx.graphics.getWidth()+100, (int) box.getPos().y/2, -15, 90, rockettxt);
+					spawnRocket(Gdx.graphics.getWidth()+100, (int) box.getPos().y/2, -15, 90, rockettxt, emitter);
 					rocketTickCount = 0;
 				}
 				rocketTickCount++;
@@ -251,8 +258,8 @@ public class GameSc implements Screen {
 
 	}
 
-	public void spawnRocket(int x, int y, int speed, int degrees, Texture currentTexture) {
-		rocket = new Rocket(x, y, speed, degrees, currentTexture);
+	public void spawnRocket(int x, int y, int speed, int degrees, Texture currentTexture, ParticleEffect emitter) {
+		rocket = new Rocket(x, y, speed, degrees, currentTexture, emitter);
 	}
 
 	@Override

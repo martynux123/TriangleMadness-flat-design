@@ -20,13 +20,15 @@ private int tickCount;
 private Texture rocket;
 private Rectangle bounds;
 private ShapeRenderer render;
-private final boolean debugRocket=false;
+private final boolean debugRocket=true;
 private int rot;
 private TextureRegion region;
 
 private ParticleEffect emitter;
 
-	public Rocket(int x, int y, int speed, int degrees, Texture rocket){
+	public Rocket(int x, int y, int speed, int degrees, Texture rocket, ParticleEffect emitter){
+		
+		this.emitter=emitter;
 		
 		this.x=x;
 		
@@ -44,9 +46,7 @@ private ParticleEffect emitter;
 	
 		
 		
-		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/fire"), Gdx.files.internal(""));
-		emitter.scaleEffect(2);
+		
 	}
 	
 	
@@ -76,9 +76,17 @@ private ParticleEffect emitter;
 		System.out.println(getX() + " " + getY() + " | " + Gdx.graphics.getWidth());
 		
 		batch.begin();
-		emitter.setPosition(x+60, y+80);
-		emitter.update(Gdx.graphics.getDeltaTime());
-		emitter.draw(batch);
+		//emitter.setPosition(x+60, y+80);
+		if(rot==-90){
+			emitter.setPosition(x+60, y+80);
+			emitter.update(Gdx.graphics.getDeltaTime());
+			emitter.draw(batch);
+		}
+		if(rot==+90){
+			emitter.setPosition(x+120, y+80);
+			emitter.update(Gdx.graphics.getDeltaTime());
+			emitter.draw(batch);
+		}
 		batch.draw(region, x, y + rocket.getHeight()/2, 0,0, rocket.getWidth()*scale, rocket.getHeight()*scale, 1, 1, rot);
 		batch.end();
 		
@@ -97,7 +105,6 @@ private ParticleEffect emitter;
 		if(rot==-90){
 			bounds.setPosition(x-10, y + 60);
 			
-
 		}
 		
 		if(rot==90){
