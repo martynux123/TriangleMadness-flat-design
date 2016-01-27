@@ -56,7 +56,7 @@ public class GameSc implements Screen {
 
 		
 		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/fire"), Gdx.files.internal(""));
+		emitter.load(Gdx.files.internal("Particles/fire2"), Gdx.files.internal(""));
 		emitter.scaleEffect(2);
 		
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
