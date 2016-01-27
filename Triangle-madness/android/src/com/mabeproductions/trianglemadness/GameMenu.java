@@ -127,13 +127,6 @@ public class GameMenu implements Screen {
 		
 		batch.end();
 		
-		/*
-		r.begin(ShapeType.Line);
-		r.setColor(Color.BLACK);
-		r.rect(playBtn.x, playBtn.y, playBtn.width, playBtn.height);
-		r.end();
-		*/
-		
 		if(playBtn.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.justTouched()){
 			gameScreenSwitch=true;
 		

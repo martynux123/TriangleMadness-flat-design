@@ -2,7 +2,6 @@ package com.mabeproductions.trianglemadness;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -11,10 +10,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import android.content.Context;
+import android.media.AudioManager;
+
 public class Box {
 
 	// Settings
-	private boolean debugMode = false;
+	private final boolean debugMode = false;
 	private float size = 0.6f;
 
 	// Variables
@@ -29,14 +31,14 @@ public class Box {
 	private boolean shouldScreenChange;
 	private boolean vibrate;
 	
-	
 	//GameOver screen object(later initialized in constructor).
-	private GameOver gameOver;
+
 	private ParticleEffect emitter;
-	private AssetManager mngr;
+
+	
 	
 	public Box(GameSc g) {
-		mngr = new AssetManager();
+	
 		
 		
 		this.g = g;
@@ -57,6 +59,10 @@ public class Box {
 		
 	}
 
+	public Vector2 getPos() {
+		return pos;
+	}
+
 	public void update() {
 
 		// Getting touch coords
@@ -72,10 +78,16 @@ public class Box {
 		}
 		
 		
+		if(pos.y > Gdx.graphics.getHeight()){
+			shouldScreenChange= true;
+		}
+		
+		
+		
 		
 	if(!Gdx.input.isTouched())
 		isTouched = false;
-	
+		
 				
 				if(isTouched){
 				pos.x = touchX - size/2;
@@ -93,6 +105,7 @@ public class Box {
 						shouldScreenChange = true;
 						vibrate=true;
 						if(vibrate){
+							
 							Gdx.input.vibrate(200);
 							vibrate=false;
 						}
@@ -110,6 +123,22 @@ public class Box {
 					}
 				}
 			}
+			
+			
+			if(bounds.overlaps(g.rocket.getBounds())){
+		
+				shouldScreenChange = true;
+//				vibrate=true;
+				if(vibrate){
+					Gdx.input.vibrate(200);
+					vibrate=false;
+				}
+			}
+			
+			
+				
+				
+			
 			
 		}catch(Exception e){
 			e.printStackTrace();
