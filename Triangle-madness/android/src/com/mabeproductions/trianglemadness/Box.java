@@ -168,7 +168,7 @@ public class Box {
 		// Drawing a box
 		
 		 batch.begin(); 
-		 emitter.setPosition(pos.x + size/2, pos.y + size/2);
+		 emitter.setPosition(pos.x + size/2 + 10, pos.y + size/2 + 10);
 		 emitter.update(Gdx.graphics.getDeltaTime());
 		 emitter.draw(batch);
 		 batch.draw(ball, pos.x, pos.y, size, size);
