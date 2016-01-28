@@ -16,9 +16,19 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Enemy {
 
+	
+	//Booleans
 	private final boolean debugMode = false;
 
+	//Objects
 	private GameSc g;
+	public Rectangle bounds;
+	
+	//Textures
+	private Texture currentTexture;
+	
+	
+	//Variables
 	private int x = 100;
 	private int y = 100;
 	private int speed;
@@ -26,10 +36,10 @@ public class Enemy {
 	public static final int UNIFORM_HEIGHT = 120;
 	private int width = 60;
 	private int height = 60;
-	public Rectangle bounds;
 	private int tickCount = 0;
 	
-	private Texture currentTexture;
+	
+	
 
 	public Enemy(int x, int y, int speed, int width, int height, Texture currentTexture) {
 		this.currentTexture = currentTexture;

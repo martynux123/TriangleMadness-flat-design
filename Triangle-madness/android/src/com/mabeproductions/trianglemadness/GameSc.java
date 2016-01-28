@@ -1,95 +1,99 @@
 package com.mabeproductions.trianglemadness;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 
 public class GameSc implements Screen {
 
+	//Booleans
 	public boolean game_paused = false;
-	private SpriteBatch batch;
-	public Box box;
-	private ShapeRenderer shape;
-	public ArrayList<Enemy> enemies;
-	public ArrayList<Enemy> enemies2;
-	// Created Texture.
-	private Texture background;
-	public GameRunner runner;
-	Texture txt;
-	Texture enemy2;
-	public Rocket rocket;
-	private Texture rockettxt;
+
+	
+	//Variables
 	private int rocketTickCount = 0;
 	private int rocketDelayTickCount = 15000;
 	private int randomDirection;
-	
-	
-	private ParticleEffect emitter;
+	private int tickCountsCoins;
+	private int CoinsDelay=9000;
+	private int index=0;
 
-	//Scores.
-	private int scoreCount=0;
-	private String score;
-	private BitmapFont scoreFont;
-	private int scoreTickCount = 0;
+
+	
+	//Objects
+	private ParticleEffect emitter;
+	private SpriteBatch batch;
+	public Box box;
+	private ShapeRenderer shape;
+	public Rocket rocket;
+	public Coin coin;
+	public GameRunner runner;
+	private GameOver over;
+	
+	//Collections
+	public ArrayList<Enemy> enemies;
+	public ArrayList<Enemy> enemies2;
+	private Texture[] txtt = new Texture[7];
+
+	
+	//Textures.
+	private Texture background;
+	private Texture txt;
+	private Texture enemy2;
+	private Texture rockettxt;
 	
 	
 	
+	
+	
+	
+	
+
 	public GameSc(GameRunner runner) {
 		this.runner = runner;
 
+		int firstX = MathUtils.random(Gdx.graphics.getWidth());
 		
 		batch = new SpriteBatch();
-		
-		
-		/*
-		score = "score: 0";
-		scoreFont = new BitmapFont();
-		scoreFont.getData().setScale(2, 2);
-		*/
-		
-		
+
+		coin = new Coin(firstX ,Gdx.graphics.getHeight(),4,txtt,index);
 		
 		background = GameRunner.assets.get("Textures/background.png");
 		txt = GameRunner.assets.get("Textures/Enemies/Boxers/Enemy.png");
 		enemy2 = GameRunner.assets.get("Textures/Enemies/Enemy2.png");
-		rockettxt =GameRunner.assets.get("Textures/Enemies/rocket.png");
+		rockettxt = GameRunner.assets.get("Textures/Enemies/rocket.png");
+	
+		over = new GameOver(runner);
+		
+		
 		
 		emitter = new ParticleEffect();
-		
-		//emitter.load(Gdx.files.internal("Particles/fire2"), Gdx.files.internal(""));
-		
-		emitter.load((FileHandle) GameRunner.assets.get("Particles/fire2"), Gdx.files.internal(""));
-	
+
+		emitter.load(Gdx.files.internal("Particles/fire2"), Gdx.files.internal(""));
 		
 		emitter.scaleEffect(2);
-		
 
 		box = new Box(this);
-
-
 
 		enemies = new ArrayList<Enemy>();
 		enemies2 = new ArrayList<Enemy>();
 		shape = new ShapeRenderer();
 
-		
-		
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		spawnRocket(Gdx.graphics.getWidth() + 100 /*kad pirma raketa nesimatytu, atspawninam ja uz ekrano ribu*/, (int) box.getPos().y, 15, -90, rockettxt, emitter);
+		spawnRocket(
+				Gdx.graphics.getWidth() + 100 /*
+												 * kad pirma raketa nesimatytu,
+												 * atspawninam ja uz ekrano ribu
+												 */, (int) box.getPos().y, 15, -90, rockettxt, emitter);
 
 		new Thread(new Runnable() {
 
@@ -111,6 +115,13 @@ public class GameSc implements Screen {
 		enemyThread();
 		enemyFromTopThread();
 
+		txtt[0] = GameRunner.assets.get("Coins/1.png");
+		txtt[1] = GameRunner.assets.get("Coins/2.png");
+		txtt[2] = GameRunner.assets.get("Coins/3.png");
+		txtt[3] = GameRunner.assets.get("Coins/4.png");
+		txtt[4] = GameRunner.assets.get("Coins/5.png");
+		txtt[5] = GameRunner.assets.get("Coins/6.png");
+		txtt[6] = GameRunner.assets.get("Coins/7.png");
 	}
 
 	@Override
@@ -134,10 +145,11 @@ public class GameSc implements Screen {
 		// Drawing an image.
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		//scoreFont.draw(batch, score, 10, Gdx.graphics.getHeight()-10);
+		
 		batch.end();
 		box.render(batch);
-
+		
+		
 		for (int i = 0; i < enemies.size(); i++) {
 			enemies.get(i).render(batch, shape);
 		}
@@ -145,30 +157,26 @@ public class GameSc implements Screen {
 		for (int i = 0; i < enemies2.size(); i++) {
 			enemies2.get(i).render(batch, shape);
 		}
+	
 		
-	rocket.render(batch, shape);
-	
-	
-	
-	
+		
+		rocket.render(batch, shape);
+		coin.render(batch, shape);
 	}
 
 	public void update() {
 
 		if (game_paused)
 			return;
+		randomDirection = MathUtils.random(0, 1);
+		//over.update();
 
-		randomDirection = MathUtils.random(0,1);
-		
+		coin.update();
 		box.update();
-		
 		rocket.update();
-			
-		
 
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) != null) {
-
 				enemies.get(i).update();
 			}
 		}
@@ -180,41 +188,45 @@ public class GameSc implements Screen {
 			}
 		}
 		
-			if(randomDirection==0){
-				if (rocketTickCount >= rocketDelayTickCount) {
-					rocketDelayTickCount = MathUtils.random(4000, 5000);
-					
-					spawnRocket(-100, (int) box.getPos().y/2, 15, -90, rockettxt, emitter);
-					rocketTickCount = 0;
-				}
-				rocketTickCount++;
-				
-			}
-			
-			if(randomDirection==1){
-				if (rocketTickCount >= rocketDelayTickCount) {
-					rocketDelayTickCount = MathUtils.random(4000, 5000);
-					
-					spawnRocket(Gdx.graphics.getWidth()+100, (int) box.getPos().y/2, -15, 90, rockettxt, emitter);
-					rocketTickCount = 0;
-				}
-				rocketTickCount++;
-				
-			}
-			
-			/*
-			if(scoreTickCount>=500){
-				
-				scoreCount++;
-				score="score: " + scoreCount;
-				System.out.println(scoreCount);
-				
-				scoreTickCount=0;
-			}
-			
-				scoreTickCount++;
-			*/
+		
+		
 
+		if (randomDirection == 0) {
+			if (rocketTickCount >= rocketDelayTickCount) {
+				rocketDelayTickCount = MathUtils.random(4000, 5000);
+
+				spawnRocket(-100, (int) box.getPos().y, 15, -90, rockettxt, emitter);
+				rocketTickCount = 0;
+			}
+			rocketTickCount++;
+
+		}
+
+		if (randomDirection == 1) {
+			if (rocketTickCount >= rocketDelayTickCount) {
+				rocketDelayTickCount = MathUtils.random(4000, 5000);
+
+				spawnRocket(Gdx.graphics.getWidth() + 100, (int) box.getPos().y/2, -15, 90, rockettxt, emitter);
+				rocketTickCount = 0;
+			}
+			rocketTickCount++;
+
+		}
+
+		if(tickCountsCoins>=CoinsDelay){
+			int x = MathUtils.random(Gdx.graphics.getWidth());
+			spawnCoin(x, Gdx.graphics.getHeight(), 4,txtt, index);
+			
+			tickCountsCoins=0;
+		}
+		tickCountsCoins++;
+		
+		
+		
+		
+		
+		
+	
 	}
 
 	private void enemyThread() {
@@ -227,7 +239,7 @@ public class GameSc implements Screen {
 
 					if (!game_paused) {
 
-						int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth());
+						int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth()-Enemy.UNIFORM_WIDTH);
 						int y = -Enemy.UNIFORM_HEIGHT;
 						// int speed = MathUtils.random(10, 30);
 						int speed = 15;
@@ -289,6 +301,10 @@ public class GameSc implements Screen {
 		}).start();
 	}
 
+	public void spawnCoin(int x, int y, int speed, Texture[] txt, int index) {
+		coin = new Coin(x,y,speed,txt,index);
+		
+	}
 	public void spawnEnemy(int x, int y, int speed, Texture currentTexture) {
 		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, currentTexture);
 		enemies.add(enemy);
@@ -304,6 +320,7 @@ public class GameSc implements Screen {
 	public void spawnRocket(int x, int y, int speed, int degrees, Texture currentTexture, ParticleEffect emitter) {
 		rocket = new Rocket(x, y, speed, degrees, currentTexture, emitter);
 	}
+
 
 	@Override
 	public void pause() {
@@ -322,8 +339,7 @@ public class GameSc implements Screen {
 		shape.dispose();
 		batch.dispose();
 		emitter.dispose();
-		scoreFont.dispose();
-
+		
 	}
 
 	@Override

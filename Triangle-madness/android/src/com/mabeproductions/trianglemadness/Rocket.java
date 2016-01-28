@@ -12,45 +12,46 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Rocket {
 	
-private int x;
-private int y;
-private int speed;
-private final float scale = 0.6f;
-private int tickCount;
-private Texture rocket;
-private Rectangle bounds;
-private ShapeRenderer render;
-private final boolean debugRocket=false;
-private int rot;
-private TextureRegion region;
-
-private ParticleEffect emitter;
+	//Variables
+	private int x;
+	private int y;
+	private int speed;
+	private final float scale = 0.6f;
+	private int tickCount;
+	private int rot;
+	
+	//Textures
+	private Texture rocket;
+	private TextureRegion region;
+	private ParticleEffect emitter;
+	
+	
+	//Booleans
+	private final boolean debugRocket=false;
+	
+	
+	//Objects
+	private ShapeRenderer render;
+	private Rectangle bounds;
+	
+	
+	
 
 	public Rocket(int x, int y, int speed, int degrees, Texture rocket, ParticleEffect emitter){
 		
-		this.emitter=emitter;
-		
-		this.x=x;
-		
-		this.y=y;
-		
-		this.speed=speed;
-		
-		this.rocket=rocket;
-		
+		this.emitter=emitter;		
+		this.x=x;		
+		this.y=y;		
+		this.speed=speed;		
 		this.rot = degrees;
-
+		this.rocket=rocket;	
+		
 		bounds = new Rectangle(x + rocket.getHeight()*scale, y+40, rocket.getWidth()*scale, (rocket.getHeight()*scale-150)*scale);
-		//render = new ShapeRenderer();
+		
 		region = new TextureRegion(rocket);
-	
-		
-		
+
 		
 	}
-	
-	
-	
 
 	public Rectangle getBounds(){
 		
@@ -73,10 +74,10 @@ private ParticleEffect emitter;
 	
 	public void render(SpriteBatch batch, ShapeRenderer render){
 		
-		//System.out.println(getX() + " " + getY() + " | " + Gdx.graphics.getWidth());
+		
 		
 		batch.begin();
-		//emitter.setPosition(x+60, y+80);
+		
 		if(rot==-90){
 			emitter.setPosition(x+60, y+100);
 			emitter.update(Gdx.graphics.getDeltaTime());

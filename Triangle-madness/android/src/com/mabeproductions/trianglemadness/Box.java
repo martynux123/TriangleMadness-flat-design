@@ -25,20 +25,20 @@ public class Box {
 	public Rectangle bounds;
 	private boolean isTouched;
 	private ShapeRenderer shape;
-	private boolean shouldScreenChange;
+	public boolean shouldScreenChange;
 	private boolean vibrate;
-
+	private float dt;
 	
 
 	// GameOver screen object(later initialized in constructor).
-
+	private GameOver over;
 	private ParticleEffect emitter;
 
 	public Box(GameSc g) {
 
 		this.g = g;
 
-		
+		over = new GameOver(g.runner);
 
 		ball = new Texture(Gdx.files.internal("Textures/Blue_ball.png"));
 
@@ -126,18 +126,22 @@ public class Box {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+			
+		
+		
 	}
 
 	public void render(SpriteBatch batch) {
 
 		//Changing da skryn
 		if (shouldScreenChange) {
-
+			
 			g.runner.setScreen(new GameOver(g.runner));
-
 			shouldScreenChange = false;
+	
+			
 		}
+		
 
 		// Only drawing bounds if debug mode is on
 		if (debugMode) {

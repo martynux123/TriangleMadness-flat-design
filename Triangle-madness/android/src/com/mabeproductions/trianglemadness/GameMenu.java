@@ -17,25 +17,31 @@ import android.graphics.drawable.shapes.Shape;
 
 public class GameMenu implements Screen {
 	
-	
-	
+	//Booleans
 	public boolean isFinger = true;
-	public Rectangle playBtn;
-	public GameRunner runner;
-	private int index;
-	private SpriteBatch batch;
-	private Texture[] bg = new Texture[7]; 
-	private TextureAtlas btn;
-	private int angleMid = 0;
-	private int angleOut = 0;
-	private Texture play;
-	
 	private boolean gameScreenSwitch;
 	
+	//Variables
+	private int index;
+	private int angleMid = 0;
+	private int angleOut = 0;
+
+	
+	//Objects
+	public Rectangle playBtn;
+	public GameRunner runner;
+	private SpriteBatch batch;
+
+	//Collections
+	private Texture[] bg = new Texture[7]; 
+	
+	
+	//Textures
+	private TextureAtlas btn;
+	private Texture play;
 	
 	public GameMenu(GameRunner runner){
-		
-		
+
 		this.runner = runner;
 		batch = new SpriteBatch();
 		
@@ -104,12 +110,12 @@ public class GameMenu implements Screen {
 		batch.begin();
 		batch.draw(bg[index], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
-		//batch.setColor(new Color(243f, 156f, 18f,1f));
+		
 		batch.draw(btn.findRegion("Middle_circle"),Gdx.graphics.getWidth()/2-btn.findRegion("Middle_circle").getRegionWidth()
 				, Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight(),
 				btn.findRegion("Middle_circle").getRegionWidth(), btn.findRegion("Middle_circle").getRegionHeight()
 				, 400, 400, 1, 1, angleMid);
-		//batch.setColor(new Color(52, 152, 219,1f));
+		
 		batch.draw(btn.findRegion("Outter_circle"),Gdx.graphics.getWidth()/2-btn.findRegion("Outter_circle").getRegionWidth()
 				, Gdx.graphics.getHeight()/2-btn.findRegion("Outter_circle").getRegionHeight(),
 				btn.findRegion("Outter_circle").getRegionWidth(), btn.findRegion("Outter_circle").getRegionHeight()
@@ -125,11 +131,7 @@ public class GameMenu implements Screen {
 		
 		}
 		if(gameScreenSwitch){
-/*			GameSc currentGameSc = runner.pausedGameScreen;
-			currentGameSc.resume();
-			runner.setScreen(currentGameSc);
-			gameScreenSwitch=false;
-*/
+
 			runner.setScreen(new GameSc(runner));
 		}
 	}

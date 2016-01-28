@@ -19,17 +19,21 @@ import android.view.textservice.SuggestionsInfo;
 
 public class GameOver implements Screen {
 
+	//Variables
+	private int index=0;
+	private int indexCount=0;
+	
+	//Objects
 	public GameRunner runner;
-	private Texture[] over = new Texture[7];
-	private int index;
 	private SpriteBatch batch;
 	private ShapeRenderer render;
 	private Rectangle r;
-
-	// GameMenu and GameSC screen objects(later initialized in constructor).
-	private GameMenu gameMenu;
-	private GameSc GameScreen;
-
+	
+	
+	//Collections
+	private Texture[] over = new Texture[7];
+	
+	
 	// Buttons
 	private Skin skinAgain, skinMenu;
 	private TextureAtlas atlasAgain, atlasMenu;
@@ -39,21 +43,23 @@ public class GameOver implements Screen {
 	private BitmapFont font;
 	private boolean isOnMenu;
 	private boolean isOnPlay;
-	
 
+	
 	public GameOver(GameRunner runner) {
 		this.runner = runner;
 		gameOverThread();
 
-		//See Lines: 131-141 WORKS
-
-
+		
 
 		
-		// OUR ACTUAL BUTTONS
+
+		
+		
 		font = new BitmapFont();
 		font.setColor(Color.RED);
 
+		
+		
 		stage = new Stage();
 
 		Gdx.input.setInputProcessor(stage);
@@ -96,9 +102,7 @@ public class GameOver implements Screen {
 
 	@Override
 	public void show() {
-/*		runner.pausedGameScreen = new GameSc(runner);
-		runner.pausedGameScreen.pause();
-*/
+
 	}
 
 	public void gameOverThread() {
@@ -125,6 +129,25 @@ public class GameOver implements Screen {
 
 			}
 		}).start();
+	}
+	
+	public void update(){
+		
+		/*
+		
+		if(indexCount>=400){
+			index++;
+			indexCount = 0;
+		
+		}	
+		System.out.println(indexCount);
+		
+			if (index > 6) {
+				index = 0;
+			}
+		
+		indexCount++;
+		*/
 	}
 
 	@Override

@@ -19,14 +19,13 @@ public class GameRunner extends Game{
 	public GameSc pausedGameScreen;
 	public static AssetManager assets;
 	public static ParticleEffectParameter param;
+	public static ParticleEffectLoader loader;
 	
 	@Override
 	public void create() {
 		
 		assets = new AssetManager();
 		
-		param = new ParticleEffectParameter();
-		param.imagesDir = Gdx.files.internal("");
 	
 		
 		assets.load("Textures/Blue_ball.png", Texture.class);
@@ -60,8 +59,24 @@ public class GameRunner extends Game{
 		assets.load("Textures/Enemies/Enemy2.png", Texture.class);
 		assets.load("Textures/Enemies/rocket.png", Texture.class);
 		
-		assets.load("Particles/fire2", ParticleEffect.class, param);
 		
+		assets.load("Coins/1.png", Texture.class);
+		assets.load("Coins/2.png", Texture.class);
+		assets.load("Coins/3.png", Texture.class);
+		assets.load("Coins/4.png", Texture.class);
+		assets.load("Coins/5.png", Texture.class);
+		assets.load("Coins/6.png", Texture.class);
+		assets.load("Coins/7.png", Texture.class);
+		
+		
+		/*
+		param = new ParticleEffectParameter();
+		param.imagesDir = Gdx.files.internal("");
+		assets.load("Particles/fire2", ParticleEffect.class, param);
+		*/
+		
+		
+	
 		
 		assets.finishLoading();
 		
