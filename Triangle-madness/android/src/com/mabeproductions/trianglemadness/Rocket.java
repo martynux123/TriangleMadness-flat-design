@@ -73,7 +73,7 @@ private ParticleEffect emitter;
 	
 	public void render(SpriteBatch batch, ShapeRenderer render){
 		
-		System.out.println(getX() + " " + getY() + " | " + Gdx.graphics.getWidth());
+		//System.out.println(getX() + " " + getY() + " | " + Gdx.graphics.getWidth());
 		
 		batch.begin();
 		//emitter.setPosition(x+60, y+80);

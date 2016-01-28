@@ -7,8 +7,10 @@ import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -35,29 +37,56 @@ public class GameSc implements Screen {
 	private int rocketDelayTickCount = 15000;
 	private int randomDirection;
 	
+	
 	private ParticleEffect emitter;
 
+	//Scores.
+	private int scoreCount=0;
+	private String score;
+	private BitmapFont scoreFont;
+	private int scoreTickCount = 0;
+	
+	
+	
 	public GameSc(GameRunner runner) {
 		this.runner = runner;
 
-		background = new Texture(Gdx.files.internal("Textures/background.png"));
+		
 		batch = new SpriteBatch();
+		
+		
+		/*
+		score = "score: 0";
+		scoreFont = new BitmapFont();
+		scoreFont.getData().setScale(2, 2);
+		*/
+		
+		
+		
+		background = GameRunner.assets.get("Textures/background.png");
+		txt = GameRunner.assets.get("Textures/Enemies/Boxers/Enemy.png");
+		enemy2 = GameRunner.assets.get("Textures/Enemies/Enemy2.png");
+		rockettxt =GameRunner.assets.get("Textures/Enemies/rocket.png");
+		
+		emitter = new ParticleEffect();
+		
+		//emitter.load(Gdx.files.internal("Particles/fire2"), Gdx.files.internal(""));
+		
+		emitter.load((FileHandle) GameRunner.assets.get("Particles/fire2"), Gdx.files.internal(""));
+	
+		
+		emitter.scaleEffect(2);
+		
 
 		box = new Box(this);
 
-		txt = new Texture(Gdx.files.internal("Textures/Enemies/Boxers/Enemy.png"));
 
-		enemy2 = new Texture(Gdx.files.internal("Textures/Enemies/Enemy2.png"));
 
 		enemies = new ArrayList<Enemy>();
 		enemies2 = new ArrayList<Enemy>();
 		shape = new ShapeRenderer();
-		rockettxt = new Texture(Gdx.files.internal("Textures/Enemies/rocket.png"));
 
 		
-		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/fire2"), Gdx.files.internal(""));
-		emitter.scaleEffect(2);
 		
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		spawnRocket(Gdx.graphics.getWidth() + 100 /*kad pirma raketa nesimatytu, atspawninam ja uz ekrano ribu*/, (int) box.getPos().y, 15, -90, rockettxt, emitter);
@@ -105,6 +134,7 @@ public class GameSc implements Screen {
 		// Drawing an image.
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//scoreFont.draw(batch, score, 10, Gdx.graphics.getHeight()-10);
 		batch.end();
 		box.render(batch);
 
@@ -171,6 +201,19 @@ public class GameSc implements Screen {
 				rocketTickCount++;
 				
 			}
+			
+			/*
+			if(scoreTickCount>=500){
+				
+				scoreCount++;
+				score="score: " + scoreCount;
+				System.out.println(scoreCount);
+				
+				scoreTickCount=0;
+			}
+			
+				scoreTickCount++;
+			*/
 
 	}
 
@@ -184,7 +227,7 @@ public class GameSc implements Screen {
 
 					if (!game_paused) {
 
-						int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
+						int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth());
 						int y = -Enemy.UNIFORM_HEIGHT;
 						// int speed = MathUtils.random(10, 30);
 						int speed = 15;
@@ -221,7 +264,7 @@ public class GameSc implements Screen {
 
 					if (!game_paused) {
 
-						int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
+						int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth());
 						int y = Gdx.graphics.getHeight() + Enemy.UNIFORM_HEIGHT;
 						int speed = -13;
 						int delay = MathUtils.random(800, 900);
@@ -274,10 +317,12 @@ public class GameSc implements Screen {
 
 	@Override
 	public void dispose() {
-
+		this.dispose();
 		runner.getScreen().dispose();
 		shape.dispose();
 		batch.dispose();
+		emitter.dispose();
+		scoreFont.dispose();
 
 	}
 

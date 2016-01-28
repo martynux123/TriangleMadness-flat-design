@@ -30,34 +30,27 @@ public class GameMenu implements Screen {
 	private int angleOut = 0;
 	private Texture play;
 	
-	private BitmapFont font;
-	
-	//GameSc screen object(later initialized in constructor).
-//	private GameSc GameScreen;
 	private boolean gameScreenSwitch;
 	
 	
 	public GameMenu(GameRunner runner){
 		
-		//See Line: 142 - WORKS
-//		GameScreen = new GameSc(runner);
-		
-
-		
 		
 		this.runner = runner;
 		batch = new SpriteBatch();
 		
-		bg[0] = new Texture(Gdx.files.internal("Textures/Menu/1.png"));
-		bg[1] = new Texture(Gdx.files.internal("Textures/Menu/2.png"));
-		bg[2] = new Texture(Gdx.files.internal("Textures/Menu/3.png"));
-		bg[3] = new Texture(Gdx.files.internal("Textures/Menu/4.png"));
-		bg[4] = new Texture(Gdx.files.internal("Textures/Menu/5.png"));
-		bg[5] = new Texture(Gdx.files.internal("Textures/Menu/6.png"));
-		bg[6] = new Texture(Gdx.files.internal("Textures/Menu/7.png"));	
+		bg[0] = GameRunner.assets.get("Textures/Menu/1.png");
+		bg[1] = GameRunner.assets.get("Textures/Menu/2.png");
+		bg[2] = GameRunner.assets.get("Textures/Menu/3.png");
+		bg[3] = GameRunner.assets.get("Textures/Menu/4.png");
+		bg[4] = GameRunner.assets.get("Textures/Menu/5.png");
+		bg[5] = GameRunner.assets.get("Textures/Menu/6.png");
+		bg[6] = GameRunner.assets.get("Textures/Menu/7.png");
 		
-		play = new Texture(Gdx.files.internal("Textures/Menu/play.png"));		
-		btn = new TextureAtlas(Gdx.files.internal("Textures/Menu/circle.pack"));
+		play = GameRunner.assets.get("Textures/Menu/play.png");		
+		btn = GameRunner.assets.get("Textures/Menu/circle.pack");
+		
+		
 		playBtn = new Rectangle(Gdx.graphics.getWidth()/2-btn.findRegion("Middle_circle").getRegionWidth()/2,
 				Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight()/2,
 				btn.findRegion("Middle_circle").getRegionWidth(),btn.findRegion("Middle_circle").getRegionHeight());
@@ -132,10 +125,12 @@ public class GameMenu implements Screen {
 		
 		}
 		if(gameScreenSwitch){
-			GameSc currentGameSc = runner.pausedGameScreen;
+/*			GameSc currentGameSc = runner.pausedGameScreen;
 			currentGameSc.resume();
 			runner.setScreen(currentGameSc);
 			gameScreenSwitch=false;
+*/
+			runner.setScreen(new GameSc(runner));
 		}
 	}
 
@@ -160,11 +155,10 @@ public class GameMenu implements Screen {
 
 	@Override
 	public void dispose() {
+		this.dispose();
 		runner.getScreen().dispose();
 		btn.dispose();
 		batch.dispose();
 		
 	}
-
-
 }

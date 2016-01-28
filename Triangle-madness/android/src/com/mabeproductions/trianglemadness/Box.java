@@ -1,17 +1,14 @@
 package com.mabeproductions.trianglemadness;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
-import android.content.Context;
-import android.media.AudioManager;
 
 public class Box {
 
@@ -30,18 +27,18 @@ public class Box {
 	private ShapeRenderer shape;
 	private boolean shouldScreenChange;
 	private boolean vibrate;
+
 	
-	//GameOver screen object(later initialized in constructor).
+
+	// GameOver screen object(later initialized in constructor).
 
 	private ParticleEffect emitter;
 
-	
-	
 	public Box(GameSc g) {
-	
-		
-		
+
 		this.g = g;
+
+		
 
 		ball = new Texture(Gdx.files.internal("Textures/Blue_ball.png"));
 
@@ -56,7 +53,7 @@ public class Box {
 		emitter = new ParticleEffect();
 		emitter.load(Gdx.files.internal("Particles/BubblePart1"), Gdx.files.internal(""));
 		emitter.scaleEffect(2);
-		
+
 	}
 
 	public Vector2 getPos() {
@@ -68,79 +65,65 @@ public class Box {
 		// Getting touch coords
 		touchX = Gdx.input.getX();
 		touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);
-		
-		
+
 		// Moving the touchX and touchY if it's touched
-		
-			
-		if(Gdx.input.justTouched() && bounds.contains(touchX, touchY)){
+
+		if (Gdx.input.justTouched() && bounds.contains(touchX, touchY)) {
 			isTouched = true;
 		}
-		
-		
-		if(pos.y > Gdx.graphics.getHeight()){
-			shouldScreenChange= true;
+
+		if (pos.y > Gdx.graphics.getHeight()) {
+			shouldScreenChange = true;
 		}
-		
-		
-		
-		
-	if(!Gdx.input.isTouched())
-		isTouched = false;
-		
-				
-				if(isTouched){
-				pos.x = touchX - size/2;
-				pos.y = touchY - (size/2)+size+20;
-			
-				bounds.setPosition(pos.x, pos.y);
-				}
-				
-		try{
-			
-			
+
+		if (!Gdx.input.isTouched())
+			isTouched = false;
+
+		if (isTouched) {
+			pos.x = touchX - size / 2;
+			pos.y = touchY - (size / 2) + size + 20;
+
+			bounds.setPosition(pos.x, pos.y);
+		}
+
+		try {
+
 			for (int i = 0; i < g.enemies.size(); i++) {
-					
-					if (bounds.overlaps(g.enemies.get(i).bounds) && !shouldScreenChange) {
-						shouldScreenChange = true;
-						vibrate=true;
-						if(vibrate){
-							
-							Gdx.input.vibrate(200);
-							vibrate=false;
-						}
+
+				if (bounds.overlaps(g.enemies.get(i).bounds) && !shouldScreenChange) {
+					shouldScreenChange = true;
+					vibrate = true;
+					if (vibrate) {
+
+						Gdx.input.vibrate(200);
+						vibrate = false;
 					}
+				}
 			}
-			
+
 			for (int i = 0; i < g.enemies2.size(); i++) {
-				
+
 				if (bounds.overlaps(g.enemies2.get(i).bounds) && !shouldScreenChange) {
 					shouldScreenChange = true;
-					vibrate=true;
-					if(vibrate){
+					vibrate = true;
+					if (vibrate) {
 						Gdx.input.vibrate(200);
-						vibrate=false;
+						vibrate = false;
 					}
 				}
 			}
-			
-			
-			if(bounds.overlaps(g.rocket.getBounds())){
-		
+
+			if (bounds.overlaps(g.rocket.getBounds())) {
+
 				shouldScreenChange = true;
-//				vibrate=true;
-				if(vibrate){
+				// vibrate=true;
+				if (vibrate) {
 					Gdx.input.vibrate(200);
-					vibrate=false;
+					vibrate = false;
 				}
 			}
-			
-			
-				
-				
-			
-			
-		}catch(Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -148,10 +131,11 @@ public class Box {
 
 	public void render(SpriteBatch batch) {
 
+		//Changing da skryn
 		if (shouldScreenChange) {
-			
-			g.runner.setScreen(g.runner.over);
-			
+
+			g.runner.setScreen(new GameOver(g.runner));
+
 			shouldScreenChange = false;
 		}
 
@@ -166,14 +150,14 @@ public class Box {
 		}
 
 		// Drawing a box
-		
-		 batch.begin(); 
-		 emitter.setPosition(pos.x + size/2 + 10, pos.y + size/2 + 10);
-		 emitter.update(Gdx.graphics.getDeltaTime());
-		 emitter.draw(batch);
-		 batch.draw(ball, pos.x, pos.y, size, size);
-		 batch.end();
-		 
+
+		batch.begin();
+		emitter.setPosition(pos.x + size / 2 + 10, pos.y + size / 2 + 10);
+		emitter.update(Gdx.graphics.getDeltaTime());
+		emitter.draw(batch);
+		batch.draw(GameRunner.assets.get("Textures/Blue_ball.png", Texture.class), pos.x, pos.y, size, size);
+		batch.end();
+
 	}
 
 }

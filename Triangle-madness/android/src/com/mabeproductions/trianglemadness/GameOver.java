@@ -47,9 +47,7 @@ public class GameOver implements Screen {
 
 		//See Lines: 131-141 WORKS
 
-		gameMenu = new GameMenu(runner);
-		//See Lines: 143-150 WORKS
-		GameScreen = new GameSc(runner);
+
 
 		
 		// OUR ACTUAL BUTTONS
@@ -61,7 +59,7 @@ public class GameOver implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		skinAgain = new Skin();
-		atlasAgain = new TextureAtlas("Textures/GameOver/Buttons/Buttons.pack");
+		atlasAgain = GameRunner.assets.get("Textures/GameOver/Buttons/Buttons.pack");
 		skinAgain.addRegions(atlasAgain);
 		styleAgain = new TextButtonStyle();
 		styleAgain.up = skinAgain.getDrawable("RetryR");
@@ -69,7 +67,6 @@ public class GameOver implements Screen {
 		styleAgain.font = font;
 
 		skinMenu = new Skin();
-		atlasMenu = new TextureAtlas("Textures/GameOver/Buttons/Buttons.pack");
 		skinMenu.addRegions(atlasAgain);
 		styleMenu = new TextButtonStyle();
 		styleMenu.up = skinMenu.getDrawable("MenuR");
@@ -86,23 +83,22 @@ public class GameOver implements Screen {
 		stage.addActor(buttonMenu);
 		// END
 
-
-		over[0] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0001.png"));
-		over[1] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0004.png"));
-		over[2] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0007.png"));
-		over[3] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0010.png"));
-		over[4] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0013.png"));
-		over[5] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0016.png"));
-		over[6] = new Texture(Gdx.files.internal("Textures/GameOver/GameOver0019.png"));
-
+		over[0] = GameRunner.assets.get("Textures/GameOver/GameOver0001.png");
+		over[1] = GameRunner.assets.get("Textures/GameOver/GameOver0004.png");
+		over[2] = GameRunner.assets.get("Textures/GameOver/GameOver0007.png");
+		over[3] = GameRunner.assets.get("Textures/GameOver/GameOver0010.png");
+		over[4] = GameRunner.assets.get("Textures/GameOver/GameOver0013.png");
+		over[5] = GameRunner.assets.get("Textures/GameOver/GameOver0016.png");
+		over[6] = GameRunner.assets.get("Textures/GameOver/GameOver0019.png");
 		batch = new SpriteBatch();
 
 	}
 
 	@Override
 	public void show() {
-		runner.pausedGameScreen = new GameSc(runner);
+/*		runner.pausedGameScreen = new GameSc(runner);
 		runner.pausedGameScreen.pause();
+*/
 	}
 
 	public void gameOverThread() {
@@ -138,20 +134,15 @@ public class GameOver implements Screen {
 		if (buttonAgain.isPressed()) {
 			isOnMenu = true;
 			if (isOnMenu) {
-//				runner.setScreen(GameScreen);
-				GameSc currentGameSc = runner.pausedGameScreen;
-				//currentGameSc.pause();
-				currentGameSc.resume();
-				runner.setScreen(currentGameSc);
-				isOnMenu = false;
-			}
+				runner.setScreen(new GameSc(runner));
+				}
 		}
 
 		// TO MENU SCREEN
 		if (buttonMenu.isPressed()) {
 			isOnPlay = true;
 			if (isOnPlay) {
-				runner.setScreen(runner.GameMen);
+				runner.setScreen(new GameMenu(runner));
 				isOnPlay= false;
 			}
 		}
@@ -186,6 +177,7 @@ public class GameOver implements Screen {
 
 	@Override
 	public void dispose() {
+		this.dispose();
 		runner.getScreen().dispose();
 		batch.dispose();
 		stage.dispose();
