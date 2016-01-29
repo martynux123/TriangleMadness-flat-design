@@ -89,7 +89,7 @@ public class GameSc implements Screen {
 												 */, (int) box.getPos().y, 15, -90, rockettxt, emitter);
 
 
-		enemyThread();
+//		enemyThread();
 		enemyFromTopThread();
 
 		cointxt[0] = GameRunner.assets.get("Coins/1.png");
