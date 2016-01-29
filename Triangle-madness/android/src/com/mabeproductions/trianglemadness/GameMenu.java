@@ -70,7 +70,7 @@ public class GameMenu implements Screen {
 			
 			@Override
 			public void run() {
-				while(true){
+				while(runner.getScreen() == GameMenu.this){
 					try {
 						Thread.sleep(50);
 					} catch (InterruptedException e) {
@@ -88,9 +88,9 @@ public class GameMenu implements Screen {
 					angleMid++;
 					angleOut--;
 				}
-				
+				Thread.currentThread().interrupt();
 			}
-		}).start();
+		}, "menuThread").start();
 	}
 	
 	
@@ -131,8 +131,9 @@ public class GameMenu implements Screen {
 		
 		}
 		if(gameScreenSwitch){
-
 			runner.setScreen(new GameSc(runner));
+			this.dispose();
+			gameScreenSwitch = false;
 		}
 	}
 
@@ -152,15 +153,10 @@ public class GameMenu implements Screen {
 
 	@Override
 	public void hide() {
-		
 	}
 
 	@Override
 	public void dispose() {
-		this.dispose();
-		runner.getScreen().dispose();
-		btn.dispose();
 		batch.dispose();
-		
 	}
 }

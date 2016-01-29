@@ -35,14 +35,13 @@ public class GameSc implements Screen {
 	public Box box;
 	private ShapeRenderer shape;
 	public Rocket rocket;
-	public Coin coin;
+	public Coin coin; /*TO-DO: Reikia coinams arraylisto*/
 	public GameRunner runner;
-	private GameOver over;
 	
 	//Collections
 	public ArrayList<Enemy> enemies;
 	public ArrayList<Enemy> enemies2;
-	private Texture[] txtt = new Texture[7];
+	private Texture[] cointxt = new Texture[7];
 
 	
 	//Textures.
@@ -58,29 +57,23 @@ public class GameSc implements Screen {
 	
 	
 
-	public GameSc(GameRunner runner) {
-		this.runner = runner;
+	public GameSc(GameRunner runnerClass) {
+		this.runner = runnerClass;
 
 		int firstX = MathUtils.random(Gdx.graphics.getWidth());
 		
 		batch = new SpriteBatch();
 
-		coin = new Coin(firstX ,Gdx.graphics.getHeight(),4,txtt,index);
+		coin = new Coin(firstX ,Gdx.graphics.getHeight(),4,cointxt,index);
 		
 		background = GameRunner.assets.get("Textures/background.png");
 		txt = GameRunner.assets.get("Textures/Enemies/Boxers/Enemy.png");
 		enemy2 = GameRunner.assets.get("Textures/Enemies/Enemy2.png");
 		rockettxt = GameRunner.assets.get("Textures/Enemies/rocket.png");
-	
-		over = new GameOver(runner);
 		
 		
 		
-		emitter = new ParticleEffect();
-
-		emitter.load(Gdx.files.internal("Particles/fire2"), Gdx.files.internal(""));
-		
-		emitter.scaleEffect(2);
+		emitter = GameRunner.rocketEmitter;
 
 		box = new Box(this);
 
@@ -95,11 +88,26 @@ public class GameSc implements Screen {
 												 * atspawninam ja uz ekrano ribu
 												 */, (int) box.getPos().y, 15, -90, rockettxt, emitter);
 
-		new Thread(new Runnable() {
 
+		enemyThread();
+		enemyFromTopThread();
+
+		cointxt[0] = GameRunner.assets.get("Coins/1.png");
+		cointxt[1] = GameRunner.assets.get("Coins/2.png");
+		cointxt[2] = GameRunner.assets.get("Coins/3.png");
+		cointxt[3] = GameRunner.assets.get("Coins/4.png");
+		cointxt[4] = GameRunner.assets.get("Coins/5.png");
+		cointxt[5] = GameRunner.assets.get("Coins/6.png");
+		cointxt[6] = GameRunner.assets.get("Coins/7.png");
+	}
+
+	@Override
+	public void show() {
+		new Thread(new Runnable() {
+			
 			@Override
 			public void run() {
-				while (true) {
+				while (runner.getScreen() == GameSc.this) {
 					try {
 						// Sleeping a thread for thread delays to be alike
 						Thread.sleep(1);
@@ -108,24 +116,11 @@ public class GameSc implements Screen {
 					}
 					update();
 				}
-
+				
+				Thread.currentThread().interrupt();
+				
 			}
-		}).start();
-
-		enemyThread();
-		enemyFromTopThread();
-
-		txtt[0] = GameRunner.assets.get("Coins/1.png");
-		txtt[1] = GameRunner.assets.get("Coins/2.png");
-		txtt[2] = GameRunner.assets.get("Coins/3.png");
-		txtt[3] = GameRunner.assets.get("Coins/4.png");
-		txtt[4] = GameRunner.assets.get("Coins/5.png");
-		txtt[5] = GameRunner.assets.get("Coins/6.png");
-		txtt[6] = GameRunner.assets.get("Coins/7.png");
-	}
-
-	@Override
-	public void show() {
+		}, "Update").start();
 
 	}
 
@@ -215,7 +210,7 @@ public class GameSc implements Screen {
 
 		if(tickCountsCoins>=CoinsDelay){
 			int x = MathUtils.random(Gdx.graphics.getWidth());
-			spawnCoin(x, Gdx.graphics.getHeight(), 4,txtt, index);
+			spawnCoin(x, Gdx.graphics.getHeight(), 4,cointxt, index);
 			
 			tickCountsCoins=0;
 		}
@@ -235,7 +230,7 @@ public class GameSc implements Screen {
 
 			@Override
 			public void run() {
-				while (true) {
+				while (runner.getScreen() == GameSc.this) {
 
 					if (!game_paused) {
 
@@ -259,10 +254,12 @@ public class GameSc implements Screen {
 							e.printStackTrace();
 						}
 					}
+					
 				}
+				Thread.currentThread().interrupt();
 
 			}
-		}).start();
+		}, "EnemyThread").start();
 
 	}
 
@@ -272,7 +269,7 @@ public class GameSc implements Screen {
 
 			@Override
 			public void run() {
-				while (true) {
+				while (runner.getScreen() == GameSc.this) {
 
 					if (!game_paused) {
 
@@ -296,9 +293,9 @@ public class GameSc implements Screen {
 					}
 
 				}
-
+				Thread.currentThread().interrupt();
 			}
-		}).start();
+		}, "EnemyFromTopThread").start();
 	}
 
 	public void spawnCoin(int x, int y, int speed, Texture[] txt, int index) {
@@ -334,17 +331,22 @@ public class GameSc implements Screen {
 
 	@Override
 	public void dispose() {
-		this.dispose();
-		runner.getScreen().dispose();
 		shape.dispose();
 		batch.dispose();
 		emitter.dispose();
+		box.dispose();
+		rocket.dispose();
 		
+		for (int i = 0; i < enemies2.size(); i++) {
+			enemies2.get(i).dispose();
+		}
+		for (int i = 0; i < enemies.size(); i++) {
+			enemies.get(i).dispose();
+		}
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 
 	}
 

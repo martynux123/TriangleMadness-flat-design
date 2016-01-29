@@ -40,7 +40,7 @@ public class Box {
 
 		over = new GameOver(g.runner);
 
-		ball = new Texture(Gdx.files.internal("Textures/Blue_ball.png"));
+		ball = GameRunner.assets.get("Textures/Blue_ball.png");
 
 		size = ball.getWidth() * size;
 
@@ -50,9 +50,9 @@ public class Box {
 
 		shape = new ShapeRenderer();
 
-		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/BubblePart1"), Gdx.files.internal(""));
-		emitter.scaleEffect(2);
+		this.emitter = GameRunner.emitter;
+		
+		
 
 	}
 
@@ -133,9 +133,9 @@ public class Box {
 
 	public void render(SpriteBatch batch) {
 
-		//Changing da skryn
+		//Changing the screen
 		if (shouldScreenChange) {
-			
+			g.runner.getScreen().dispose();
 			g.runner.setScreen(new GameOver(g.runner));
 			shouldScreenChange = false;
 	
@@ -162,6 +162,10 @@ public class Box {
 		batch.draw(GameRunner.assets.get("Textures/Blue_ball.png", Texture.class), pos.x, pos.y, size, size);
 		batch.end();
 
+	}
+	
+	public void dispose(){
+		shape.dispose();
 	}
 
 }

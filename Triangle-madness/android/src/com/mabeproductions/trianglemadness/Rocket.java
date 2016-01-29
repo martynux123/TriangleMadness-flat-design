@@ -31,7 +31,6 @@ public class Rocket {
 	
 	
 	//Objects
-	private ShapeRenderer render;
 	private Rectangle bounds;
 	
 	
@@ -120,6 +119,9 @@ public class Rocket {
 		tickCount++;
 		
 
+	}
+	
+	public void dispose(){
 	}
 	
 	

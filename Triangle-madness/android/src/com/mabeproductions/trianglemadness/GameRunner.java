@@ -14,12 +14,11 @@ import com.badlogic.gdx.graphics.g3d.particles.ParticleEffectLoader.ParticleEffe
 
 public class GameRunner extends Game{
 	
-	public GameMenu GameMen;
-	public GameOver over;
-	public GameSc pausedGameScreen;
 	public static AssetManager assets;
 	public static ParticleEffectParameter param;
 	public static ParticleEffectLoader loader;
+	public static ParticleEffect emitter;
+	public static ParticleEffect rocketEmitter;
 	
 	@Override
 	public void create() {
@@ -75,16 +74,20 @@ public class GameRunner extends Game{
 		assets.load("Particles/fire2", ParticleEffect.class, param);
 		*/
 		
+		//Box particle emitter
+		emitter = new ParticleEffect();
+		emitter.load(Gdx.files.internal("Particles/BubblePart1"), Gdx.files.internal(""));
+		emitter.scaleEffect(2);
 		
+		//Rocket particle emitter
+		rocketEmitter = new ParticleEffect();
+		rocketEmitter.load(Gdx.files.internal("Particles/fire2"), Gdx.files.internal(""));
+		rocketEmitter.scaleEffect(2);
 	
 		
 		assets.finishLoading();
 		
-		GameMen = new GameMenu(this);
-		over = new GameOver(this);
-		pausedGameScreen = new GameSc(this);
-		pausedGameScreen.pause();
-		this.setScreen(GameMen);
+		this.setScreen(new GameMenu(this));
 	}
 	
 

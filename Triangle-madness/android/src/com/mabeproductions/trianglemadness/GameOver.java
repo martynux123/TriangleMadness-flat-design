@@ -36,18 +36,15 @@ public class GameOver implements Screen {
 	
 	// Buttons
 	private Skin skinAgain, skinMenu;
-	private TextureAtlas atlasAgain, atlasMenu;
+	private TextureAtlas atlasAgain;
 	private TextButtonStyle styleAgain, styleMenu;
 	private TextButton buttonAgain, buttonMenu;
 	private Stage stage;
 	private BitmapFont font;
-	private boolean isOnMenu;
-	private boolean isOnPlay;
 
 	
 	public GameOver(GameRunner runner) {
 		this.runner = runner;
-		gameOverThread();
 
 		
 
@@ -102,6 +99,7 @@ public class GameOver implements Screen {
 
 	@Override
 	public void show() {
+		gameOverThread();
 
 	}
 
@@ -111,7 +109,7 @@ public class GameOver implements Screen {
 
 			@Override
 			public void run() {
-				while (true) {
+				while (runner.getScreen() == GameOver.this) {
 					try {
 						Thread.sleep(50);
 
@@ -128,7 +126,7 @@ public class GameOver implements Screen {
 				}
 
 			}
-		}).start();
+		},"GameOver anim").start();
 	}
 	
 	public void update(){
@@ -155,19 +153,17 @@ public class GameOver implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		// TO GAMESCREEN
 		if (buttonAgain.isPressed()) {
-			isOnMenu = true;
-			if (isOnMenu) {
-				runner.setScreen(new GameSc(runner));
-				}
+			runner.getScreen().dispose();
+			runner.setScreen(new GameSc(runner));
+			Thread.currentThread().interrupt();
+				
 		}
 
 		// TO MENU SCREEN
 		if (buttonMenu.isPressed()) {
-			isOnPlay = true;
-			if (isOnPlay) {
-				runner.setScreen(new GameMenu(runner));
-				isOnPlay= false;
-			}
+			runner.getScreen().dispose();
+			runner.setScreen(new GameMenu(runner));
+			Thread.currentThread().interrupt();
 		}
 
 		if (over[index] != null) {
@@ -195,21 +191,15 @@ public class GameOver implements Screen {
 
 	@Override
 	public void hide() {
-
 	}
 
 	@Override
 	public void dispose() {
-		this.dispose();
-		runner.getScreen().dispose();
 		batch.dispose();
 		stage.dispose();
-		atlasAgain.dispose();
-		atlasMenu.dispose();
 		skinAgain.dispose();
 		skinMenu.dispose();
 		font.dispose();
-	
 		
 	}
 

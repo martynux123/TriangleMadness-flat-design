@@ -39,8 +39,12 @@ public class Coin {
 		bounds = new Rectangle(x, y, coinSize, coinSize );
 		
 	}
-	public int getX(){return x;}
-	public int getY(){return y;}
+	public int getX(){
+		return x;
+		}
+	public int getY(){
+		return y;
+		}
 		
 	public void render(SpriteBatch batch, ShapeRenderer render) {
 		batch.begin();
@@ -68,7 +72,7 @@ public class Coin {
 			tickCount = 0;
 		}
 		
-		if(rotationIndex>=100){
+		if(rotationIndex>=70){
 			index++;			
 			rotationIndex = 0;
 		}
