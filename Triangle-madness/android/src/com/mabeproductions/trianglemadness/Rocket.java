@@ -101,7 +101,7 @@ public class Rocket {
 	}
 	
 	public void update() {
-		
+		 
 		if(rot==-90){
 			bounds.setPosition(x-10, y + 60);
 			

@@ -24,7 +24,7 @@ public class GameSc implements Screen {
 	private int rocketDelayTickCount = 15000;
 	private int randomDirection;
 	private int tickCountsCoins;
-	private int CoinsDelay=9000;
+	private int CoinsDelay=900;
 	private int index=0;
 
 
@@ -35,7 +35,7 @@ public class GameSc implements Screen {
 	public Box box;
 	private ShapeRenderer shape;
 	public Rocket rocket;
-	public Coin coin; /*TO-DO: Reikia coinams arraylisto*/
+	public ArrayList<Coin> coins = new ArrayList<Coin>();
 	public GameRunner runner;
 	
 	//Collections
@@ -49,8 +49,9 @@ public class GameSc implements Screen {
 	private Texture txt;
 	private Texture enemy2;
 	private Texture rockettxt;
-	
-	
+	private int enemySpeed = -15;
+	private int enemyDelay = 350;
+	private int tickCountEnemySpeed = 0;
 	
 	
 	
@@ -63,8 +64,6 @@ public class GameSc implements Screen {
 		int firstX = MathUtils.random(Gdx.graphics.getWidth());
 		
 		batch = new SpriteBatch();
-
-		coin = new Coin(firstX ,Gdx.graphics.getHeight(),4,cointxt,index);
 		
 		background = GameRunner.assets.get("Textures/background.png");
 		txt = GameRunner.assets.get("Textures/Enemies/Boxers/Enemy.png");
@@ -89,7 +88,6 @@ public class GameSc implements Screen {
 												 */, (int) box.getPos().y, 15, -90, rockettxt, emitter);
 
 
-//		enemyThread();
 		enemyFromTopThread();
 
 		cointxt[0] = GameRunner.assets.get("Coins/1.png");
@@ -103,6 +101,8 @@ public class GameSc implements Screen {
 
 	@Override
 	public void show() {
+		
+		//Update thread
 		new Thread(new Runnable() {
 			
 			@Override
@@ -145,6 +145,7 @@ public class GameSc implements Screen {
 		box.render(batch);
 		
 		
+		//Rendering enemies
 		for (int i = 0; i < enemies.size(); i++) {
 			enemies.get(i).render(batch, shape);
 		}
@@ -153,23 +154,33 @@ public class GameSc implements Screen {
 			enemies2.get(i).render(batch, shape);
 		}
 	
+		//rendering coins
+		for (int i = 0; i < coins.size(); i++) {
+			coins.get(i).render(batch, shape);
+		}
 		
 		
+		//rendering rocket
 		rocket.render(batch, shape);
-		coin.render(batch, shape);
 	}
 
 	public void update() {
 
 		if (game_paused)
 			return;
+		
 		randomDirection = MathUtils.random(0, 1);
-		//over.update();
 
-		coin.update();
+		//Updating coins
+		for (int i = 0; i < coins.size(); i++) {
+			coins.get(i).update();
+		}
+		
 		box.update();
 		rocket.update();
 
+		
+		//Updating enemies
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) != null) {
 				enemies.get(i).update();
@@ -181,14 +192,15 @@ public class GameSc implements Screen {
 				enemies2.get(i).update();
 
 			}
+			
 		}
 		
 		
 		
-
+		//Spawning rockets
 		if (randomDirection == 0) {
 			if (rocketTickCount >= rocketDelayTickCount) {
-				rocketDelayTickCount = MathUtils.random(4000, 5000);
+				rocketDelayTickCount = MathUtils.random(4000, 9000);
 
 				spawnRocket(-100, (int) box.getPos().y, 15, -90, rockettxt, emitter);
 				rocketTickCount = 0;
@@ -207,23 +219,31 @@ public class GameSc implements Screen {
 			rocketTickCount++;
 
 		}
-
+		
+		
+		//Spawning coins
 		if(tickCountsCoins>=CoinsDelay){
 			int x = MathUtils.random(Gdx.graphics.getWidth());
-			spawnCoin(x, Gdx.graphics.getHeight(), 4,cointxt, index);
-			
+			spawnCoin(x, Gdx.graphics.getHeight(), 18, cointxt, index);
 			tickCountsCoins=0;
 		}
 		tickCountsCoins++;
 		
 		
-		
-		
+		//Generating random speed and delay for enemies
+		if(tickCountEnemySpeed >= 5000){
+			enemySpeed -= 1;;
+			enemyDelay -= 15;
+			tickCountEnemySpeed = 0;
+		}
+		tickCountEnemySpeed++;
 		
 		
 	
 	}
 
+	
+	//Down-top enemy thread (should be deleted)
 	private void enemyThread() {
 
 		new Thread(new Runnable() {
@@ -238,7 +258,7 @@ public class GameSc implements Screen {
 						int y = -Enemy.UNIFORM_HEIGHT;
 						// int speed = MathUtils.random(10, 30);
 						int speed = 15;
-						int delay = MathUtils.random(300, 500);
+						int delay = MathUtils.random(300, 700);
 
 						try {
 							spawnEnemy(x, y, speed, txt);
@@ -263,6 +283,8 @@ public class GameSc implements Screen {
 
 	}
 
+	
+	//Enemy from top thread
 	private void enemyFromTopThread() {
 
 		new Thread(new Runnable() {
@@ -273,12 +295,9 @@ public class GameSc implements Screen {
 
 					if (!game_paused) {
 
-						int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth());
+						int x = MathUtils.random(0, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
 						int y = Gdx.graphics.getHeight() + Enemy.UNIFORM_HEIGHT;
-						int speed = -13;
-						int delay = MathUtils.random(800, 900);
-						try {
-							spawnEnemyFromTop(x, y, speed, enemy2);
+							spawnEnemyFromTop(x, y, enemySpeed, enemy2);
 							for (int i = 0; i < enemies2.size(); i++) {
 								if (enemies2.get(i).getY() < 0) {
 									enemies2.remove(i);
@@ -286,7 +305,8 @@ public class GameSc implements Screen {
 
 							}
 
-							Thread.sleep(delay);
+							try {
+							Thread.sleep(enemyDelay);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -298,8 +318,10 @@ public class GameSc implements Screen {
 		}, "EnemyFromTopThread").start();
 	}
 
+	
+	
 	public void spawnCoin(int x, int y, int speed, Texture[] txt, int index) {
-		coin = new Coin(x,y,speed,txt,index);
+		coins.add(new Coin(x,y,speed,txt,index));
 		
 	}
 	public void spawnEnemy(int x, int y, int speed, Texture currentTexture) {
@@ -333,7 +355,6 @@ public class GameSc implements Screen {
 	public void dispose() {
 		shape.dispose();
 		batch.dispose();
-		emitter.dispose();
 		box.dispose();
 		rocket.dispose();
 		

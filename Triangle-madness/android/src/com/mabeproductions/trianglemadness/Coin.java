@@ -24,7 +24,7 @@ public class Coin {
 	private Texture [] txt = new Texture[7];
 	
 	//Objects
-	public Rectangle bounds;
+	private Rectangle bounds;
 	
 	//Booleans
 	private boolean debugMode  = false;
@@ -39,6 +39,12 @@ public class Coin {
 		bounds = new Rectangle(x, y, coinSize, coinSize );
 		
 	}
+	
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	
 	public int getX(){
 		return x;
 		}

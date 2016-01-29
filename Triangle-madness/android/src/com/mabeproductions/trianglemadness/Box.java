@@ -61,6 +61,15 @@ public class Box {
 	}
 
 	public void update() {
+		
+		//Collecting coins!
+		for (int i = 0; i < g.coins.size(); i++) {
+			if(g.coins.get(i).getBounds().overlaps(bounds)){
+				g.coins.remove(i);
+				//TO-DO: Handle score/highscore
+			}
+			
+		}
 
 		// Getting touch coords
 		touchX = Gdx.input.getX();
