@@ -26,6 +26,9 @@ public class GameSc implements Screen {
 	private int tickCountsCoins;
 	private int CoinsDelay=900;
 	private int index=0;
+	private int enemySpeed = -15;
+	private int enemyDelay = 350;
+	private int tickCountEnemySpeed = 0;
 
 
 	
@@ -49,9 +52,6 @@ public class GameSc implements Screen {
 	private Texture txt;
 	private Texture enemy2;
 	private Texture rockettxt;
-	private int enemySpeed = -15;
-	private int enemyDelay = 350;
-	private int tickCountEnemySpeed = 0;
 	
 	
 	
@@ -174,6 +174,9 @@ public class GameSc implements Screen {
 		//Updating coins
 		for (int i = 0; i < coins.size(); i++) {
 			coins.get(i).update();
+			if(coins.get(i).getY()<0){
+				coins.remove(coins.get(i));
+			}
 		}
 		
 		box.update();
@@ -225,6 +228,7 @@ public class GameSc implements Screen {
 		if(tickCountsCoins>=CoinsDelay){
 			int x = MathUtils.random(Gdx.graphics.getWidth());
 			spawnCoin(x, Gdx.graphics.getHeight(), 18, cointxt, index);
+			System.out.println(coins.size());
 			tickCountsCoins=0;
 		}
 		tickCountsCoins++;
@@ -235,6 +239,7 @@ public class GameSc implements Screen {
 			enemySpeed -= 1;;
 			enemyDelay -= 15;
 			tickCountEnemySpeed = 0;
+			System.out.println(coins.size());
 		}
 		tickCountEnemySpeed++;
 		

@@ -21,7 +21,6 @@ public class GameOver implements Screen {
 
 	//Variables
 	private int index=0;
-	private int indexCount=0;
 	
 	//Objects
 	public GameRunner runner;
@@ -131,21 +130,7 @@ public class GameOver implements Screen {
 	
 	public void update(){
 		
-		/*
 		
-		if(indexCount>=400){
-			index++;
-			indexCount = 0;
-		
-		}	
-		System.out.println(indexCount);
-		
-			if (index > 6) {
-				index = 0;
-			}
-		
-		indexCount++;
-		*/
 	}
 
 	@Override

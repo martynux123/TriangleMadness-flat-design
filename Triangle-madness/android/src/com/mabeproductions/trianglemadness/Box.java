@@ -30,7 +30,7 @@ public class Box {
 	private float dt;
 	
 
-	// GameOver screen object(later initialized in constructor).
+	
 	private GameOver over;
 	private ParticleEffect emitter;
 

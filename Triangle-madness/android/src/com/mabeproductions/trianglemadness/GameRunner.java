@@ -68,12 +68,7 @@ public class GameRunner extends Game{
 		assets.load("Coins/7.png", Texture.class);
 		
 		
-		/*
-		param = new ParticleEffectParameter();
-		param.imagesDir = Gdx.files.internal("");
-		assets.load("Particles/fire2", ParticleEffect.class, param);
-		*/
-		
+	
 		//Box particle emitter
 		emitter = new ParticleEffect();
 		emitter.load(Gdx.files.internal("Particles/BubblePart1"), Gdx.files.internal(""));
