@@ -34,11 +34,12 @@ public class GameSc implements Screen {
 	
 	//Objects
 	private ParticleEffect emitter;
+	private ParticleEffect coinEmitter;
 	private SpriteBatch batch;
 	public Box box;
 	private ShapeRenderer shape;
 	public Rocket rocket;
-	public ArrayList<Coin> coins = new ArrayList<Coin>();
+	public static ArrayList<Coin> coins = new ArrayList<Coin>();
 	public GameRunner runner;
 	
 	//Collections
@@ -73,7 +74,8 @@ public class GameSc implements Screen {
 		
 		
 		emitter = GameRunner.rocketEmitter;
-
+		coinEmitter = GameRunner.coinEmitter;
+		
 		box = new Box(this);
 
 		enemies = new ArrayList<Enemy>();
@@ -157,6 +159,7 @@ public class GameSc implements Screen {
 		//rendering coins
 		for (int i = 0; i < coins.size(); i++) {
 			coins.get(i).render(batch, shape);
+			
 		}
 		
 		
@@ -174,9 +177,13 @@ public class GameSc implements Screen {
 		//Updating coins
 		for (int i = 0; i < coins.size(); i++) {
 			coins.get(i).update();
+			
+			//Removes a coin if it's < 0 
 			if(coins.get(i).getY()<0){
 				coins.remove(coins.get(i));
+				
 			}
+			
 		}
 		
 		box.update();
@@ -205,7 +212,7 @@ public class GameSc implements Screen {
 			if (rocketTickCount >= rocketDelayTickCount) {
 				rocketDelayTickCount = MathUtils.random(4000, 9000);
 
-				spawnRocket(-100, (int) box.getPos().y, 15, -90, rockettxt, emitter);
+				spawnRocket(-100, (int) box.getPos().y/2, 15, -90, rockettxt, emitter);
 				rocketTickCount = 0;
 			}
 			rocketTickCount++;
@@ -216,7 +223,7 @@ public class GameSc implements Screen {
 			if (rocketTickCount >= rocketDelayTickCount) {
 				rocketDelayTickCount = MathUtils.random(4000, 5000);
 
-				spawnRocket(Gdx.graphics.getWidth() + 100, (int) box.getPos().y/2, -15, 90, rockettxt, emitter);
+				spawnRocket(Gdx.graphics.getWidth() + 100, (int) box.getPos().y-300, -15, 90, rockettxt, emitter);
 				rocketTickCount = 0;
 			}
 			rocketTickCount++;
@@ -227,8 +234,8 @@ public class GameSc implements Screen {
 		//Spawning coins
 		if(tickCountsCoins>=CoinsDelay){
 			int x = MathUtils.random(Gdx.graphics.getWidth());
-			spawnCoin(x, Gdx.graphics.getHeight(), 18, cointxt, index);
-			System.out.println(coins.size());
+			spawnCoin(x, Gdx.graphics.getHeight(), 18, cointxt, index, coinEmitter);
+			//System.out.println(coins.size());
 			tickCountsCoins=0;
 		}
 		tickCountsCoins++;
@@ -239,7 +246,7 @@ public class GameSc implements Screen {
 			enemySpeed -= 1;;
 			enemyDelay -= 15;
 			tickCountEnemySpeed = 0;
-			System.out.println(coins.size());
+			
 		}
 		tickCountEnemySpeed++;
 		
@@ -325,8 +332,8 @@ public class GameSc implements Screen {
 
 	
 	
-	public void spawnCoin(int x, int y, int speed, Texture[] txt, int index) {
-		coins.add(new Coin(x,y,speed,txt,index));
+	public void spawnCoin(int x, int y, int speed, Texture[] txt, int index, ParticleEffect effect) {
+		coins.add(new Coin(x,y,speed,txt,index, effect));
 		
 	}
 	public void spawnEnemy(int x, int y, int speed, Texture currentTexture) {

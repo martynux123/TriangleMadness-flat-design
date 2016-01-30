@@ -1,9 +1,11 @@
 package com.mabeproductions.trianglemadness;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -28,16 +30,16 @@ public class Box {
 	public boolean shouldScreenChange;
 	private boolean vibrate;
 	private float dt;
-	
-
-	
 	private GameOver over;
 	private ParticleEffect emitter;
-
+	private Timer t;
+	public static boolean coinParticle = false;
+	
 	public Box(GameSc g) {
 
 		this.g = g;
 
+		t = new Timer();
 		over = new GameOver(g.runner);
 
 		ball = GameRunner.assets.get("Textures/Blue_ball.png");
@@ -64,9 +66,13 @@ public class Box {
 		
 		//Collecting coins!
 		for (int i = 0; i < g.coins.size(); i++) {
+			
 			if(g.coins.get(i).getBounds().overlaps(bounds)){
-				g.coins.remove(i);
-				//TO-DO: Handle score/highscore
+				
+				coinParticle=true;	
+				g.coins.remove(i);			
+		
+				
 			}
 			
 		}

@@ -19,6 +19,7 @@ public class GameRunner extends Game{
 	public static ParticleEffectLoader loader;
 	public static ParticleEffect emitter;
 	public static ParticleEffect rocketEmitter;
+	public static ParticleEffect coinEmitter;
 	
 	@Override
 	public void create() {
@@ -79,6 +80,10 @@ public class GameRunner extends Game{
 		rocketEmitter.load(Gdx.files.internal("Particles/fire2"), Gdx.files.internal(""));
 		rocketEmitter.scaleEffect(2);
 	
+		//Coin Emitter
+		coinEmitter = new ParticleEffect();
+		coinEmitter.load(Gdx.files.internal("Particles/yellowPart1"),Gdx.files.internal(""));
+		coinEmitter.scaleEffect(2);
 		
 		assets.finishLoading();
 		
