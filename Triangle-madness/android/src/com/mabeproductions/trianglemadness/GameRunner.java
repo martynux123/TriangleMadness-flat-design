@@ -26,9 +26,10 @@ public class GameRunner extends Game{
 		
 		assets = new AssetManager();
 		
-	
 		
 		assets.load("Textures/Blue_ball.png", Texture.class);
+		
+		
 		
 		//GameOver
 		assets.load("Textures/GameOver/GameOver0001.png", Texture.class);
@@ -39,9 +40,11 @@ public class GameRunner extends Game{
 		assets.load("Textures/GameOver/GameOver0016.png", Texture.class);
 		assets.load("Textures/GameOver/GameOver0019.png", Texture.class);
 		
+		
+		
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);
-		//
+		
 		
 		assets.load("Textures/Menu/1.png", Texture.class);
 		assets.load("Textures/Menu/2.png", Texture.class);
@@ -54,7 +57,7 @@ public class GameRunner extends Game{
 		assets.load("Textures/Menu/play.png", Texture.class);		
 		assets.load("Textures/Menu/circle.pack", TextureAtlas.class);
 		
-		assets.load("Textures/background.png", Texture.class);
+		assets.load("Textures/avoidness.png", Texture.class);
 		assets.load("Textures/Enemies/Boxers/Enemy.png", Texture.class);
 		assets.load("Textures/Enemies/Enemy2.png", Texture.class);
 		assets.load("Textures/Enemies/rocket.png", Texture.class);
@@ -72,7 +75,7 @@ public class GameRunner extends Game{
 	
 		//Box particle emitter
 		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/BubblePart1"), Gdx.files.internal(""));
+		emitter.load(Gdx.files.internal("Particles/space"), Gdx.files.internal(""));
 		emitter.scaleEffect(2);
 		
 		//Rocket particle emitter

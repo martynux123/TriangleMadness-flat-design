@@ -23,7 +23,7 @@ public class Box {
 	private int touchY;
 	private GameSc g;
 	private Texture ball;
-	private Vector2 pos;
+	public static Vector2 pos;
 	public Rectangle bounds;
 	private boolean isTouched;
 	private ShapeRenderer shape;
@@ -32,14 +32,15 @@ public class Box {
 	private float dt;
 	private GameOver over;
 	private ParticleEffect emitter;
-	private Timer t;
+	private int coinIndex=0;
+	
 	public static boolean coinParticle = false;
 	
 	public Box(GameSc g) {
 
 		this.g = g;
 
-		t = new Timer();
+		
 		over = new GameOver(g.runner);
 
 		ball = GameRunner.assets.get("Textures/Blue_ball.png");
@@ -66,17 +67,27 @@ public class Box {
 		
 		//Collecting coins!
 		for (int i = 0; i < g.coins.size(); i++) {
+		
 			
 			if(g.coins.get(i).getBounds().overlaps(bounds)){
-				
 				coinParticle=true;	
-				g.coins.remove(i);			
-		
-				
+				System.out.println(Box.coinParticle);
+				g.coins.remove(i);		
+	
+			}
+			if(coinParticle){
+				coinIndex++;
+				if(coinIndex>=500){
+					
+					coinIndex=0;
+					
+					coinParticle=false;
+				}
 			}
 			
 		}
-
+		
+		System.out.println(coinIndex);
 		// Getting touch coords
 		touchX = Gdx.input.getX();
 		touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);

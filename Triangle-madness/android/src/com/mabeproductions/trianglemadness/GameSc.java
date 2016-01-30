@@ -66,7 +66,7 @@ public class GameSc implements Screen {
 		
 		batch = new SpriteBatch();
 		
-		background = GameRunner.assets.get("Textures/background.png");
+		background = GameRunner.assets.get("Textures/avoidness.png");
 		txt = GameRunner.assets.get("Textures/Enemies/Boxers/Enemy.png");
 		enemy2 = GameRunner.assets.get("Textures/Enemies/Enemy2.png");
 		rockettxt = GameRunner.assets.get("Textures/Enemies/rocket.png");
@@ -147,6 +147,7 @@ public class GameSc implements Screen {
 		box.render(batch);
 		
 		
+	
 		//Rendering enemies
 		for (int i = 0; i < enemies.size(); i++) {
 			enemies.get(i).render(batch, shape);
