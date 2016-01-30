@@ -3,6 +3,7 @@ package com.mabeproductions.trianglemadness;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -29,7 +30,7 @@ public class GameSc implements Screen {
 	private int enemySpeed = -15;
 	private int enemyDelay = 350;
 	private int tickCountEnemySpeed = 0;
-
+	public int Score = 0;
 
 	
 	//Objects
@@ -41,9 +42,9 @@ public class GameSc implements Screen {
 	public Rocket rocket;
 	public static ArrayList<Coin> coins = new ArrayList<Coin>();
 	public GameRunner runner;
+	private BitmapFont font;
 	
 	//Collections
-	public ArrayList<Enemy> enemies;
 	public ArrayList<Enemy> enemies2;
 	private Texture[] cointxt = new Texture[7];
 
@@ -72,22 +73,17 @@ public class GameSc implements Screen {
 		rockettxt = GameRunner.assets.get("Textures/Enemies/rocket.png");
 		
 		
-		
 		emitter = GameRunner.rocketEmitter;
 		coinEmitter = GameRunner.coinEmitter;
 		
 		box = new Box(this);
 
-		enemies = new ArrayList<Enemy>();
 		enemies2 = new ArrayList<Enemy>();
 		shape = new ShapeRenderer();
 
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		spawnRocket(
-				Gdx.graphics.getWidth() + 100 /*
-												 * kad pirma raketa nesimatytu,
-												 * atspawninam ja uz ekrano ribu
-												 */, (int) box.getPos().y, 15, -90, rockettxt, emitter);
+				Gdx.graphics.getWidth() + 100, (int) box.getPos().y, 15, -90, rockettxt, emitter);
 
 
 		enemyFromTopThread();
@@ -99,6 +95,8 @@ public class GameSc implements Screen {
 		cointxt[4] = GameRunner.assets.get("Coins/5.png");
 		cointxt[5] = GameRunner.assets.get("Coins/6.png");
 		cointxt[6] = GameRunner.assets.get("Coins/7.png");
+		
+		font = GameRunner.BigScoreFont;
 	}
 
 	@Override
@@ -141,18 +139,14 @@ public class GameSc implements Screen {
 
 		// Drawing an image.
 		batch.begin();
+		
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
+		font.draw(batch, "" + Score, Gdx.graphics.getWidth()/2- (String.valueOf(Score).length() * 20), Gdx.graphics.getHeight()/2+50);
+		
 		batch.end();
-		box.render(batch);
 		
-		
-	
 		//Rendering enemies
-		for (int i = 0; i < enemies.size(); i++) {
-			enemies.get(i).render(batch, shape);
-		}
-
 		for (int i = 0; i < enemies2.size(); i++) {
 			enemies2.get(i).render(batch, shape);
 		}
@@ -163,9 +157,10 @@ public class GameSc implements Screen {
 			
 		}
 		
-		
 		//rendering rocket
 		rocket.render(batch, shape);
+		box.render(batch);
+		
 	}
 
 	public void update() {
@@ -192,12 +187,6 @@ public class GameSc implements Screen {
 
 		
 		//Updating enemies
-		for (int i = 0; i < enemies.size(); i++) {
-			if (enemies.get(i) != null) {
-				enemies.get(i).update();
-			}
-		}
-
 		for (int i = 0; i < enemies2.size(); i++) {
 			if (enemies2.get(i) != null) {
 				enemies2.get(i).update();
@@ -213,7 +202,7 @@ public class GameSc implements Screen {
 			if (rocketTickCount >= rocketDelayTickCount) {
 				rocketDelayTickCount = MathUtils.random(4000, 9000);
 
-				spawnRocket(-100, (int) box.getPos().y/2, 15, -90, rockettxt, emitter);
+				spawnRocket(-100, (int) box.getPos().y/2, 20, -90, rockettxt, emitter);
 				rocketTickCount = 0;
 			}
 			rocketTickCount++;
@@ -224,7 +213,7 @@ public class GameSc implements Screen {
 			if (rocketTickCount >= rocketDelayTickCount) {
 				rocketDelayTickCount = MathUtils.random(4000, 5000);
 
-				spawnRocket(Gdx.graphics.getWidth() + 100, (int) box.getPos().y-300, -15, 90, rockettxt, emitter);
+				spawnRocket(Gdx.graphics.getWidth() + 100, (int) box.getPos().y-300, -20, 90, rockettxt, emitter);
 				rocketTickCount = 0;
 			}
 			rocketTickCount++;
@@ -236,7 +225,6 @@ public class GameSc implements Screen {
 		if(tickCountsCoins>=CoinsDelay){
 			int x = MathUtils.random(Gdx.graphics.getWidth());
 			spawnCoin(x, Gdx.graphics.getHeight(), 18, cointxt, index, coinEmitter);
-			//System.out.println(coins.size());
 			tickCountsCoins=0;
 		}
 		tickCountsCoins++;
@@ -254,48 +242,6 @@ public class GameSc implements Screen {
 		
 	
 	}
-
-	
-	//Down-top enemy thread (should be deleted)
-	private void enemyThread() {
-
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				while (runner.getScreen() == GameSc.this) {
-
-					if (!game_paused) {
-
-						int x = MathUtils.random(Enemy.UNIFORM_WIDTH, Gdx.graphics.getWidth()-Enemy.UNIFORM_WIDTH);
-						int y = -Enemy.UNIFORM_HEIGHT;
-						// int speed = MathUtils.random(10, 30);
-						int speed = 15;
-						int delay = MathUtils.random(300, 700);
-
-						try {
-							spawnEnemy(x, y, speed, txt);
-							for (int i = 0; i < enemies.size(); i++) {
-								if (enemies.get(i).getY() > Gdx.graphics.getHeight()) {
-									enemies.remove(i);
-								}
-
-							}
-
-							Thread.sleep(delay);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					
-				}
-				Thread.currentThread().interrupt();
-
-			}
-		}, "EnemyThread").start();
-
-	}
-
 	
 	//Enemy from top thread
 	private void enemyFromTopThread() {
@@ -337,11 +283,6 @@ public class GameSc implements Screen {
 		coins.add(new Coin(x,y,speed,txt,index, effect));
 		
 	}
-	public void spawnEnemy(int x, int y, int speed, Texture currentTexture) {
-		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, currentTexture);
-		enemies.add(enemy);
-
-	}
 
 	public void spawnEnemyFromTop(int x, int y, int speed, Texture currentTexture) {
 		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, currentTexture);
@@ -374,9 +315,22 @@ public class GameSc implements Screen {
 		for (int i = 0; i < enemies2.size(); i++) {
 			enemies2.get(i).dispose();
 		}
-		for (int i = 0; i < enemies.size(); i++) {
-			enemies.get(i).dispose();
+		
+		coins.clear();
+		
+		Preferences test = Gdx.app.getPreferences("Stats");
+		
+		try{
+			int x = test.getInteger("HighScore");			
+			if(x < Score)
+				test.putInteger("HighScore", Score);
+		}catch(Exception e){
+			test.putInteger("HighScore", Score);
 		}
+		
+		
+		test.putInteger("TotalMoney", Gdx.app.getPreferences("Stats").getInteger("TotalMoney") + Score);
+		test.flush();
 	}
 
 	@Override

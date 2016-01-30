@@ -27,7 +27,7 @@ public class Rocket {
 	
 	
 	//Booleans
-	private final boolean debugRocket=true;
+	private final boolean debugRocket=false;
 	
 	
 	//Objects

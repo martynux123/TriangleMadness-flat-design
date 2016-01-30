@@ -1,16 +1,15 @@
 package com.mabeproductions.trianglemadness;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Box {
 
@@ -29,19 +28,14 @@ public class Box {
 	private ShapeRenderer shape;
 	public boolean shouldScreenChange;
 	private boolean vibrate;
-	private float dt;
-	private GameOver over;
 	private ParticleEffect emitter;
 	private int coinIndex=0;
-	
+	private TextureRegion screenshot;
 	public static boolean coinParticle = false;
 	
 	public Box(GameSc g) {
 
 		this.g = g;
-
-		
-		over = new GameOver(g.runner);
 
 		ball = GameRunner.assets.get("Textures/Blue_ball.png");
 
@@ -66,13 +60,15 @@ public class Box {
 	public void update() {
 		
 		//Collecting coins!
-		for (int i = 0; i < g.coins.size(); i++) {
+		for (int i = 0; i < GameSc.coins.size(); i++) {
 		
 			
-			if(g.coins.get(i).getBounds().overlaps(bounds)){
+			if(GameSc.coins.get(i).getBounds().overlaps(bounds)){
 				coinParticle=true;	
-				System.out.println(Box.coinParticle);
-				g.coins.remove(i);		
+				GameSc.coins.remove(i);		
+				g.Score++;
+				
+
 	
 			}
 			if(coinParticle){
@@ -87,7 +83,6 @@ public class Box {
 			
 		}
 		
-		System.out.println(coinIndex);
 		// Getting touch coords
 		touchX = Gdx.input.getX();
 		touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);
@@ -114,18 +109,6 @@ public class Box {
 
 		try {
 
-			for (int i = 0; i < g.enemies.size(); i++) {
-
-				if (bounds.overlaps(g.enemies.get(i).bounds) && !shouldScreenChange) {
-					shouldScreenChange = true;
-					vibrate = true;
-					if (vibrate) {
-
-						Gdx.input.vibrate(200);
-						vibrate = false;
-					}
-				}
-			}
 
 			for (int i = 0; i < g.enemies2.size(); i++) {
 
@@ -159,14 +142,6 @@ public class Box {
 
 	public void render(SpriteBatch batch) {
 
-		//Changing the screen
-		if (shouldScreenChange) {
-			g.runner.getScreen().dispose();
-			g.runner.setScreen(new GameOver(g.runner));
-			shouldScreenChange = false;
-	
-			
-		}
 		
 
 		// Only drawing bounds if debug mode is on
@@ -188,6 +163,14 @@ public class Box {
 		batch.draw(GameRunner.assets.get("Textures/Blue_ball.png", Texture.class), pos.x, pos.y, size, size);
 		batch.end();
 
+		//Changing the screen
+		if (shouldScreenChange) {
+			batch.setColor(0,0,0,0.7f);
+			screenshot = ScreenUtils.getFrameBufferTexture();
+			g.runner.getScreen().dispose();
+			g.runner.setScreen(new GameOver(g.runner, g.Score, screenshot));
+			shouldScreenChange = false;
+		}
 	}
 	
 	public void dispose(){

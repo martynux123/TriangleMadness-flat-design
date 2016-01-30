@@ -3,31 +3,31 @@ Buttons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-MenuP
-  rotate: false
-  xy: 1, 103
-  size: 300, 100
-  orig: 300, 100
-  offset: 0, 0
-  index: -1
-MenuR
+Home_pressed
   rotate: false
   xy: 1, 1
-  size: 300, 100
-  orig: 300, 100
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
-RetryP
+Home_released
   rotate: false
-  xy: 303, 103
-  size: 300, 100
-  orig: 300, 100
+  xy: 103, 1
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
-RetryR
+Retry_pressed
   rotate: false
-  xy: 303, 1
-  size: 300, 100
-  orig: 300, 100
+  xy: 205, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+Retry_released
+  rotate: false
+  xy: 307, 1
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1

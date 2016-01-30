@@ -5,12 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader.ParticleEffectParameter;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter.Particle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleEffectLoader.ParticleEffectLoadParameter;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class GameRunner extends Game{
 	
@@ -20,15 +20,26 @@ public class GameRunner extends Game{
 	public static ParticleEffect emitter;
 	public static ParticleEffect rocketEmitter;
 	public static ParticleEffect coinEmitter;
+	public static BitmapFont ScoreFont;
+	public static BitmapFont BigScoreFont;
+	
 	
 	@Override
 	public void create() {
 		
 		assets = new AssetManager();
 		
+		FreeTypeFontGenerator scorefontgen = new FreeTypeFontGenerator(Gdx.files.internal("Font.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 100;
+		ScoreFont = scorefontgen.generateFont(parameter);
+ 		
+		FreeTypeFontParameter parameterbig = new FreeTypeFontParameter();
+		parameterbig.size = 200;
+		BigScoreFont = scorefontgen.generateFont(parameterbig);
+		scorefontgen.dispose();
 		
 		assets.load("Textures/Blue_ball.png", Texture.class);
-		
 		
 		
 		//GameOver
@@ -38,8 +49,6 @@ public class GameRunner extends Game{
 		assets.load("Textures/GameOver/GameOver0010.png", Texture.class);
 		assets.load("Textures/GameOver/GameOver0013.png", Texture.class);
 		assets.load("Textures/GameOver/GameOver0016.png", Texture.class);
-		assets.load("Textures/GameOver/GameOver0019.png", Texture.class);
-		
 		
 		
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);

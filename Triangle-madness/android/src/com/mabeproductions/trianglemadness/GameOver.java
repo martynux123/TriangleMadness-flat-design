@@ -2,20 +2,19 @@ package com.mabeproductions.trianglemadness;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-
-import android.view.textservice.SuggestionsInfo;
 
 public class GameOver implements Screen {
 
@@ -27,7 +26,7 @@ public class GameOver implements Screen {
 	private SpriteBatch batch;
 	private ShapeRenderer render;
 	private Rectangle r;
-	
+	private int Score;
 	
 	//Collections
 	private Texture[] over = new Texture[7];
@@ -39,22 +38,19 @@ public class GameOver implements Screen {
 	private TextButtonStyle styleAgain, styleMenu;
 	private TextButton buttonAgain, buttonMenu;
 	private Stage stage;
-	private BitmapFont font;
-
+	private FreeTypeFontGenerator scorefontgen;
+	private BitmapFont scorefont;
+	private int best;
+	private TextureRegion background;
 	
-	public GameOver(GameRunner runner) {
+	public GameOver(GameRunner runner, int Score, TextureRegion background) {
+		this.background = background;
+		this.Score = Score;
+		scorefont = GameRunner.ScoreFont;
+		
+		best = Gdx.app.getPreferences("Stats").getInteger("HighScore", 0);
+		
 		this.runner = runner;
-
-		
-
-		
-
-		
-		
-		font = new BitmapFont();
-		font.setColor(Color.RED);
-
-		
 		
 		stage = new Stage();
 
@@ -64,22 +60,22 @@ public class GameOver implements Screen {
 		atlasAgain = GameRunner.assets.get("Textures/GameOver/Buttons/Buttons.pack");
 		skinAgain.addRegions(atlasAgain);
 		styleAgain = new TextButtonStyle();
-		styleAgain.up = skinAgain.getDrawable("RetryR");
-		styleAgain.down = skinAgain.getDrawable("RetryP");
-		styleAgain.font = font;
+		styleAgain.up = skinAgain.getDrawable("Retry_released");
+		styleAgain.down = skinAgain.getDrawable("Retry_pressed");
+		styleAgain.font = scorefont;
 
 		skinMenu = new Skin();
 		skinMenu.addRegions(atlasAgain);
 		styleMenu = new TextButtonStyle();
-		styleMenu.up = skinMenu.getDrawable("MenuR");
-		styleMenu.down = skinMenu.getDrawable("MenuP");
-		styleMenu.font = font;
+		styleMenu.up = skinMenu.getDrawable("Home_released");
+		styleMenu.down = skinMenu.getDrawable("Home_pressed");
+		styleMenu.font = scorefont;
 
 		buttonAgain = new TextButton(" ", styleAgain);
-		buttonAgain.setBounds(Gdx.graphics.getWidth() / 2 + 120, Gdx.graphics.getHeight() / 2 + 50, 600, 200);
+		buttonAgain.setBounds(200, Gdx.graphics.getHeight()/2-buttonAgain.getHeight()/2-70,300, 300);
 
 		buttonMenu = new TextButton(" ", styleMenu);
-		buttonMenu.setBounds(Gdx.graphics.getWidth() / 2 - 590, Gdx.graphics.getHeight() - 740, 600, 200);
+		buttonMenu.setBounds(1400, Gdx.graphics.getHeight()/2-buttonMenu.getHeight()/2-70, 300, 300);
 
 		stage.addActor(buttonAgain);
 		stage.addActor(buttonMenu);
@@ -91,7 +87,6 @@ public class GameOver implements Screen {
 		over[3] = GameRunner.assets.get("Textures/GameOver/GameOver0010.png");
 		over[4] = GameRunner.assets.get("Textures/GameOver/GameOver0013.png");
 		over[5] = GameRunner.assets.get("Textures/GameOver/GameOver0016.png");
-		over[6] = GameRunner.assets.get("Textures/GameOver/GameOver0019.png");
 		batch = new SpriteBatch();
 
 	}
@@ -117,7 +112,7 @@ public class GameOver implements Screen {
 						e.printStackTrace();
 					}
 
-					if (index + 1 > 6) {
+					if (index + 1 > 5) {
 						index = -1;
 					}
 					index++;
@@ -143,6 +138,8 @@ public class GameOver implements Screen {
 			Thread.currentThread().interrupt();
 				
 		}
+		
+		System.out.println(best);
 
 		// TO MENU SCREEN
 		if (buttonMenu.isPressed()) {
@@ -153,7 +150,10 @@ public class GameOver implements Screen {
 
 		if (over[index] != null) {
 			batch.begin();
+			batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			batch.draw(over[index], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			scorefont.draw(batch, "Best: " + best, 730, 760);
+			scorefont.draw(batch, "Score: " + Score, 730, 560);
 			batch.end();
 		}
 		stage.draw();
@@ -184,8 +184,6 @@ public class GameOver implements Screen {
 		stage.dispose();
 		skinAgain.dispose();
 		skinMenu.dispose();
-		font.dispose();
-		
 	}
 
 }
