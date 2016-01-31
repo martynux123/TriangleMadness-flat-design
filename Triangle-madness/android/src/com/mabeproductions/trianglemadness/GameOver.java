@@ -118,6 +118,8 @@ public class GameOver implements Screen {
 					index++;
 
 				}
+				
+				Thread.currentThread().interrupt();
 
 			}
 		},"GameOver anim").start();
@@ -135,7 +137,6 @@ public class GameOver implements Screen {
 		if (buttonAgain.isPressed()) {
 			runner.getScreen().dispose();
 			runner.setScreen(new GameSc(runner));
-			Thread.currentThread().interrupt();
 				
 		}
 		
@@ -145,7 +146,6 @@ public class GameOver implements Screen {
 		if (buttonMenu.isPressed()) {
 			runner.getScreen().dispose();
 			runner.setScreen(new GameMenu(runner));
-			Thread.currentThread().interrupt();
 		}
 
 		if (over[index] != null) {

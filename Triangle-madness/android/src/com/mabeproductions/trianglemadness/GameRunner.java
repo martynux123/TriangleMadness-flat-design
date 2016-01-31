@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader.ParticleEffectParameter;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -22,6 +24,7 @@ public class GameRunner extends Game{
 	public static ParticleEffect coinEmitter;
 	public static BitmapFont ScoreFont;
 	public static BitmapFont BigScoreFont;
+
 	
 	@Override
 	public void create() {
@@ -46,6 +49,8 @@ public class GameRunner extends Game{
 		
 		assets.load("Textures/Blue_ball.png", Texture.class);
 		
+		assets.load("Sounds/dzinkt.wav", Sound.class);
+		assets.load("Sounds/gameMusic.wav", Music.class);
 		
 		//GameOver
 		assets.load("Textures/GameOver/GameOver0001.png", Texture.class);

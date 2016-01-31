@@ -7,7 +7,7 @@ import java.util.TimerTask;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 
 public class GameSc implements Screen {
 
@@ -58,13 +57,14 @@ public class GameSc implements Screen {
 	private Texture enemy2;
 	private Texture rockettxt;
 	private boolean isStarted = false;
+	public Music music;
 	
 	public GameSc(GameRunner runnerClass) {
 		
 		box = new Box(this);
 		this.runner = runnerClass;
 
-		
+		music = GameRunner.assets.get("Sounds/gameMusic.wav");
 
 		batch = new SpriteBatch();
 
@@ -95,10 +95,16 @@ public class GameSc implements Screen {
 
 		font = GameRunner.BigScoreFont;
 	}
+	
+	public void gameMusic(){
+		music.setLooping(true);
+		music.play();
+	}
 
 	@Override
 	public void show() {
 		
+		gameMusic();
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		prefs.putInteger("Tries", prefs.getInteger("Tries") + 1);
 		prefs.flush();

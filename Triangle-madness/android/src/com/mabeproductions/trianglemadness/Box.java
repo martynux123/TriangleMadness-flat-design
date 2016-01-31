@@ -19,7 +19,7 @@ import android.text.format.Time;
 public class Box {
 
 	// Settings
-	private final boolean debugMode = false;
+	private final boolean debugMode = true;
 	private float size = 0.6f;
 
 	// Variables
@@ -48,7 +48,7 @@ public class Box {
 
 		pos = new Vector2(Gdx.graphics.getWidth() / 2 - size / 2, Gdx.graphics.getHeight() / 2 - size / 2);
 
-		bounds = new Rectangle(pos.x, pos.y, size, size);
+		bounds = new Rectangle(pos.x, pos.y, size-20, size-20);
 
 		shape = new ShapeRenderer();
 
@@ -70,6 +70,7 @@ public class Box {
 	
 			if(GameSc.coins.get(i).getBounds().overlaps(bounds)){		
 				g.Score++;
+				g.coins.get(i).onAquire();
 				g.coins.remove(i);
 			}
 			
@@ -96,7 +97,7 @@ public class Box {
 			pos.x = touchX - size / 2;
 			pos.y = touchY - (size / 2) + size + 20;
 
-			bounds.setPosition(pos.x, pos.y);
+			bounds.setPosition(pos.x+10, pos.y+10);
 		}
 
 		try {
@@ -157,6 +158,9 @@ public class Box {
 
 		//Changing the screen
 		if (shouldScreenChange) {
+			g.music.stop();
+			g.music = GameRunner.assets.get("Sounds/gameMusic.wav");
+			g.music.setPosition(0);
 			batch.setColor(0,0,0,0.7f);
 			screenshot = ScreenUtils.getFrameBufferTexture();
 			g.runner.getScreen().dispose();

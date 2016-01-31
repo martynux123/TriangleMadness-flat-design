@@ -1,9 +1,6 @@
 package com.mabeproductions.trianglemadness;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -30,6 +27,7 @@ public class Coin {
 	// Objects
 	private Rectangle bounds;
 	private ParticleEffect effect;
+	private Sound sound;
 
 	// Booleans
 	private boolean debugMode = false;
@@ -43,6 +41,7 @@ public class Coin {
 		this.effect = effect;
 		
 		bounds = new Rectangle(x, y, coinSize, coinSize);
+		sound = GameRunner.assets.get("Sounds/dzinkt.wav");
 
 	}
 
@@ -72,6 +71,10 @@ public class Coin {
 
 		}
 
+	}
+	
+	public void onAquire(){
+		sound.play(0.01f);
 	}
 
 	public void update() {
