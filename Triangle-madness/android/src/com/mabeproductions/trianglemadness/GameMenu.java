@@ -1,6 +1,7 @@
 package com.mabeproductions.trianglemadness;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -98,7 +99,9 @@ public class GameMenu implements Screen {
 	
 	@Override
 	public void show() {
-
+		Preferences prefs = Gdx.app.getPreferences("Stats");
+		prefs.putInteger("Tries", 0);
+		prefs.flush();
 		
 	
 	}

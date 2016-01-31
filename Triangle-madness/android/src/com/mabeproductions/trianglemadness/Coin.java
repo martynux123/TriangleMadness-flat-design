@@ -61,16 +61,6 @@ public class Coin {
 	public void render(SpriteBatch batch, ShapeRenderer render) {
 		batch.begin();
 		batch.draw(txt[index], x, y, coinSize, coinSize);
-
-		if (Box.coinParticle) {
-
-			effect.setPosition(Box.pos.x + 30, Box.pos.y );
-			effect.update(Gdx.graphics.getDeltaTime());
-			effect.draw(batch);
-			
-			
-		}
-		
 		batch.end();
 
 		if (debugMode) {

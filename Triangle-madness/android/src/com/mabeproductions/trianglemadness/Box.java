@@ -1,5 +1,8 @@
 package com.mabeproductions.trianglemadness;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +13,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import android.text.format.Time;
 
 public class Box {
 
@@ -31,7 +36,7 @@ public class Box {
 	private ParticleEffect emitter;
 	private int coinIndex=0;
 	private TextureRegion screenshot;
-	public static boolean coinParticle = false;
+	
 	
 	public Box(GameSc g) {
 
@@ -62,23 +67,10 @@ public class Box {
 		//Collecting coins!
 		for (int i = 0; i < GameSc.coins.size(); i++) {
 		
-			
-			if(GameSc.coins.get(i).getBounds().overlaps(bounds)){
-				coinParticle=true;	
-				GameSc.coins.remove(i);		
-				g.Score++;
-				
-
 	
-			}
-			if(coinParticle){
-				coinIndex++;
-				if(coinIndex>=500){
-					
-					coinIndex=0;
-					
-					coinParticle=false;
-				}
+			if(GameSc.coins.get(i).getBounds().overlaps(bounds)){		
+				g.Score++;
+				g.coins.remove(i);
 			}
 			
 		}

@@ -23,7 +23,6 @@ public class GameRunner extends Game{
 	public static BitmapFont ScoreFont;
 	public static BitmapFont BigScoreFont;
 	
-	
 	@Override
 	public void create() {
 		
@@ -37,7 +36,13 @@ public class GameRunner extends Game{
 		FreeTypeFontParameter parameterbig = new FreeTypeFontParameter();
 		parameterbig.size = 200;
 		BigScoreFont = scorefontgen.generateFont(parameterbig);
+		
+	
 		scorefontgen.dispose();
+		
+		
+		
+		
 		
 		assets.load("Textures/Blue_ball.png", Texture.class);
 		
@@ -94,7 +99,7 @@ public class GameRunner extends Game{
 	
 		//Coin Emitter
 		coinEmitter = new ParticleEffect();
-		coinEmitter.load(Gdx.files.internal("Particles/yellowPart1"),Gdx.files.internal(""));
+		coinEmitter.load(Gdx.files.internal("Particles/coinPart"),Gdx.files.internal(""));
 		coinEmitter.scaleEffect(2);
 		
 		assets.finishLoading();
