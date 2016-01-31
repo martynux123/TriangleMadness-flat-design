@@ -24,7 +24,7 @@ public class GameRunner extends Game{
 	public static ParticleEffect coinEmitter;
 	public static BitmapFont ScoreFont;
 	public static BitmapFont BigScoreFont;
-
+	public static BitmapFont PlayFont;
 	
 	@Override
 	public void create() {
@@ -40,6 +40,9 @@ public class GameRunner extends Game{
 		parameterbig.size = 200;
 		BigScoreFont = scorefontgen.generateFont(parameterbig);
 		
+		FreeTypeFontParameter parametersmaller = new FreeTypeFontParameter();
+		parametersmaller.size=120;
+		PlayFont = scorefontgen.generateFont(parametersmaller);
 	
 		scorefontgen.dispose();
 		
@@ -51,6 +54,9 @@ public class GameRunner extends Game{
 		
 		assets.load("Sounds/dzinkt.wav", Sound.class);
 		assets.load("Sounds/gameMusic.wav", Music.class);
+		assets.load("Sounds/gameOver.wav", Sound.class);
+		assets.load("Sounds/gameMenu.wav", Music.class);
+		assets.load("Sounds/stageSound.wav", Sound.class);
 		
 		//GameOver
 		assets.load("Textures/GameOver/GameOver0001.png", Texture.class);
@@ -72,6 +78,9 @@ public class GameRunner extends Game{
 		assets.load("Textures/Menu/5.png", Texture.class);
 		assets.load("Textures/Menu/6.png", Texture.class);
 		assets.load("Textures/Menu/7.png", Texture.class);
+		assets.load("Textures/Menu/8.png", Texture.class);
+		assets.load("Textures/Menu/9.png", Texture.class);
+		assets.load("Textures/Menu/10.png", Texture.class);
 		
 		assets.load("Textures/Menu/play.png", Texture.class);		
 		assets.load("Textures/Menu/circle.pack", TextureAtlas.class);
@@ -94,7 +103,7 @@ public class GameRunner extends Game{
 	
 		//Box particle emitter
 		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/space"), Gdx.files.internal(""));
+		emitter.load(Gdx.files.internal("Particles/BubblePart1"), Gdx.files.internal(""));
 		emitter.scaleEffect(2);
 		
 		//Rocket particle emitter

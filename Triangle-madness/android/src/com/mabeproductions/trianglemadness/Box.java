@@ -1,9 +1,7 @@
 package com.mabeproductions.trianglemadness;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -14,12 +12,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import android.text.format.Time;
-
 public class Box {
 
 	// Settings
-	private final boolean debugMode = true;
+	private final boolean debugMode =false;
 	private float size = 0.6f;
 
 	// Variables
@@ -36,14 +32,14 @@ public class Box {
 	private ParticleEffect emitter;
 	private int coinIndex=0;
 	private TextureRegion screenshot;
-	
+	private Sound sound;
 	
 	public Box(GameSc g) {
 
 		this.g = g;
 
 		ball = GameRunner.assets.get("Textures/Blue_ball.png");
-
+		sound = GameRunner.assets.get("Sounds/gameOver.wav");
 		size = ball.getWidth() * size;
 
 		pos = new Vector2(Gdx.graphics.getWidth() / 2 - size / 2, Gdx.graphics.getHeight() / 2 - size / 2);
@@ -56,6 +52,9 @@ public class Box {
 		
 		
 
+	}
+	public void gameOverMusic(){
+		sound.play(0.08f);
 	}
 
 	public Vector2 getPos() {
@@ -107,6 +106,7 @@ public class Box {
 
 				if (bounds.overlaps(g.enemies2.get(i).bounds) && !shouldScreenChange) {
 					shouldScreenChange = true;
+					
 					vibrate = true;
 					if (vibrate) {
 						Gdx.input.vibrate(200);
@@ -158,6 +158,7 @@ public class Box {
 
 		//Changing the screen
 		if (shouldScreenChange) {
+			gameOverMusic();
 			g.music.stop();
 			g.music = GameRunner.assets.get("Sounds/gameMusic.wav");
 			g.music.setPosition(0);

@@ -18,7 +18,7 @@ public class Coin {
 	private int index = 0;
 	private int tickCount = 0;
 	private int rotationIndex;
-	private int coinSize = 100;
+	private static int coinSize = 100;
 	
 
 	// Collections
@@ -40,7 +40,7 @@ public class Coin {
 		this.index = index;
 		this.effect = effect;
 		
-		bounds = new Rectangle(x, y, coinSize, coinSize);
+		bounds = new Rectangle(x, y, getCoinSize(), getCoinSize());
 		sound = GameRunner.assets.get("Sounds/dzinkt.wav");
 
 	}
@@ -59,7 +59,7 @@ public class Coin {
 
 	public void render(SpriteBatch batch, ShapeRenderer render) {
 		batch.begin();
-		batch.draw(txt[index], x, y, coinSize, coinSize);
+		batch.draw(txt[index], x, y, Coin.getCoinSize(), Coin.getCoinSize());
 		batch.end();
 
 		if (debugMode) {
@@ -74,7 +74,7 @@ public class Coin {
 	}
 	
 	public void onAquire(){
-		sound.play(0.01f);
+		sound.play(0.05f);
 	}
 
 	public void update() {
@@ -98,5 +98,9 @@ public class Coin {
 		rotationIndex++;
 		tickCount++;
 
+	}
+
+	public static int getCoinSize() {
+		return coinSize;
 	}
 }

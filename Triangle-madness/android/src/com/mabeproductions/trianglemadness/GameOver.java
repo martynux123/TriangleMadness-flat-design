@@ -2,6 +2,7 @@ package com.mabeproductions.trianglemadness;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -42,6 +43,8 @@ public class GameOver implements Screen {
 	private BitmapFont scorefont;
 	private int best;
 	private TextureRegion background;
+	private Sound sound;
+	private int total;
 	
 	public GameOver(GameRunner runner, int Score, TextureRegion background) {
 		this.background = background;
@@ -49,11 +52,14 @@ public class GameOver implements Screen {
 		scorefont = GameRunner.ScoreFont;
 		
 		best = Gdx.app.getPreferences("Stats").getInteger("HighScore", 0);
+		total = Gdx.app.getPreferences("Stats").getInteger("TotalScore",0);
 		
 		this.runner = runner;
 		
 		stage = new Stage();
 
+		
+		
 		Gdx.input.setInputProcessor(stage);
 
 		skinAgain = new Skin();
@@ -93,8 +99,13 @@ public class GameOver implements Screen {
 
 	@Override
 	public void show() {
+	
 		gameOverThread();
 
+	}
+	
+	public void gameOverMusic(){
+		sound.play(0.2f);
 	}
 
 	public void gameOverThread() {
@@ -154,6 +165,7 @@ public class GameOver implements Screen {
 			batch.draw(over[index], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			scorefont.draw(batch, "Best: " + best, 730, 760);
 			scorefont.draw(batch, "Score: " + Score, 730, 560);
+			scorefont.draw(batch, "Total: " + total , 680, 350);
 			batch.end();
 		}
 		stage.draw();

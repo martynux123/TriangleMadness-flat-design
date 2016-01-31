@@ -1,20 +1,17 @@
 package com.mabeproductions.trianglemadness;
 
+import java.util.Timer;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-
-import android.graphics.drawable.shapes.Shape;
 
 public class GameMenu implements Screen {
 	
@@ -26,15 +23,16 @@ public class GameMenu implements Screen {
 	private int index;
 	private int angleMid = 0;
 	private int angleOut = 0;
-
+	private BitmapFont playFont;
 	
 	//Objects
 	public Rectangle playBtn;
 	public GameRunner runner;
 	private SpriteBatch batch;
-
+	private Music music;
+	private Timer t;
 	//Collections
-	private Texture[] bg = new Texture[7]; 
+	private Texture[] bg = new Texture[10]; 
 	
 	
 	//Textures
@@ -45,6 +43,9 @@ public class GameMenu implements Screen {
 
 		this.runner = runner;
 		batch = new SpriteBatch();
+		music = GameRunner.assets.get("Sounds/gameMenu.wav");
+		playFont = GameRunner.PlayFont;
+		
 		
 		bg[0] = GameRunner.assets.get("Textures/Menu/1.png");
 		bg[1] = GameRunner.assets.get("Textures/Menu/2.png");
@@ -53,17 +54,33 @@ public class GameMenu implements Screen {
 		bg[4] = GameRunner.assets.get("Textures/Menu/5.png");
 		bg[5] = GameRunner.assets.get("Textures/Menu/6.png");
 		bg[6] = GameRunner.assets.get("Textures/Menu/7.png");
+		bg[7] = GameRunner.assets.get("Textures/Menu/8.png");
+		bg[8] = GameRunner.assets.get("Textures/Menu/9.png");
+		bg[9] = GameRunner.assets.get("Textures/Menu/10.png");
 		
 		play = GameRunner.assets.get("Textures/Menu/play.png");		
 		btn = GameRunner.assets.get("Textures/Menu/circle.pack");
 		
 		
 		playBtn = new Rectangle(Gdx.graphics.getWidth()/2-btn.findRegion("Middle_circle").getRegionWidth()/2,
-				Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight()/2,
+				Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight()/2+200,
 				btn.findRegion("Middle_circle").getRegionWidth(),btn.findRegion("Middle_circle").getRegionHeight());
 		
 		menuThread();
 	}
+	
+	
+	public void menuMusic(){
+		
+	
+		music.setLooping(true);
+		music.play();
+		music.setVolume(0);
+		music.setVolume(1);
+
+		
+	}
+	
 	public void menuThread(){
 		
 		index = 0;
@@ -82,7 +99,7 @@ public class GameMenu implements Screen {
 					
 					
 					
-					if(index+1>6){
+					if(index+1>9){
 						index = -1;
 					}
 					index++;
@@ -99,6 +116,8 @@ public class GameMenu implements Screen {
 	
 	@Override
 	public void show() {
+		menuMusic();
+		
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		prefs.putInteger("Tries", 0);
 		prefs.flush();
@@ -115,17 +134,18 @@ public class GameMenu implements Screen {
 		
 		
 		batch.draw(btn.findRegion("Middle_circle"),Gdx.graphics.getWidth()/2-btn.findRegion("Middle_circle").getRegionWidth()
-				, Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight(),
+				, Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight() - 100,
 				btn.findRegion("Middle_circle").getRegionWidth(), btn.findRegion("Middle_circle").getRegionHeight()
-				, 400, 400, 1, 1, angleMid);
+				, 400, 400, 1.5f, 1.5f, angleMid);
 		
 		batch.draw(btn.findRegion("Outter_circle"),Gdx.graphics.getWidth()/2-btn.findRegion("Outter_circle").getRegionWidth()
-				, Gdx.graphics.getHeight()/2-btn.findRegion("Outter_circle").getRegionHeight(),
+				, Gdx.graphics.getHeight()/2-btn.findRegion("Outter_circle").getRegionHeight() - 100,
 				btn.findRegion("Outter_circle").getRegionWidth(), btn.findRegion("Outter_circle").getRegionHeight()
-				, 400, 400, 1, 1, angleOut);
+				, 400, 400, 1.5f, 1.5f, angleOut);
 		
 		
-		batch.draw(play, Gdx.graphics.getWidth()/2-play.getWidth()/2-50,Gdx.graphics.getHeight()/2-play.getHeight()/2-30, 200,100); 
+		playFont.draw(batch, "PLAY", Gdx.graphics.getWidth()/2-160, Gdx.graphics.getHeight()-600);
+		
 		
 		batch.end();
 		
@@ -134,9 +154,11 @@ public class GameMenu implements Screen {
 		
 		}
 		if(gameScreenSwitch){
+			music.stop();
 			runner.setScreen(new GameSc(runner));
 			this.dispose();
 			gameScreenSwitch = false;
+			
 		}
 	}
 
