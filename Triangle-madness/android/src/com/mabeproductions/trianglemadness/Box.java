@@ -49,9 +49,6 @@ public class Box {
 		shape = new ShapeRenderer();
 
 		this.emitter = GameRunner.emitter;
-		
-		
-
 	}
 	public void gameOverMusic(){
 		sound.play(0.08f);

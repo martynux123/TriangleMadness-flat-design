@@ -47,6 +47,8 @@ public class GameMenu implements Screen {
 		playFont = GameRunner.PlayFont;
 		
 		
+		
+		
 		bg[0] = GameRunner.assets.get("Textures/Menu/1.png");
 		bg[1] = GameRunner.assets.get("Textures/Menu/2.png");
 		bg[2] = GameRunner.assets.get("Textures/Menu/3.png");

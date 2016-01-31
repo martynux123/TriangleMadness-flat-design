@@ -13,6 +13,7 @@ public class Broadcaster {
 	private String text;
 	private BitmapFont BigScoreFont;
 	private GameRunner runner;
+	
 	private GameSc g;
 	public Broadcaster(int x, int y, float speed, String text, GameSc g){
 		this.x = x;
