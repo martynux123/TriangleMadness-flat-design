@@ -1,6 +1,7 @@
 package com.mabeproductions.trianglemadness;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -47,21 +48,44 @@ public class GameOver implements Screen {
 	private int total;
 	
 	public GameOver(GameRunner runner, int Score, TextureRegion background) {
+		
+		Preferences prefs = Gdx.app.getPreferences("Stats");
 		this.background = background;
 		this.Score = Score;
+		this.runner = runner;
+		
+		if(prefs.getInteger("Tries", 0) % 4 == 0){
+			GameRunner.adcontroller.showInterAd(new Runnable() {
+				
+				@Override
+				public void run() {
+					System.out.println("TOASGASG");
+				}
+			});
+		}
+		
+		
+		
+
+	}
+
+	@Override
+	public void show() {
+	
+		
+		gameOverThread();
 		scorefont = GameRunner.ScoreFont;
 		
 		best = Gdx.app.getPreferences("Stats").getInteger("HighScore", 0);
 		total = Gdx.app.getPreferences("Stats").getInteger("TotalScore",0);
 		
-		this.runner = runner;
 		
 		stage = new Stage();
-
+		
 		
 		
 		Gdx.input.setInputProcessor(stage);
-
+		
 		skinAgain = new Skin();
 		atlasAgain = GameRunner.assets.get("Textures/GameOver/Buttons/Buttons.pack");
 		skinAgain.addRegions(atlasAgain);
@@ -69,24 +93,24 @@ public class GameOver implements Screen {
 		styleAgain.up = skinAgain.getDrawable("Retry_released");
 		styleAgain.down = skinAgain.getDrawable("Retry_pressed");
 		styleAgain.font = scorefont;
-
+		
 		skinMenu = new Skin();
 		skinMenu.addRegions(atlasAgain);
 		styleMenu = new TextButtonStyle();
 		styleMenu.up = skinMenu.getDrawable("Home_released");
 		styleMenu.down = skinMenu.getDrawable("Home_pressed");
 		styleMenu.font = scorefont;
-
+		
 		buttonAgain = new TextButton(" ", styleAgain);
-		buttonAgain.setBounds(200, Gdx.graphics.getHeight()/2-buttonAgain.getHeight()/2-70,300, 300);
-
+		buttonAgain.setBounds(Gdx.graphics.getWidth()*0.1f, Gdx.graphics.getHeight()*0.38f,300, 300);
+		
 		buttonMenu = new TextButton(" ", styleMenu);
-		buttonMenu.setBounds(1400, Gdx.graphics.getHeight()/2-buttonMenu.getHeight()/2-70, 300, 300);
-
+		buttonMenu.setBounds(Gdx.graphics.getWidth()*0.75f, Gdx.graphics.getHeight()*0.38f, 300, 300);
+		
 		stage.addActor(buttonAgain);
 		stage.addActor(buttonMenu);
 		// END
-
+		
 		over[0] = GameRunner.assets.get("Textures/GameOver/GameOver0001.png");
 		over[1] = GameRunner.assets.get("Textures/GameOver/GameOver0004.png");
 		over[2] = GameRunner.assets.get("Textures/GameOver/GameOver0007.png");
@@ -94,13 +118,6 @@ public class GameOver implements Screen {
 		over[4] = GameRunner.assets.get("Textures/GameOver/GameOver0013.png");
 		over[5] = GameRunner.assets.get("Textures/GameOver/GameOver0016.png");
 		batch = new SpriteBatch();
-
-	}
-
-	@Override
-	public void show() {
-	
-		gameOverThread();
 
 	}
 	
@@ -163,9 +180,9 @@ public class GameOver implements Screen {
 			batch.begin();
 			batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			batch.draw(over[index], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			scorefont.draw(batch, "Best: " + best, 730, 760);
-			scorefont.draw(batch, "Score: " + Score, 730, 560);
-			scorefont.draw(batch, "Total: " + total , 680, 350);
+			scorefont.draw(batch, "Best: " + best, Gdx.graphics.getWidth()*0.35f, Gdx.graphics.getHeight()*0.7f);
+			scorefont.draw(batch, "Score: " + Score, Gdx.graphics.getWidth()*0.35f, Gdx.graphics.getHeight()*0.52f);
+			scorefont.draw(batch, "Total: " + total , Gdx.graphics.getWidth()*0.35f, Gdx.graphics.getHeight()*0.32f);
 			batch.end();
 		}
 		stage.draw();

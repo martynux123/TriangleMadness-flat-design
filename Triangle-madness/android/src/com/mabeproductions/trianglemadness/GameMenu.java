@@ -34,21 +34,16 @@ public class GameMenu implements Screen {
 	//Collections
 	private Texture[] bg = new Texture[10]; 
 	
-	
 	//Textures
 	private TextureAtlas btn;
 	private Texture play;
 	
 	public GameMenu(GameRunner runner){
-
 		this.runner = runner;
-		batch = new SpriteBatch();
 		music = GameRunner.assets.get("Sounds/gameMenu.wav");
+		GameRunner.adcontroller.showAd();
+		batch = new SpriteBatch();
 		playFont = GameRunner.PlayFont;
-		
-		
-		
-		
 		bg[0] = GameRunner.assets.get("Textures/Menu/1.png");
 		bg[1] = GameRunner.assets.get("Textures/Menu/2.png");
 		bg[2] = GameRunner.assets.get("Textures/Menu/3.png");
@@ -63,13 +58,15 @@ public class GameMenu implements Screen {
 		play = GameRunner.assets.get("Textures/Menu/play.png");		
 		btn = GameRunner.assets.get("Textures/Menu/circle.pack");
 		
-		
-		playBtn = new Rectangle(Gdx.graphics.getWidth()/2-btn.findRegion("Middle_circle").getRegionWidth()/2,
-				Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight()/2+200,
-				btn.findRegion("Middle_circle").getRegionWidth(),btn.findRegion("Middle_circle").getRegionHeight());
+		playBtn = new Rectangle(Gdx.graphics.getWidth()*0.42f, Gdx.graphics.getHeight()*0.46f, 200, 200);
 		
 		menuThread();
+		
+			
+		
 	}
+	
+	
 	
 	
 	public void menuMusic(){
@@ -118,8 +115,8 @@ public class GameMenu implements Screen {
 	
 	@Override
 	public void show() {
-		menuMusic();
 		
+		menuMusic();
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		prefs.putInteger("Tries", 0);
 		prefs.flush();
@@ -146,16 +143,21 @@ public class GameMenu implements Screen {
 				, 400, 400, 1.5f, 1.5f, angleOut);
 		
 		
-		playFont.draw(batch, "PLAY", Gdx.graphics.getWidth()/2-160, Gdx.graphics.getHeight()-600);
+		playFont.draw(batch, "PLAY", Gdx.graphics.getWidth()*0.42f, Gdx.graphics.getHeight()*0.46f);
 		
 		
 		batch.end();
+		
+		
+		
+		
 		
 		if(playBtn.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.justTouched()){
 			gameScreenSwitch=true;
 		
 		}
 		if(gameScreenSwitch){
+			GameRunner.adcontroller.hideAd();
 			music.stop();
 			runner.setScreen(new GameSc(runner));
 			this.dispose();

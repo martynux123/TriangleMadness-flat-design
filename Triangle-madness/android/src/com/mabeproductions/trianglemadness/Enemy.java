@@ -81,7 +81,7 @@ public class Enemy {
 	}
 
 	public void update() {
-		//Moving every 30 ticks for optimization purposes
+		//Moving every 7 ticks
 		if(tickCount >= 30){
 			y += speed;
 			tickCount = 0;

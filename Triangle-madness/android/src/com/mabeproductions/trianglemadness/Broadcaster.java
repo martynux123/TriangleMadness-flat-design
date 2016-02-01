@@ -59,7 +59,7 @@ public class Broadcaster {
 					}
 	
 				}
-				while(x<Gdx.graphics.getWidth()){
+				while(x<Gdx.graphics.getWidth() + 50){
 					try {
 						Thread.sleep(10);
 						x+=speed;

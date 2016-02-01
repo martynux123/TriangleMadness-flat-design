@@ -124,7 +124,7 @@ public class GameSc implements Screen {
 	@Override
 	public void show() {
 		
-		gameMusic();
+		
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		prefs.putInteger("Tries", prefs.getInteger("Tries") + 1);
 		prefs.flush();
@@ -139,6 +139,7 @@ public class GameSc implements Screen {
 					if(Gdx.input.justTouched())
 						isStarted = true;
 				}
+				gameMusic();
 					
 				gameStages();
 				enemyFromTopThread();
@@ -262,7 +263,7 @@ public class GameSc implements Screen {
 			coins.get(i).update();
 
 			// Removes a coin if it's < 0
-			if (coins.get(i).getY() < 0) {
+			if (coins.get(i).getY() < -Coin.getCoinSize()) {
 				coins.remove(coins.get(i));
 
 			}
@@ -360,7 +361,7 @@ public class GameSc implements Screen {
 						}
 						if(stage == 4){
 							enemySpeed = -32;
-							enemyDelay = 130;
+							enemyDelay = 140;
 						}
 						int x = MathUtils.random(0, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
 						int y = Gdx.graphics.getHeight() + Enemy.UNIFORM_HEIGHT;

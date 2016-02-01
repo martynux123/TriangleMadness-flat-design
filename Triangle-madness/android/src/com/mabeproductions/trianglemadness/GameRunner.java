@@ -25,10 +25,14 @@ public class GameRunner extends Game{
 	public static BitmapFont ScoreFont;
 	public static BitmapFont BigScoreFont;
 	public static BitmapFont PlayFont;
+	public static AdController adcontroller;
+	
+	public GameRunner(AdController adcontroller) {
+		this.adcontroller = adcontroller;
+	}
 	
 	@Override
 	public void create() {
-		
 		assets = new AssetManager();
 		
 		FreeTypeFontGenerator scorefontgen = new FreeTypeFontGenerator(Gdx.files.internal("Font.ttf"));
