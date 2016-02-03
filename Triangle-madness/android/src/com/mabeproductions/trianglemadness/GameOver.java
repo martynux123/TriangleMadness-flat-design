@@ -163,7 +163,7 @@ public class GameOver implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		// TO GAMESCREEN
 		if (buttonAgain.isPressed()) {
-			runner.getScreen().dispose();
+//			runner.getScreen().dispose();
 			runner.setScreen(new GameSc(runner));
 				
 		}
@@ -172,7 +172,7 @@ public class GameOver implements Screen {
 
 		// TO MENU SCREEN
 		if (buttonMenu.isPressed()) {
-			runner.getScreen().dispose();
+//			runner.getScreen().dispose();
 			runner.setScreen(new GameMenu(runner));
 		}
 

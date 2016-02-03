@@ -1,6 +1,7 @@
 package com.mabeproductions.trianglemadness;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -41,7 +42,16 @@ public class GameMenu implements Screen {
 	public GameMenu(GameRunner runner){
 		this.runner = runner;
 		music = GameRunner.assets.get("Sounds/gameMenu.wav");
-		GameRunner.adcontroller.showAd();
+		
+		//Delaying the ad for it to work propertly
+		new Timer().schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				GameRunner.adcontroller.showAd();
+			}
+		}, 200);
+		
 		batch = new SpriteBatch();
 		playFont = GameRunner.PlayFont;
 		bg[0] = GameRunner.assets.get("Textures/Menu/1.png");
