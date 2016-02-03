@@ -27,7 +27,7 @@ public class Rocket {
 	
 	
 	//Booleans
-	private final boolean debugRocket=true;
+	private final boolean debugRocket=false;
 	
 	
 	//Objects
@@ -84,7 +84,7 @@ public class Rocket {
 			
 		}
 		//TICK count.
-		if(tickCount >= 2){
+		if(tickCount >= 3){
 			x+= speed;
 			tickCount = 0;
 		}
