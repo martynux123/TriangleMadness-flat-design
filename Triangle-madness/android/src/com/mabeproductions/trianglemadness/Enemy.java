@@ -29,9 +29,9 @@ public class Enemy {
 	
 	
 	//Variables
-	private int x = 100;
-	private int y = 100;
-	private int speed;
+	private float x = 100;
+	private float y = 100;
+	private float speed;
 	public static final int UNIFORM_WIDTH = (int) (Gdx.graphics.getHeight()*0.111f);
 	public static final int UNIFORM_HEIGHT = (int) (Gdx.graphics.getHeight()*0.111f);
 	private int width = 60;
@@ -41,7 +41,7 @@ public class Enemy {
 	
 	
 
-	public Enemy(int x, int y, int speed, int width, int height, Texture currentTexture) {
+	public Enemy(float x, float y, float speed, int width, int height, Texture currentTexture) {
 		this.currentTexture = currentTexture;
 		this.x = x;
 		this.width = width;
@@ -51,21 +51,26 @@ public class Enemy {
 		bounds = new Rectangle(x, y, width, height);
 	}
 
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 
 	public void render(SpriteBatch batch, ShapeRenderer shape) {
-
+		//System.out.println(x + " " + y);
+		if(tickCount >= 2){
+			y += speed;
+			tickCount = 0;
+		}
+		
 		bounds.set(x, y, width, height);
 
 		//Drawing enemy
 		batch.begin();
-		batch.draw(currentTexture, x, y, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT);
+		batch.draw(currentTexture, Math.round(x), Math.round(y), Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT);
 		batch.end();
 		
 		//Debugging
@@ -78,15 +83,11 @@ public class Enemy {
 			shape.end();
 		}
 		
+		//Moving every 2 ticks
+		tickCount++;
 	}
 
 	public void update() {
-		//Moving every 7 ticks
-		if(tickCount >= 30){
-			y += speed;
-			tickCount = 0;
-		}
-		tickCount++;
 
 	}
 	

@@ -41,7 +41,7 @@ public class GameRunner extends Game{
 		ScoreFont = scorefontgen.generateFont(parameter);
  		
 		FreeTypeFontParameter parameterbig = new FreeTypeFontParameter();
-		parameterbig.size = (int) (Gdx.graphics.getHeight()*0.185f);
+		parameterbig.size = (int) (Gdx.graphics.getHeight()*0.199f);
 		BigScoreFont = scorefontgen.generateFont(parameterbig);
 		
 		FreeTypeFontParameter parametersmaller = new FreeTypeFontParameter();
@@ -73,7 +73,7 @@ public class GameRunner extends Game{
 		
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);
-		
+	
 		
 		assets.load("Textures/Menu/1.png", Texture.class);
 		assets.load("Textures/Menu/2.png", Texture.class);
@@ -102,6 +102,18 @@ public class GameRunner extends Game{
 		assets.load("Coins/5.png", Texture.class);
 		assets.load("Coins/6.png", Texture.class);
 		assets.load("Coins/7.png", Texture.class);
+		
+		assets.load("Circle/Circle10001.png", Texture.class);
+		assets.load("Circle/Circle10003.png", Texture.class);
+		assets.load("Circle/Circle10005.png", Texture.class);
+		assets.load("Circle/Circle10007.png", Texture.class);
+		assets.load("Circle/Circle10009.png", Texture.class);
+		assets.load("Circle/Circle10011.png", Texture.class);
+		assets.load("Circle/Circle10013.png", Texture.class);
+		assets.load("Circle/Circle10015.png", Texture.class);
+	
+		
+	
 		
 		
 	

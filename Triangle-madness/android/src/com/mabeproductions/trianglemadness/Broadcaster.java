@@ -41,7 +41,7 @@ public class Broadcaster {
 			
 			@Override
 			public void run() {
-				while(x<Gdx.graphics.getWidth()/2-700){
+				while(x<Gdx.graphics.getWidth()/2-Gdx.graphics.getHeight()*0.6481f){
 					try {
 						Thread.sleep(10);
 						x+=speed;
@@ -49,7 +49,7 @@ public class Broadcaster {
 						e.printStackTrace();
 					}
 				}
-				while(x<Gdx.graphics.getWidth()/2-200){
+				while(x<Gdx.graphics.getWidth()/2-Gdx.graphics.getHeight()*0.1851f){
 					try {
 						Thread.sleep(30);
 						x+=speed;
@@ -59,7 +59,7 @@ public class Broadcaster {
 					}
 	
 				}
-				while(x<Gdx.graphics.getWidth() + 50){
+				while(x<Gdx.graphics.getWidth() + Gdx.graphics.getHeight()*0.046296f){
 					try {
 						Thread.sleep(10);
 						x+=speed;

@@ -29,7 +29,7 @@ public class GameSc implements Screen {
 	private int tickCountsCoins;
 	private int CoinsDelay = 900;
 	private int index = 0;
-	private int enemySpeed = -15;
+	private float enemySpeed = -15;
 	private int enemyDelay = 350;
 	private int tickCountEnemySpeed = 0;
 	public int Score = 0;
@@ -87,7 +87,7 @@ public class GameSc implements Screen {
 		shape = new ShapeRenderer();
 
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		spawnRocket(Gdx.graphics.getWidth() + 200, (int) box.getPos().y, 15, -90, rockettxt, emitter);
+		spawnRocket(Gdx.graphics.getWidth() + 200, (int) box.getPos().y, (int) (Gdx.graphics.getHeight()*0.0138f), -90, rockettxt, emitter);
 
 
 		cointxt[0] = GameRunner.assets.get("Coins/1.png");
@@ -134,7 +134,7 @@ public class GameSc implements Screen {
 			
 			@Override
 			public void run() {
-				broadcaster = new Broadcaster(130, Gdx.graphics.getHeight()-100, 0, "PRESS TO START", GameSc.this);
+				broadcaster = new Broadcaster((int) (Gdx.graphics.getHeight()*0.1203f), (int) (Gdx.graphics.getHeight()-Gdx.graphics.getHeight()*0.0925f), 0, "PRESS TO START", GameSc.this);
 				while(!isStarted){
 					if(Gdx.input.justTouched())
 						isStarted = true;
@@ -153,7 +153,7 @@ public class GameSc implements Screen {
 						while (runner.getScreen() == GameSc.this) {
 							try {
 								// Sleeping a thread for thread delays to be alike
-								Thread.sleep(1);
+							Thread.sleep(1);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -181,7 +181,7 @@ public class GameSc implements Screen {
 					
 					try {
 						stageSound();
-						broadcaster = new Broadcaster(0, Gdx.graphics.getHeight()-100, 15, "STAGE: " + stage, GameSc.this);
+						broadcaster = new Broadcaster(0, (int) (Gdx.graphics.getHeight()-Gdx.graphics.getHeight()*0.0925f), Gdx.graphics.getHeight()*0.0138f, "STAGE " + stage, GameSc.this);
 						Thread.sleep(30000);
 						stage++;
 						
@@ -192,7 +192,7 @@ public class GameSc implements Screen {
 
 				}
 				
-				broadcaster = new Broadcaster(0, Gdx.graphics.getHeight()-100, 15, "Freeplay", GameSc.this);
+				broadcaster = new Broadcaster(0, (int) (Gdx.graphics.getHeight()-Gdx.graphics.getHeight()*0.0925f), Gdx.graphics.getHeight()*0.0138f, "Freeplay", GameSc.this);
 				
 				Thread.currentThread().interrupt();
 
@@ -220,14 +220,14 @@ public class GameSc implements Screen {
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		font.draw(batch, "" + Score, Gdx.graphics.getWidth() / 2 - (String.valueOf(Score).length() * 20),
-				Gdx.graphics.getHeight() / 2 + 50);
+				Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight()*0.0462f);
 
 		if(!isStarted){
 			
 			if(Gdx.app.getPreferences("Stats").getInteger("Tries") > 1){
-				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " tries", Gdx.graphics.getWidth()/2 - 300, 300);
+				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " TRIES", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.2777f , Gdx.graphics.getHeight()*0.2777f);
 			}else{
-				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " try", Gdx.graphics.getWidth()/2 - 300, 300);
+				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " TRY", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.2777f, Gdx.graphics.getHeight()*0.2777f);
 			}
 		}
 		batch.end();
@@ -285,11 +285,11 @@ public class GameSc implements Screen {
 		// Spawning rockets
 		if (randomDirection == 0) {
 			if(stage == 2)
-				rocketSpeed = 25;
+				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.0231f);
 			if(stage == 3)
-				rocketSpeed = 35;
+				rocketSpeed =(int) (Gdx.graphics.getHeight()*0.0324f) ;
 			if(stage == 4)
-				rocketSpeed = 45;
+				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.0416f);
 				
 			
 			if (rocketTickCount >= rocketDelayTickCount) {
@@ -305,15 +305,15 @@ public class GameSc implements Screen {
 
 		if (randomDirection == 1) {
 			if(stage == 2)
-				rocketSpeed = -25;
+				rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0231f);
 			if(stage == 3)
-				rocketSpeed = -35;
+				rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0324f);
 			if(stage == 4)
-				rocketSpeed = -45;
+				rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0416f);
 			if (rocketTickCount >= rocketDelayTickCount) {
 				rocketDelayTickCount = MathUtils.random(4000, 5000);
 
-				spawnRocket(Gdx.graphics.getWidth() + 200, (int) box.getPos().y - 300, -20, 90, rockettxt, emitter);
+				spawnRocket(Gdx.graphics.getWidth() + 200, (int) (box.getPos().y - Gdx.graphics.getHeight()*0.2777f), rocketSpeed, 90, rockettxt, emitter);
 				rocketTickCount = 0;
 			}
 			if(stage>1){
@@ -326,7 +326,8 @@ public class GameSc implements Screen {
 		// Spawning coins
 		if (tickCountsCoins >= CoinsDelay) {
 			int x = MathUtils.random(Gdx.graphics.getWidth() - Coin.getCoinSize());
-			spawnCoin(x, Gdx.graphics.getHeight(), 18, cointxt, index, coinEmitter);
+			spawnCoin(x, Gdx.graphics.getHeight(), (int) (Gdx.graphics.getHeight()*0.0166f), cointxt, index, coinEmitter);
+		
 			tickCountsCoins = 0;
 		}
 		tickCountsCoins++;
@@ -345,27 +346,27 @@ public class GameSc implements Screen {
 				while (runner.getScreen() == GameSc.this) {
 					if (!game_paused) {
 
-						
+						System.out.println(enemySpeed);
 						if(stage == 1){
-							enemySpeed = -17;
+							enemySpeed = - Gdx.graphics.getHeight()*0.0157f;
 							enemyDelay = 310;
 							
 						}
 						if(stage == 2){
-							enemySpeed = -22;
+							enemySpeed = -Gdx.graphics.getHeight()*0.02037f;
 							enemyDelay = 250;
 						}
 						if(stage == 3){
-							enemySpeed = -27;
+							enemySpeed = -Gdx.graphics.getHeight()*0.025f;
 							enemyDelay = 200;
 						}
 						if(stage == 4){
-							enemySpeed = -32;
+							enemySpeed = -Gdx.graphics.getHeight()*0.0296f;
 							enemyDelay = 140;
 						}
-						int x = MathUtils.random(0, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
-						int y = Gdx.graphics.getHeight() + Enemy.UNIFORM_HEIGHT;
-						spawnEnemyFromTop(x, y, enemySpeed, enemy2);
+						float x = MathUtils.random(0, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
+						float y = Gdx.graphics.getHeight() + Enemy.UNIFORM_HEIGHT;
+						spawnEnemyFromTop(x, y,Math.round( enemySpeed), enemy2);
 
 						for (int i = 0; i < enemies2.size(); i++) {
 							if (enemies2.get(i).getY() + Enemy.UNIFORM_HEIGHT < 0) {
@@ -392,7 +393,7 @@ public class GameSc implements Screen {
 
 	}
 
-	public void spawnEnemyFromTop(int x, int y, int speed, Texture currentTexture) {
+	public void spawnEnemyFromTop(float x, float y, float  speed, Texture currentTexture) {
 		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, currentTexture);
 		enemies2.add(enemy);
 

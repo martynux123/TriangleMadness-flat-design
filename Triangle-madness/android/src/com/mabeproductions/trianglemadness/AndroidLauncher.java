@@ -9,9 +9,6 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,24 +67,35 @@ public class AndroidLauncher extends AndroidApplication implements AdController{
 
 	@Override
 	public void showAd() {
-		if(checkWifiState()){
 			runOnUiThread(new Runnable() {
 				
 				@Override
 				public void run() {
 					bannerAd.setVisibility(View.VISIBLE);
+
 					bannerAd.setAdListener(new AdListener() {
 						public void onAdFailedToLoad(int errorCode){
 							hideAd();
 						}
 					});
+
+					
+					bannerAd.setAdListener(new AdListener() {
+						
+						@Override
+						public void onAdFailedToLoad(int errorCode){
+							hideAd();
+						}
+						
+					});
+					
 					AdRequest.Builder builder = new AdRequest.Builder();
 //					builder.addTestDevice("84DF0F6B279E1E5F921C2BE75617A14A");
 					AdRequest ad = builder.build();
 					bannerAd.loadAd(ad);
 				}
 			});
-		}
+		
 	}
 
 	@Override
@@ -104,7 +112,9 @@ public class AndroidLauncher extends AndroidApplication implements AdController{
 
 	@Override
 	public void showInterAd(final Runnable afterThread) {
-		if(checkWifiState()){
+		
+//		if(intersitialAd.isLoaded()){
+			
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
@@ -122,15 +132,9 @@ public class AndroidLauncher extends AndroidApplication implements AdController{
 					intersitialAd.show();
 				}
 			});
-		}
+//		}
 	}
 	
-	private boolean checkWifiState(){
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		@SuppressWarnings("deprecation")
-		NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		
-		return (ni != null && ni.isConnected());	
-	}
+
 
 }
