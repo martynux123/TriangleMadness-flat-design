@@ -16,7 +16,7 @@ public class Box {
 
 	// Settings
 	private final boolean debugMode =false;
-	private float size = 0.6f;
+	private float size = Gdx.graphics.getHeight()*0.00056f;
 
 	// Variables
 	private int touchX;
@@ -44,7 +44,7 @@ public class Box {
 
 		pos = new Vector2(Gdx.graphics.getWidth() / 2 - size / 2, Gdx.graphics.getHeight() / 2 - size / 2);
 
-		bounds = new Rectangle(pos.x, pos.y, size-20, size-20);
+		bounds = new Rectangle(pos.x, pos.y, size-Gdx.graphics.getHeight()*0.0185f, size-Gdx.graphics.getHeight()*0.0185f);
 
 		shape = new ShapeRenderer();
 
@@ -91,9 +91,9 @@ public class Box {
 
 		if (isTouched) {
 			pos.x = touchX - size / 2;
-			pos.y = touchY - (size / 2) + size + 20;
+			pos.y = touchY - (size / 2) + size + Gdx.graphics.getHeight()*0.0185f;
 
-			bounds.setPosition(pos.x+10, pos.y+10);
+			bounds.setPosition(pos.x+Gdx.graphics.getHeight()*0.0092f, pos.y+Gdx.graphics.getHeight()*0.0092f);
 		}
 
 		try {
@@ -147,7 +147,7 @@ public class Box {
 		// Drawing a box
 
 		batch.begin();
-		emitter.setPosition(pos.x + size / 2 + 10, pos.y + size / 2 + 10);
+		emitter.setPosition(pos.x + size / 2 + Gdx.graphics.getHeight()*0.00925f, pos.y + size / 2 + Gdx.graphics.getHeight()*0.00925f);
 		emitter.update(Gdx.graphics.getDeltaTime());
 		emitter.draw(batch);
 		batch.draw(GameRunner.assets.get("Textures/Blue_ball.png", Texture.class), pos.x, pos.y, size, size);

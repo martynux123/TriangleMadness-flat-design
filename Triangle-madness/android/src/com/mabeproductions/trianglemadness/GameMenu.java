@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 public class GameMenu implements Screen {
@@ -18,7 +20,7 @@ public class GameMenu implements Screen {
 	//Booleans
 	public boolean isFinger = true;
 	private boolean gameScreenSwitch;
-	
+	private boolean debugMode = false;
 	//Variables
 	private int index;
 	private int angleMid = 0;
@@ -30,7 +32,8 @@ public class GameMenu implements Screen {
 	public GameRunner runner;
 	private SpriteBatch batch;
 	private Music music;
-	private Timer t;
+	private ShapeRenderer render;
+	
 	//Collections
 	private Texture[] bg = new Texture[10]; 
 	
@@ -43,7 +46,9 @@ public class GameMenu implements Screen {
 		music = GameRunner.assets.get("Sounds/gameMenu.wav");
 		GameRunner.adcontroller.showAd();
 		batch = new SpriteBatch();
+		
 		playFont = GameRunner.PlayFont;
+		
 		bg[0] = GameRunner.assets.get("Textures/Menu/1.png");
 		bg[1] = GameRunner.assets.get("Textures/Menu/2.png");
 		bg[2] = GameRunner.assets.get("Textures/Menu/3.png");
@@ -58,7 +63,9 @@ public class GameMenu implements Screen {
 		play = GameRunner.assets.get("Textures/Menu/play.png");		
 		btn = GameRunner.assets.get("Textures/Menu/circle.pack");
 		
-		playBtn = new Rectangle(Gdx.graphics.getWidth()*0.42f, Gdx.graphics.getHeight()*0.46f, 200, 200);
+		playBtn = new Rectangle(Gdx.graphics.getWidth()*0.45f, Gdx.graphics.getHeight()*0.37f, Gdx.graphics.getHeight()*0.2f, Gdx.graphics.getHeight()*0.175f);
+		
+		render = new ShapeRenderer();
 		
 		menuThread();
 		
@@ -135,12 +142,12 @@ public class GameMenu implements Screen {
 		batch.draw(btn.findRegion("Middle_circle"),Gdx.graphics.getWidth()/2-btn.findRegion("Middle_circle").getRegionWidth()
 				, Gdx.graphics.getHeight()/2-btn.findRegion("Middle_circle").getRegionHeight() - 100,
 				btn.findRegion("Middle_circle").getRegionWidth(), btn.findRegion("Middle_circle").getRegionHeight()
-				, 400, 400, 1.5f, 1.5f, angleMid);
+				, Gdx.graphics.getHeight()*0.37f, Gdx.graphics.getHeight()*0.37f, 1.5f, 1.5f, angleMid);
 		
 		batch.draw(btn.findRegion("Outter_circle"),Gdx.graphics.getWidth()/2-btn.findRegion("Outter_circle").getRegionWidth()
 				, Gdx.graphics.getHeight()/2-btn.findRegion("Outter_circle").getRegionHeight() - 100,
 				btn.findRegion("Outter_circle").getRegionWidth(), btn.findRegion("Outter_circle").getRegionHeight()
-				, 400, 400, 1.5f, 1.5f, angleOut);
+				, Gdx.graphics.getHeight()*0.37f, Gdx.graphics.getHeight()*0.37f, 1.5f, 1.5f, angleOut);
 		
 		
 		playFont.draw(batch, "PLAY", Gdx.graphics.getWidth()*0.42f, Gdx.graphics.getHeight()*0.46f);
@@ -148,11 +155,19 @@ public class GameMenu implements Screen {
 		
 		batch.end();
 		
+		if(debugMode){
+			
+			render.begin(ShapeType.Line);
+			render.setAutoShapeType(true);
+			render.rect(playBtn.x, playBtn.y, playBtn.width, playBtn.height);
+			render.end();
+		}
 		
 		
+	int	touchX = Gdx.input.getX();
+	int	touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);
 		
-		
-		if(playBtn.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.justTouched()){
+		if(playBtn.contains(touchX, touchY )&& Gdx.input.justTouched()){
 			gameScreenSwitch=true;
 		
 		}

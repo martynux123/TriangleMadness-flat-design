@@ -32,8 +32,8 @@ public class Enemy {
 	private int x = 100;
 	private int y = 100;
 	private int speed;
-	public static final int UNIFORM_WIDTH = 120;
-	public static final int UNIFORM_HEIGHT = 120;
+	public static final int UNIFORM_WIDTH = (int) (Gdx.graphics.getHeight()*0.111f);
+	public static final int UNIFORM_HEIGHT = (int) (Gdx.graphics.getHeight()*0.111f);
 	private int width = 60;
 	private int height = 60;
 	private int tickCount = 0;

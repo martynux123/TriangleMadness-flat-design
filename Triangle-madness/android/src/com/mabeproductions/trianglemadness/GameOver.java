@@ -59,7 +59,7 @@ public class GameOver implements Screen {
 				
 				@Override
 				public void run() {
-					System.out.println("TOASGASG");
+					
 				}
 			});
 		}
@@ -102,10 +102,10 @@ public class GameOver implements Screen {
 		styleMenu.font = scorefont;
 		
 		buttonAgain = new TextButton(" ", styleAgain);
-		buttonAgain.setBounds(Gdx.graphics.getWidth()*0.1f, Gdx.graphics.getHeight()*0.38f,300, 300);
+		buttonAgain.setBounds(Gdx.graphics.getWidth()*0.1f, Gdx.graphics.getHeight()*0.38f,Gdx.graphics.getHeight()*0.27f, Gdx.graphics.getHeight()*0.27f);
 		
 		buttonMenu = new TextButton(" ", styleMenu);
-		buttonMenu.setBounds(Gdx.graphics.getWidth()*0.75f, Gdx.graphics.getHeight()*0.38f, 300, 300);
+		buttonMenu.setBounds(Gdx.graphics.getWidth()*0.75f, Gdx.graphics.getHeight()*0.38f, Gdx.graphics.getHeight()*0.27f, Gdx.graphics.getHeight()*0.27f);
 		
 		stage.addActor(buttonAgain);
 		stage.addActor(buttonMenu);
@@ -163,7 +163,6 @@ public class GameOver implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		// TO GAMESCREEN
 		if (buttonAgain.isPressed()) {
-			runner.getScreen().dispose();
 			runner.setScreen(new GameSc(runner));
 				
 		}
@@ -172,7 +171,6 @@ public class GameOver implements Screen {
 
 		// TO MENU SCREEN
 		if (buttonMenu.isPressed()) {
-			runner.getScreen().dispose();
 			runner.setScreen(new GameMenu(runner));
 		}
 

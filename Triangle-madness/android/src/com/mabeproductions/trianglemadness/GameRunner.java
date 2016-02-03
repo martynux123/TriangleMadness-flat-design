@@ -37,15 +37,15 @@ public class GameRunner extends Game{
 		
 		FreeTypeFontGenerator scorefontgen = new FreeTypeFontGenerator(Gdx.files.internal("Font.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 100;
+		parameter.size = (int) (Gdx.graphics.getHeight()*0.092);
 		ScoreFont = scorefontgen.generateFont(parameter);
  		
 		FreeTypeFontParameter parameterbig = new FreeTypeFontParameter();
-		parameterbig.size = 200;
+		parameterbig.size = (int) (Gdx.graphics.getHeight()*0.185f);
 		BigScoreFont = scorefontgen.generateFont(parameterbig);
 		
 		FreeTypeFontParameter parametersmaller = new FreeTypeFontParameter();
-		parametersmaller.size=120;
+		parametersmaller.size=(int) (Gdx.graphics.getHeight()*0.11f);
 		PlayFont = scorefontgen.generateFont(parametersmaller);
 	
 		scorefontgen.dispose();

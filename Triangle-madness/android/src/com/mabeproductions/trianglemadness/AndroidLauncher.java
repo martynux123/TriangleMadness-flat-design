@@ -49,6 +49,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController{
         
         layout.addView(bannerAd, params);
         setContentView(layout);
+     
         
     }
     
@@ -75,6 +76,11 @@ public class AndroidLauncher extends AndroidApplication implements AdController{
 				@Override
 				public void run() {
 					bannerAd.setVisibility(View.VISIBLE);
+					bannerAd.setAdListener(new AdListener() {
+						public void onAdFailedToLoad(int errorCode){
+							hideAd();
+						}
+					});
 					AdRequest.Builder builder = new AdRequest.Builder();
 //					builder.addTestDevice("84DF0F6B279E1E5F921C2BE75617A14A");
 					AdRequest ad = builder.build();
@@ -121,6 +127,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController{
 	
 	private boolean checkWifiState(){
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		@SuppressWarnings("deprecation")
 		NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		
 		return (ni != null && ni.isConnected());	

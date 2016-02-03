@@ -1,5 +1,6 @@
 package com.mabeproductions.trianglemadness;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,7 +19,7 @@ public class Coin {
 	private int index = 0;
 	private int tickCount = 0;
 	private int rotationIndex;
-	private static int coinSize = 100;
+	private static int coinSize = (int) (Gdx.graphics.getHeight()*0.0925f);
 	
 
 	// Collections
