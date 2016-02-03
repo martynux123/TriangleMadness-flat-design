@@ -84,7 +84,7 @@ public class Rocket {
 			
 		}
 		//TICK count.
-		if(tickCount >= 3){
+		if(tickCount >= 2){
 			x+= speed;
 			tickCount = 0;
 		}
