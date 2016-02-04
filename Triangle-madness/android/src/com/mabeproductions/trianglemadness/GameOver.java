@@ -30,6 +30,7 @@ public class GameOver implements Screen {
 	private Rectangle r;
 	private int Score;
 	
+	
 	//Collections
 	private Texture[] over = new Texture[7];
 	
@@ -122,7 +123,9 @@ public class GameOver implements Screen {
 	}
 	
 	public void gameOverMusic(){
-		sound.play(0.2f);
+		if(!GameMenu.isMuted){
+			sound.play(1f);
+		}		
 	}
 
 	public void gameOverThread() {
@@ -148,7 +151,6 @@ public class GameOver implements Screen {
 				}
 				
 				Thread.currentThread().interrupt();
-
 			}
 		},"GameOver anim").start();
 	}

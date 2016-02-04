@@ -41,8 +41,9 @@ public class GameRunner extends Game{
 		ScoreFont = scorefontgen.generateFont(parameter);
  		
 		FreeTypeFontParameter parameterbig = new FreeTypeFontParameter();
-		parameterbig.size = (int) (Gdx.graphics.getHeight()*0.199f);
+		parameterbig.size = 200;
 		BigScoreFont = scorefontgen.generateFont(parameterbig);
+		BigScoreFont.getData().setScale(Gdx.graphics.getHeight()*0.0013888f);
 		
 		FreeTypeFontParameter parametersmaller = new FreeTypeFontParameter();
 		parametersmaller.size=(int) (Gdx.graphics.getHeight()*0.11f);
@@ -55,6 +56,7 @@ public class GameRunner extends Game{
 		
 		
 		assets.load("Textures/Blue_ball.png", Texture.class);
+		
 		
 		assets.load("Sounds/dzinkt.wav", Sound.class);
 		assets.load("Sounds/gameMusic.wav", Music.class);
@@ -73,7 +75,7 @@ public class GameRunner extends Game{
 		
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);
-	
+		
 		
 		assets.load("Textures/Menu/1.png", Texture.class);
 		assets.load("Textures/Menu/2.png", Texture.class);
@@ -85,6 +87,9 @@ public class GameRunner extends Game{
 		assets.load("Textures/Menu/8.png", Texture.class);
 		assets.load("Textures/Menu/9.png", Texture.class);
 		assets.load("Textures/Menu/10.png", Texture.class);
+		
+		assets.load("MuteButton/soundOn.png", Texture.class);
+		assets.load("MuteButton/soundOff.png", Texture.class);
 		
 		assets.load("Textures/Menu/play.png", Texture.class);		
 		assets.load("Textures/Menu/circle.pack", TextureAtlas.class);

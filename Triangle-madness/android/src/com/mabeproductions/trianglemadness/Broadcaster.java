@@ -28,7 +28,9 @@ public class Broadcaster {
 	
 	public void render(SpriteBatch batch){
 		batch.begin();
+		BigScoreFont.getData().setScale(Gdx.graphics.getHeight()*0.000925f);
 		BigScoreFont.draw(batch, text, x, y);
+		BigScoreFont.getData().setScale(Gdx.graphics.getHeight()*0.0013888f);
 		batch.end();
 		
 	}

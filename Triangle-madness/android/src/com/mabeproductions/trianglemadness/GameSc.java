@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -14,8 +15,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class GameSc implements Screen {
 
@@ -36,6 +42,10 @@ public class GameSc implements Screen {
 	private int stage = 1;
 	private int rocketSpeed = 0;
 	
+	//Music variables
+
+	
+	
 	// Objects
 	private ParticleEffect emitter;
 	private ParticleEffect coinEmitter;
@@ -49,6 +59,9 @@ public class GameSc implements Screen {
 	private Broadcaster broadcaster;
 	private Sound stageSound;
 	
+	
+	
+	
 	// Collections
 	public ArrayList<Enemy> enemies2;
 	private Texture[] cointxt = new Texture[7];
@@ -61,12 +74,21 @@ public class GameSc implements Screen {
 	private boolean isStarted = false;
 	public Music music;
 	private Timer t;
+
+	
+	
+
+	
 	
 	public GameSc(GameRunner runnerClass) {
 		
 		box = new Box(this);
 		this.runner = runnerClass;
 
+		
+	
+		
+				
 		music = GameRunner.assets.get("Sounds/gameMusic.wav");
 
 		batch = new SpriteBatch();
@@ -99,10 +121,13 @@ public class GameSc implements Screen {
 		cointxt[6] = GameRunner.assets.get("Coins/7.png");
 
 		font = GameRunner.BigScoreFont;
+		
 	}
 	
 	public void stageSound(){
-		stageSound.play(1f);
+		if(GameMenu.isMuted){
+			stageSound.play(0);
+		}else stageSound.play(1f);
 		
 	}
 	
@@ -114,11 +139,12 @@ public class GameSc implements Screen {
 			
 			@Override
 			public void run() {
-				music.setVolume(1);
+				if(GameMenu.isMuted){
+					music.setVolume(0);
+				}else music.setVolume(1f);
 			}
 		}, 500);
 			
-		
 	}
 
 	@Override
@@ -218,17 +244,22 @@ public class GameSc implements Screen {
 		batch.begin();
 
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-		font.draw(batch, "" + Score, Gdx.graphics.getWidth() / 2 - (String.valueOf(Score).length() * 20),
+		
+		
+		
+		font.draw(batch, "" + Score, Gdx.graphics.getWidth() / 2 - (String.valueOf(Score).length() * 30),
 				Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight()*0.0462f);
 
 		if(!isStarted){
+			
+			font.getData().setScale(Gdx.graphics.getHeight()*0.000925f);
 			
 			if(Gdx.app.getPreferences("Stats").getInteger("Tries") > 1){
 				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " TRIES", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.2777f , Gdx.graphics.getHeight()*0.2777f);
 			}else{
 				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " TRY", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.2777f, Gdx.graphics.getHeight()*0.2777f);
 			}
+			font.getData().setScale(Gdx.graphics.getHeight()*0.0013888f);
 		}
 		batch.end();
 

@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class Box {
 
 	// Settings
-	private final boolean debugMode =false;
+	private final boolean debugMode = false;
 	private float size = Gdx.graphics.getHeight()*0.00056f;
 
 	// Variables
@@ -33,6 +33,9 @@ public class Box {
 	private int coinIndex=0;
 	private TextureRegion screenshot;
 	private Sound sound;
+	private Rectangle touchBounds;
+	
+
 	
 	public Box(GameSc g) {
 
@@ -44,14 +47,20 @@ public class Box {
 
 		pos = new Vector2(Gdx.graphics.getWidth() / 2 - size / 2, Gdx.graphics.getHeight() / 2 - size / 2);
 
+		
 		bounds = new Rectangle(pos.x, pos.y, size-Gdx.graphics.getHeight()*0.0185f, size-Gdx.graphics.getHeight()*0.0185f);
+		touchBounds = new Rectangle(pos.x - Gdx.graphics.getHeight()*0.025f, pos.y - Gdx.graphics.getHeight()*0.025f, Gdx.graphics.getHeight()*0.15f, Gdx.graphics.getHeight()*0.15f);
 
 		shape = new ShapeRenderer();
 
 		this.emitter = GameRunner.emitter;
 	}
 	public void gameOverMusic(){
-		sound.play(0.08f);
+		if(!GameMenu.isMuted){
+			sound.play(0.08f);			
+		}
+	
+	
 	}
 
 	public Vector2 getPos() {
@@ -59,6 +68,12 @@ public class Box {
 	}
 
 	public void update() {
+		
+		if (Gdx.input.isTouched() && touchBounds.contains(touchX, touchY)) {
+			isTouched = true;
+		}
+		
+		touchBounds.setPosition(pos.x - 27f, pos.y - 27f);
 		
 		//Collecting coins!
 		for (int i = 0; i < GameSc.coins.size(); i++) {
@@ -78,9 +93,6 @@ public class Box {
 
 		// Moving the touchX and touchY if it's touched
 
-		if (Gdx.input.justTouched() && bounds.contains(touchX, touchY)) {
-			isTouched = true;
-		}
 
 		if (pos.y > Gdx.graphics.getHeight()) {
 			shouldScreenChange = true;
@@ -140,6 +152,8 @@ public class Box {
 			shape.begin();
 			shape.setColor(new Color(Color.RED));
 			shape.rect(bounds.x, bounds.y, bounds.getWidth(), bounds.getHeight());
+			shape.setColor(Color.GREEN);
+			shape.rect(touchBounds.x, touchBounds.y, touchBounds.getWidth(), touchBounds.getHeight());
 			shape.end();
 
 		}

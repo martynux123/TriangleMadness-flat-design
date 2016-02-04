@@ -75,7 +75,10 @@ public class Coin {
 	}
 	
 	public void onAquire(){
-		sound.play(0.05f);
+		if(GameMenu.isMuted){			
+			sound.play(0);
+		}else sound.play(0.05f);
+		
 	}
 
 	public void update() {
