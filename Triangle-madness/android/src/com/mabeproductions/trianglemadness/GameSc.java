@@ -246,13 +246,13 @@ public class GameSc implements Screen {
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		
+		font.getData().setScale(Gdx.graphics.getHeight()*0.000925f);
 		
 		font.draw(batch, "" + Score, Gdx.graphics.getWidth() / 2 - (String.valueOf(Score).length() * 30),
 				Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight()*0.0462f);
 
 		if(!isStarted){
 			
-			font.getData().setScale(Gdx.graphics.getHeight()*0.000925f);
 			
 			if(Gdx.app.getPreferences("Stats").getInteger("Tries") > 1){
 				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " TRIES", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.2777f , Gdx.graphics.getHeight()*0.2777f);
@@ -357,9 +357,18 @@ public class GameSc implements Screen {
 		// Spawning coins
 		if (tickCountsCoins >= CoinsDelay) {
 			int x = MathUtils.random(Gdx.graphics.getWidth() - Coin.getCoinSize());
+			
 			spawnCoin(x, Gdx.graphics.getHeight(), (int) (Gdx.graphics.getHeight()*0.0166f), cointxt, index, coinEmitter);
-		
-			tickCountsCoins = 0;
+			
+			//Checking if coin spawned on top of enemy
+			for (int i = 0; i < enemies2.size(); i++) {
+				if(coins.get(coins.size()-1).getBounds().overlaps(enemies2.get(i).bounds)){
+					coins.remove(coins.size()-1);
+				}else{
+					tickCountsCoins = 0;
+				}
+			}
+			
 		}
 		tickCountsCoins++;
 
@@ -380,20 +389,20 @@ public class GameSc implements Screen {
 						System.out.println(enemySpeed);
 						if(stage == 1){
 							enemySpeed = - Gdx.graphics.getHeight()*0.0157f;
-							enemyDelay = 310;
+							enemyDelay = 290;
 							
 						}
 						if(stage == 2){
 							enemySpeed = -Gdx.graphics.getHeight()*0.02037f;
-							enemyDelay = 250;
+							enemyDelay = 230;
 						}
 						if(stage == 3){
 							enemySpeed = -Gdx.graphics.getHeight()*0.025f;
-							enemyDelay = 200;
+							enemyDelay = 170;
 						}
 						if(stage == 4){
 							enemySpeed = -Gdx.graphics.getHeight()*0.0296f;
-							enemyDelay = 140;
+							enemyDelay = 135;
 						}
 						float x = MathUtils.random(0, Gdx.graphics.getWidth() - Enemy.UNIFORM_WIDTH);
 						float y = Gdx.graphics.getHeight() + Enemy.UNIFORM_HEIGHT;

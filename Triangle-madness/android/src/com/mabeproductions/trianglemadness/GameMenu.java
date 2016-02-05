@@ -4,19 +4,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class GameMenu implements Screen {
 	
@@ -52,6 +55,18 @@ public class GameMenu implements Screen {
 	private TextureAtlas btn;
 	private Texture play;
 	private int muteIndex;
+	private TextureAtlas atlasRate;
+	private TextButtonStyle styleRate;
+	private TextButton rateUs;
+	private TextureAtlas atlasAgain;
+	
+	private BitmapFont rateFont;
+	private Stage stage;
+	private TextButtonStyle fbStyle;
+	private TextureAtlas fbAtlas;
+	private TextButton fbButton;
+	
+	
 	public GameMenu(GameRunner runner){
 		this.runner = runner;
 		music = GameRunner.assets.get("Sounds/gameMenu.wav");
@@ -68,9 +83,32 @@ public class GameMenu implements Screen {
 		batch = new SpriteBatch();
 		
 		playFont = GameRunner.PlayFont;
+		rateFont = new BitmapFont();
+		rateFont.setColor(Color.RED);
+		stage = new Stage();
+		
+		Skin skinRate = new Skin();
+		atlasRate = GameRunner.assets.get("Textures/Menu/rateUs.pack");
+		skinRate.addRegions(atlasRate);
+		styleRate = new TextButtonStyle();
+		styleRate.up = skinRate.getDrawable("Rate_us");
+		styleRate.down = skinRate.getDrawable("Rate_us");
+		styleRate.font = rateFont;
+		
+		rateUs = new TextButton(" ", styleRate);
+		rateUs.setBounds(Gdx.graphics.getHeight()*1.1296f, Gdx.graphics.getHeight()*0.11111f, Gdx.graphics.getHeight()*0.185185f, Gdx.graphics.getHeight()*0.185185f);
 		
 		
-	
+		Skin fbskin = new Skin();
+		fbAtlas = GameRunner.assets.get("Textures/Menu/facebook.pack");
+		fbskin.addRegions(fbAtlas);
+		fbStyle = new TextButtonStyle();
+		fbStyle.up = fbskin.getDrawable("facebook");
+		fbStyle.down = fbskin.getDrawable("facebook");
+		fbStyle.font = rateFont;
+		
+		fbButton = new TextButton(" ", fbStyle);
+		fbButton.setBounds(Gdx.graphics.getHeight()*0.4444f,Gdx.graphics.getHeight()*0.07407f, Gdx.graphics.getHeight()*0.2129f, Gdx.graphics.getHeight()*0.2129f);
 		
 		bg[0] = GameRunner.assets.get("Textures/Menu/1.png");
 		bg[1] = GameRunner.assets.get("Textures/Menu/2.png");
@@ -106,6 +144,8 @@ public class GameMenu implements Screen {
 		
 		
 		menuThread();
+		stage.addActor(rateUs);
+		stage.addActor(fbButton);
 	}
 	
 	
@@ -168,7 +208,7 @@ public class GameMenu implements Screen {
 	public void show() {
 		
 		
-		
+		 Gdx.input.setInputProcessor(stage);
 		 prefs = Gdx.app.getPreferences("Stats");
 		 prefs.putInteger("Tries", 0);
 		 prefs.flush();
@@ -184,7 +224,18 @@ public class GameMenu implements Screen {
 	@Override
 	public void render(float delta) {
 		
+		
+		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		if(rateUs.isPressed()){
+			Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.mabeproductions.trianglemadness");
+		}
+		
+		if(fbButton.isPressed()){
+			Gdx.net.openURI("https://www.facebook.com/MaBeProductions/?skip_nax_wizard=true");
+		}
+		
 		
 		batch.begin();
 		batch.draw(bg[index], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -244,6 +295,7 @@ public class GameMenu implements Screen {
 			gameScreenSwitch = false;
 			
 		}
+		stage.draw();
 	}
 
 	@Override

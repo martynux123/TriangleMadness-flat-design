@@ -57,7 +57,6 @@ public class GameRunner extends Game{
 		
 		assets.load("Textures/Blue_ball.png", Texture.class);
 		
-		
 		assets.load("Sounds/dzinkt.wav", Sound.class);
 		assets.load("Sounds/gameMusic.wav", Music.class);
 		assets.load("Sounds/gameOver.wav", Sound.class);
@@ -75,7 +74,8 @@ public class GameRunner extends Game{
 		
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);
 		assets.load("Textures/GameOver/Buttons/Buttons.pack", TextureAtlas.class);
-		
+		assets.load("Textures/Menu/rateUs.pack", TextureAtlas.class);
+		assets.load("Textures/Menu/facebook.pack", TextureAtlas.class);
 		
 		assets.load("Textures/Menu/1.png", Texture.class);
 		assets.load("Textures/Menu/2.png", Texture.class);
@@ -116,7 +116,8 @@ public class GameRunner extends Game{
 		assets.load("Circle/Circle10011.png", Texture.class);
 		assets.load("Circle/Circle10013.png", Texture.class);
 		assets.load("Circle/Circle10015.png", Texture.class);
-	
+		
+		
 		
 	
 		
