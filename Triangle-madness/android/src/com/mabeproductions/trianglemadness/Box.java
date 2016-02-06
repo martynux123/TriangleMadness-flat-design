@@ -1,6 +1,7 @@
 package com.mabeproductions.trianglemadness;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,13 +36,36 @@ public class Box {
 	private Sound sound;
 	private Rectangle touchBounds;
 	
+	private int totalScore;
 
 	
 	public Box(GameSc g) {
 
 		this.g = g;
+		
+		//Levels
+		Preferences prefs = Gdx.app.getPreferences("Stats");
+		totalScore = prefs.getInteger("TotalScore");
+		
+		if(totalScore >= GameSc.LEVEL_1){
+			ball = GameRunner.assets.get("Textures/defaultBubble.png");
+			this.emitter = GameRunner.emitter;
+		}
 
-		ball = GameRunner.assets.get("Textures/Blue_ball.png");
+		if(totalScore >= GameSc.LEVEL_2){
+			ball = GameRunner.assets.get("Level2/FrostLevelChar.png");
+			this.emitter = GameRunner.snowEmitter;
+		}
+		if(totalScore >= GameSc.LEVEL_3){
+			ball = GameRunner.assets.get("Level3/fireCharacter.png");
+			this.emitter = GameRunner.fireEmitter;
+		}
+		if(totalScore >= GameSc.LEVEL_4){
+			ball = GameRunner.assets.get("Level4/waterBubble.png");
+			this.emitter = GameRunner.waterEmitter;
+		}
+		//==================================================
+		
 		sound = GameRunner.assets.get("Sounds/gameOver.wav");
 		size = ball.getWidth() * size;
 
@@ -53,7 +77,6 @@ public class Box {
 
 		shape = new ShapeRenderer();
 
-		this.emitter = GameRunner.emitter;
 	}
 	public void gameOverMusic(){
 		if(!GameMenu.isMuted){
@@ -164,7 +187,7 @@ public class Box {
 		emitter.setPosition(pos.x + size / 2 + Gdx.graphics.getHeight()*0.00925f, pos.y + size / 2 + Gdx.graphics.getHeight()*0.00925f);
 		emitter.update(Gdx.graphics.getDeltaTime());
 		emitter.draw(batch);
-		batch.draw(GameRunner.assets.get("Textures/Blue_ball.png", Texture.class), pos.x, pos.y, size, size);
+		batch.draw(ball, pos.x, pos.y, size, size);
 		batch.end();
 
 		//Changing the screen

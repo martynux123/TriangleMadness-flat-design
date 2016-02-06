@@ -1,18 +1,13 @@
 package com.mabeproductions.trianglemadness;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 public class Enemy {
 
@@ -42,7 +37,23 @@ public class Enemy {
 	
 
 	public Enemy(float x, float y, float speed, int width, int height, Texture currentTexture) {
-		this.currentTexture = currentTexture;
+		
+		Preferences prefs = Gdx.app.getPreferences("Stats");
+		
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_1){
+			this.currentTexture = currentTexture;
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_2){
+			this.currentTexture = GameRunner.assets.get("Level2/FrostLevelEnemy.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_3){
+			this.currentTexture = GameRunner.assets.get("Level3/FireEnemy.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4){
+			this.currentTexture = GameRunner.assets.get("Level4/wateEnemy.png");
+		}
+		
+		
 		this.x = x;
 		this.width = width;
 		this.y = y;

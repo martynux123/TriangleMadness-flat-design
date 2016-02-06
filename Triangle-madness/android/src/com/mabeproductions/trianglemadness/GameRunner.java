@@ -26,6 +26,9 @@ public class GameRunner extends Game{
 	public static BitmapFont BigScoreFont;
 	public static BitmapFont PlayFont;
 	public static AdController adcontroller;
+	public static ParticleEffect snowEmitter;
+	public static ParticleEffect fireEmitter;
+	public static ParticleEffect waterEmitter;
 	
 	public GameRunner(AdController adcontroller) {
 		this.adcontroller = adcontroller;
@@ -55,7 +58,24 @@ public class GameRunner extends Game{
 		
 		
 		
-		assets.load("Textures/Blue_ball.png", Texture.class);
+		assets.load("Textures/defaultBubble.png", Texture.class);
+		assets.load("Level2/FrostLevelChar.png", Texture.class);
+		assets.load("Level2/FrostLevelEnemy.png", Texture.class);
+		assets.load("Level2/avoidness.png", Texture.class);
+		
+		
+		//LEVEL 3
+		assets.load("Level3/FireEnemy.png", Texture.class);
+		assets.load("Level3/AvoidnessLava.png", Texture.class);
+		assets.load("Level3/fireCharacter.png", Texture.class);
+		
+		//LEVEL 4
+		assets.load("Level4/wateBackground.png", Texture.class);
+		assets.load("Level4/wateEnemy.png", Texture.class);
+		assets.load("Level4/waterBubble.png", Texture.class);
+		
+		
+		
 		
 		assets.load("Sounds/dzinkt.wav", Sound.class);
 		assets.load("Sounds/gameMusic.wav", Music.class);
@@ -108,6 +128,22 @@ public class GameRunner extends Game{
 		assets.load("Coins/6.png", Texture.class);
 		assets.load("Coins/7.png", Texture.class);
 		
+		assets.load("Level2/1.png", Texture.class);
+		assets.load("Level2/2.png", Texture.class);
+		assets.load("Level2/3.png", Texture.class);
+		assets.load("Level2/4.png", Texture.class);
+		assets.load("Level2/5.png", Texture.class);
+		assets.load("Level2/6.png", Texture.class);
+		assets.load("Level2/7.png", Texture.class);
+		
+		assets.load("Level3/1.png", Texture.class);
+		assets.load("Level3/2.png", Texture.class);
+		assets.load("Level3/3.png", Texture.class);
+		assets.load("Level3/4.png", Texture.class);
+		assets.load("Level3/5.png", Texture.class);
+		assets.load("Level3/6.png", Texture.class);
+		assets.load("Level3/7.png", Texture.class);
+		
 		assets.load("Circle/Circle10001.png", Texture.class);
 		assets.load("Circle/Circle10003.png", Texture.class);
 		assets.load("Circle/Circle10005.png", Texture.class);
@@ -125,7 +161,7 @@ public class GameRunner extends Game{
 	
 		//Box particle emitter
 		emitter = new ParticleEffect();
-		emitter.load(Gdx.files.internal("Particles/BubblePart1"), Gdx.files.internal(""));
+		emitter.load(Gdx.files.internal("Particles/defaultParticle"), Gdx.files.internal("Particles"));
 		emitter.scaleEffect(2);
 		
 		//Rocket particle emitter
@@ -138,7 +174,22 @@ public class GameRunner extends Game{
 		coinEmitter.load(Gdx.files.internal("Particles/coinPart"),Gdx.files.internal(""));
 		coinEmitter.scaleEffect(2);
 		
+		//Bubble Emitter
+		snowEmitter = new ParticleEffect();
+		snowEmitter.load(Gdx.files.internal("Level2/SnowFlakes.p"),Gdx.files.internal("Level2"));
+		snowEmitter.scaleEffect(2);
+		
+		//Bubble Fire
+		fireEmitter = new ParticleEffect();
+		fireEmitter.load(Gdx.files.internal("Level3/fireParticle"),Gdx.files.internal("Level3"));
+		fireEmitter.scaleEffect(2);
 		assets.finishLoading();
+		
+		waterEmitter = new ParticleEffect();
+		waterEmitter.load(Gdx.files.internal("Level4/BubblePart1"),Gdx.files.internal("Level4"));
+		waterEmitter.scaleEffect(2);
+		assets.finishLoading();
+		
 		
 		this.setScreen(new GameMenu(this));
 	}

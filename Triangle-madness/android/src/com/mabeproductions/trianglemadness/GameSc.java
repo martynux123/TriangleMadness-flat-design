@@ -24,6 +24,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class GameSc implements Screen {
+	
+	//Levels
+	public static final int LEVEL_1 = 0;
+	public static final int LEVEL_2 = 1000;
+	public static final int LEVEL_3 = 2000;
+	public static final int LEVEL_4 = 3000;
+	public static final int LEVEL_5 = 40;
+	public static final int LEVEL_6 = 50;
+	public static final int LEVEL_7 = 60;
+	public static final int LEVEL_8 = 70;
+	public static final int LEVEL_9 = 80;
+	public static final int LEVEL_10 = 90;
+	
 
 	// Booleans
 	public boolean game_paused = false;
@@ -85,7 +98,21 @@ public class GameSc implements Screen {
 		box = new Box(this);
 		this.runner = runnerClass;
 
+
+		Preferences prefs = Gdx.app.getPreferences("Stats");
 		
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_1){
+			background = GameRunner.assets.get("Textures/avoidness.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_2){
+			background = GameRunner.assets.get("Level2/avoidness.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_3){
+			background = GameRunner.assets.get("Level3/AvoidnessLava.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4){
+			background = GameRunner.assets.get("Level4/wateBackground.png");
+		}
 	
 		
 				
@@ -94,7 +121,6 @@ public class GameSc implements Screen {
 		batch = new SpriteBatch();
 		
 		stageSound = GameRunner.assets.get("Sounds/stageSound.wav");
-		background = GameRunner.assets.get("Textures/avoidness.png");
 		txt = GameRunner.assets.get("Textures/Enemies/Boxers/Enemy.png");
 		enemy2 = GameRunner.assets.get("Textures/Enemies/Enemy2.png");
 		rockettxt = GameRunner.assets.get("Textures/Enemies/rocket.png");
@@ -246,19 +272,26 @@ public class GameSc implements Screen {
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		
-		font.getData().setScale(Gdx.graphics.getHeight()*0.000925f);
+		font.getData().setScale(Gdx.graphics.getHeight()*0.000825f);
 		
 		font.draw(batch, "" + Score, Gdx.graphics.getWidth() / 2 - (String.valueOf(Score).length() * 30),
 				Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight()*0.0462f);
 
+		font.getData().setScale(Gdx.graphics.getHeight()*0.000525f);
 		if(!isStarted){
+			Preferences prefs = Gdx.app.getPreferences("Stats");
 			
-			
-			if(Gdx.app.getPreferences("Stats").getInteger("Tries") > 1){
-				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " TRIES", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.2777f , Gdx.graphics.getHeight()*0.2777f);
-			}else{
-				font.draw(batch, Gdx.app.getPreferences("Stats").getInteger("Tries") + " TRY", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.2777f, Gdx.graphics.getHeight()*0.2777f);
+			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_2 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_1){
+				font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_2) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
 			}
+			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_3 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_2){
+				font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_3) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
+			}
+			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_4 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_3){
+				font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_4) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
+			}
+
+			
 			font.getData().setScale(Gdx.graphics.getHeight()*0.0013888f);
 		}
 		batch.end();
@@ -361,12 +394,16 @@ public class GameSc implements Screen {
 			spawnCoin(x, Gdx.graphics.getHeight(), (int) (Gdx.graphics.getHeight()*0.0166f), cointxt, index, coinEmitter);
 			
 			//Checking if coin spawned on top of enemy
+			try{
 			for (int i = 0; i < enemies2.size(); i++) {
 				if(coins.get(coins.size()-1).getBounds().overlaps(enemies2.get(i).bounds)){
 					coins.remove(coins.size()-1);
 				}else{
 					tickCountsCoins = 0;
 				}
+			}
+			
+			}catch(ArrayIndexOutOfBoundsException e){
 			}
 			
 		}

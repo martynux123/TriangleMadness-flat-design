@@ -1,6 +1,7 @@
 package com.mabeproductions.trianglemadness;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,9 +38,48 @@ public class Coin {
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
-		this.txt = txt;
 		this.index = index;
 		this.effect = effect;
+		
+		Preferences prefs = Gdx.app.getPreferences("Stats");
+		
+		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_1){
+			this.txt = txt;
+
+		}
+		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_2){
+			this.txt[0] = GameRunner.assets.get("Level2/1.png");
+			this.txt[1] = GameRunner.assets.get("Level2/2.png");
+			this.txt[2] = GameRunner.assets.get("Level2/3.png");
+			this.txt[3] = GameRunner.assets.get("Level2/4.png");
+			this.txt[4] = GameRunner.assets.get("Level2/5.png");
+			this.txt[5] = GameRunner.assets.get("Level2/6.png");
+			this.txt[6] = GameRunner.assets.get("Level2/7.png");
+		
+		}
+		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_3){
+			this.txt[0] = GameRunner.assets.get("Level3/1.png");
+			this.txt[1] = GameRunner.assets.get("Level3/2.png");
+			this.txt[2] = GameRunner.assets.get("Level3/3.png");
+			this.txt[3] = GameRunner.assets.get("Level3/4.png");
+			this.txt[4] = GameRunner.assets.get("Level3/5.png");
+			this.txt[5] = GameRunner.assets.get("Level3/6.png");
+			this.txt[6] = GameRunner.assets.get("Level3/7.png");
+			
+			
+		}
+		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_4){
+			this.txt[0] =  GameRunner.assets.get("Coins/1.png");
+			this.txt[1] =  GameRunner.assets.get("Coins/2.png");
+			this.txt[2] =  GameRunner.assets.get("Coins/3.png");
+			this.txt[3] =  GameRunner.assets.get("Coins/4.png");
+			this.txt[4] =  GameRunner.assets.get("Coins/5.png");
+			this.txt[5] =  GameRunner.assets.get("Coins/6.png");
+			this.txt[6] =  GameRunner.assets.get("Coins/7.png");
+			
+			
+		}
+		
 		
 		bounds = new Rectangle(x, y, getCoinSize(), getCoinSize());
 		sound = GameRunner.assets.get("Sounds/dzinkt.wav");
