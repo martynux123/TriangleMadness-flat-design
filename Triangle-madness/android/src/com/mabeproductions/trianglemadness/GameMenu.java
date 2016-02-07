@@ -27,6 +27,9 @@ public class GameMenu implements Screen {
 	public boolean isFinger = true;
 	private boolean gameScreenSwitch;
 	private boolean debugMode = false;
+	private boolean facebookOn = true;
+	private boolean rateUsOn = true;
+	
 	//Variables
 	private int index;
 	private int angleMid = 0;
@@ -59,6 +62,7 @@ public class GameMenu implements Screen {
 	private TextButtonStyle styleRate;
 	private TextButton rateUs;
 	private TextureAtlas atlasAgain;
+	private Timer t;
 	
 	private BitmapFont rateFont;
 	private Stage stage;
@@ -80,7 +84,10 @@ public class GameMenu implements Screen {
 			}
 		}, 200);
 		
+		t = new Timer();
+		
 		batch = new SpriteBatch();
+		
 		
 		playFont = GameRunner.PlayFont;
 		rateFont = new BitmapFont();
@@ -229,14 +236,27 @@ public class GameMenu implements Screen {
 		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		if(rateUs.isPressed()){
+		if(rateUs.isPressed()&&rateUsOn){
 			Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.mabeproductions.trianglemadness");
+			rateUsOn=false;
+			if(rateUs.isOver()){
+				rateUsOn=true;
+				
+			}
+			
+			
 		}
 		
-		if(fbButton.isPressed()){
+		if(fbButton.isPressed() && facebookOn){
 			Gdx.net.openURI("https://www.facebook.com/MaBeProductions/?skip_nax_wizard=true");
+
+			facebookOn=false;
+			
+			if(fbButton.isOver()){
+				facebookOn=true;
+				
+			}
 		}
-		
 		
 		batch.begin();
 		batch.draw(bg[index], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

@@ -14,23 +14,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+
 
 public class GameSc implements Screen {
 	
 	//Levels
 	public static final int LEVEL_1 = 0;
-	public static final int LEVEL_2 = 1000;
-	public static final int LEVEL_3 = 2000;
-	public static final int LEVEL_4 = 3000;
-	public static final int LEVEL_5 = 4000;
-	public static final int LEVEL_6 = 5000;
+	public static final int LEVEL_2 = 10;
+	public static final int LEVEL_3 = 20;
+	public static final int LEVEL_4 = 30;
+	public static final int LEVEL_5 = 40;
+	public static final int LEVEL_6 = 50;
 	public static int Level = 1;
 	
 
@@ -229,9 +225,8 @@ public class GameSc implements Screen {
 						}
 						
 						
-						if(Level > 6)
-							Level = 1;
-						System.out.println(Level);
+						if(Level > 6) Level = 1;
+							
 						setupBackground();
 						box = new Box(GameSc.this);
 						
@@ -261,7 +256,6 @@ public class GameSc implements Screen {
 						
 						if(Level < 1)
 							Level = 6;
-						System.out.println(Level);
 						setupBackground();
 						box = new Box(GameSc.this);
 						
