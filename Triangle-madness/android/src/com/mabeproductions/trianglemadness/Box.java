@@ -47,31 +47,39 @@ public class Box {
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		totalScore = prefs.getInteger("TotalScore");
 		prefs.flush();
-		if(totalScore >= GameSc.LEVEL_1){
+		
+		switch (GameSc.Level) {
+		
+		case 1:
+			
 			ball = GameRunner.assets.get("Textures/defaultBubble.png");
 			this.emitter = GameRunner.emitter;
-		}
-
-		if(totalScore >= GameSc.LEVEL_2){
+			break;
+		case 2:
 			ball = GameRunner.assets.get("Level2/FrostLevelChar.png");
 			this.emitter = GameRunner.snowEmitter;
-		}
-		if(totalScore >= GameSc.LEVEL_3){
+			break;
+		case 3:
 			ball = GameRunner.assets.get("Level3/fireCharacter.png");
 			this.emitter = GameRunner.fireEmitter;
-		}
-		if(totalScore >= GameSc.LEVEL_4){
+			break;
+		case 4:
 			ball = GameRunner.assets.get("Level4/waterBubble.png");
 			this.emitter = GameRunner.waterEmitter;
-		}
-		if(totalScore >= GameSc.LEVEL_5){
+			break;
+		case 5:
 			ball = GameRunner.assets.get("Level5/jungleCharacter.png");
 			this.emitter = GameRunner.jungleEmitter;
-		}
-		if(totalScore >= GameSc.LEVEL_6){
+			break;
+		case 6:
 			ball = GameRunner.assets.get("Level6/sandyCharacter.png");
 			this.emitter = GameRunner.sandEmitter;
+			break;
+		default:
+			break;
+			
 		}
+		
 		//==================================================
 		
 		sound = GameRunner.assets.get("Sounds/gameOver.wav");

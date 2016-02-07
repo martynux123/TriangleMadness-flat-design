@@ -38,25 +38,30 @@ public class Enemy {
 
 	public Enemy(float x, float y, float speed, int width, int height, Texture currentTexture) {
 		
-		Preferences prefs = Gdx.app.getPreferences("Stats");
 		
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_1){
+		switch (GameSc.Level) {
+		
+		case 1:
 			this.currentTexture = currentTexture;
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_2){
+			break;
+		case 2:
 			this.currentTexture = GameRunner.assets.get("Level2/FrostLevelEnemy.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_3){
+			break;
+		case 3:
 			this.currentTexture = GameRunner.assets.get("Level3/FireEnemy.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4){
+			break;
+		case 4:
 			this.currentTexture = GameRunner.assets.get("Level4/wateEnemy.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_5){
+			break;
+		case 5:
 			this.currentTexture = GameRunner.assets.get("Level5/EnemyJungle.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_6){
+			break;
+		case 6:
 			this.currentTexture = GameRunner.assets.get("Level6/desertEnemy.png");
+			break;
+		default:
+			break;
+			
 		}
 		
 		

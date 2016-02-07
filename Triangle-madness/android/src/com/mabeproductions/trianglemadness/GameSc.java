@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -32,10 +31,7 @@ public class GameSc implements Screen {
 	public static final int LEVEL_4 = 3000;
 	public static final int LEVEL_5 = 4000;
 	public static final int LEVEL_6 = 5000;
-	public static final int LEVEL_7 = 60;
-	public static final int LEVEL_8 = 70;
-	public static final int LEVEL_9 = 80;
-	public static final int LEVEL_10 = 90;
+	public static int Level = 1;
 	
 
 	// Booleans
@@ -87,41 +83,16 @@ public class GameSc implements Screen {
 	private boolean isStarted = false;
 	public Music music;
 	private Timer t;
-
-	
-	
-
-	
+	private Texture rightButtonTxt;
 	
 	public GameSc(GameRunner runnerClass) {
 		
-		box = new Box(this);
 		this.runner = runnerClass;
-
-
-		Preferences prefs = Gdx.app.getPreferences("Stats");
+		setupBackground();
 		
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_1){
-			background = GameRunner.assets.get("Textures/avoidness.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_2){
-			background = GameRunner.assets.get("Level2/avoidness.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_3){
-			background = GameRunner.assets.get("Level3/AvoidnessLava.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4){
-			background = GameRunner.assets.get("Level4/wateBackground.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_5){
-			background = GameRunner.assets.get("Level5/avoidness.png");
-		}
-		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_6){
-			background = GameRunner.assets.get("Level6/desertTheme.png");
-		}
-	
+		box = new Box(this);
 		
-				
+		rightButtonTxt = GameRunner.assets.get("rightButton.png", Texture.class);
 		music = GameRunner.assets.get("Sounds/gameMusic.wav");
 
 		batch = new SpriteBatch();
@@ -153,6 +124,30 @@ public class GameSc implements Screen {
 		cointxt[6] = GameRunner.assets.get("Coins/7.png");
 
 		font = GameRunner.BigScoreFont;
+		
+	}
+	
+	private void setupBackground(){
+		Preferences prefs = Gdx.app.getPreferences("Stats");
+		prefs.flush();
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_1 && Level == 1){
+			background = GameRunner.assets.get("Textures/avoidness.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_2 && Level == 2){
+			background = GameRunner.assets.get("Level2/avoidness.png" );
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_3 && Level == 3){
+			background = GameRunner.assets.get("Level3/AvoidnessLava.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4 && Level == 4){
+			background = GameRunner.assets.get("Level4/wateBackground.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_5 && Level == 5){
+			background = GameRunner.assets.get("Level5/avoidness.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_6 && Level == 6){
+			background = GameRunner.assets.get("Level6/desertTheme.png");
+		}
 		
 	}
 	
@@ -192,10 +187,87 @@ public class GameSc implements Screen {
 			
 			@Override
 			public void run() {
+				
+				boolean wasPressed = true;
 				broadcaster = new Broadcaster((int) (Gdx.graphics.getHeight()*0.1203f), (int) (Gdx.graphics.getHeight()-Gdx.graphics.getHeight()*0.0925f), 0, "PRESS TO START", GameSc.this);
 				while(!isStarted){
-					if(Gdx.input.justTouched())
+					int touchX = Gdx.input.getX();
+					if(Gdx.input.justTouched() && touchX >= Gdx.graphics.getHeight()*0.277f && touchX <= Gdx.graphics.getHeight()*1.55f)
 						isStarted = true;
+					if(touchX >= Gdx.graphics.getHeight()*1.55f && Gdx.input.justTouched() && wasPressed){
+						wasPressed = false;
+						
+						Preferences prefs = Gdx.app.getPreferences("Stats");
+						
+						boolean isLevelChanged = false;
+						
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_2 && Level == 1 && !isLevelChanged){
+							Level = 2;
+							isLevelChanged = true;
+						}
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_3 && Level == 2 && !isLevelChanged){
+							Level = 3;
+							isLevelChanged = true;
+						}
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4 && Level == 3 && !isLevelChanged){
+							Level = 4;
+							isLevelChanged = true;
+						}
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_5 && Level == 4 && !isLevelChanged){
+							Level = 5;
+							isLevelChanged = true;
+						}
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_6 && Level == 5 && !isLevelChanged){
+							Level = 6;
+							isLevelChanged = true;
+						}
+						
+						rightButtonTxt = GameRunner.assets.get("rightButton.png", Texture.class);
+						
+						if(!isLevelChanged){
+							rightButtonTxt = GameRunner.assets.get("rightButtonRed.png", Texture.class);
+						}
+						
+						
+						if(Level > 6)
+							Level = 1;
+						System.out.println(Level);
+						setupBackground();
+						box = new Box(GameSc.this);
+						
+					}
+					if(touchX <= Gdx.graphics.getHeight()*0.277f && Gdx.input.justTouched() && wasPressed){
+						wasPressed = false;
+						
+						Preferences prefs = Gdx.app.getPreferences("Stats");
+						
+						rightButtonTxt = GameRunner.assets.get("rightButton.png", Texture.class);
+						
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_1 && Level == 2){
+							Level = 1;
+						}
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_2 && Level == 3){
+							Level = 2;
+						}
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_3 && Level == 4){
+							Level = 3;
+						}
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4 && Level == 5){
+							Level = 4;
+						}
+						if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_5 && Level == 6){
+							Level = 5;
+						}
+						
+						if(Level < 1)
+							Level = 6;
+						System.out.println(Level);
+						setupBackground();
+						box = new Box(GameSc.this);
+						
+					}
+					if(!Gdx.input.isTouched())
+						wasPressed = true;
 				}
 				gameMusic();
 					
@@ -278,6 +350,12 @@ public class GameSc implements Screen {
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		
+		if(!isStarted){
+			batch.draw(GameRunner.assets.get("leftButton.png", Texture.class), 0, 0, Gdx.graphics.getHeight()*0.1851f, Gdx.graphics.getHeight());
+			batch.draw(rightButtonTxt, Gdx.graphics.getWidth() - Gdx.graphics.getHeight()*0.1851f, 0, Gdx.graphics.getHeight()*0.1851f, Gdx.graphics.getHeight());
+		}
+		
+		
 		font.getData().setScale(Gdx.graphics.getHeight()*0.000825f);
 		
 		font.draw(batch, "" + Score, Gdx.graphics.getWidth() / 2 - (String.valueOf(Score).length() * 30),
@@ -287,17 +365,38 @@ public class GameSc implements Screen {
 		if(!isStarted){
 			Preferences prefs = Gdx.app.getPreferences("Stats");
 			
-			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_2 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_1){
-				font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_2) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
-			}
-			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_3 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_2){
-				font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_3) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
-			}
-			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_4 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_3){
-				font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_4) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
-			}
+			boolean isPrinted = false;
 			
-			
+			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_2 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_1 && !isPrinted){
+				if( GameSc.LEVEL_2 - Gdx.app.getPreferences("Stats").getInteger("TotalScore") >= 0){
+						font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_2) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
+						isPrinted = true;
+				}
+			}
+			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_3 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_2  && !isPrinted){
+				if(GameSc.LEVEL_3 - Gdx.app.getPreferences("Stats").getInteger("TotalScore") >= 0){
+					font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_3) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
+					isPrinted = true;
+				}
+			}
+			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_4 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_3  && !isPrinted){
+				if(GameSc.LEVEL_4 - Gdx.app.getPreferences("Stats").getInteger("TotalScore") >= 0){
+					font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_4) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
+				isPrinted = true;
+			}
+			}
+			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_5 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_4  && !isPrinted){
+				if(GameSc.LEVEL_5 - Gdx.app.getPreferences("Stats").getInteger("TotalScore") >= 0){
+					font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_5) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
+				isPrinted = true;
+			}
+			}
+			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_6 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_5  && !isPrinted){
+				if( GameSc.LEVEL_6 - Gdx.app.getPreferences("Stats").getInteger("TotalScore") > 0){
+					font.draw(batch," MAXIMUM LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
+				isPrinted = true;
+			}
+			}
 			
 			font.getData().setScale(Gdx.graphics.getHeight()*0.0013888f);
 		}

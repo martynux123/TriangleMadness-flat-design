@@ -68,6 +68,9 @@ public class GameRunner extends Game{
 		assets.load("Level5/EnemyJungle.png", Texture.class);
 		assets.load("Level5/jungleCharacter.png", Texture.class);
 		assets.load("Level6/sandyCharacter.png", Texture.class);
+		assets.load("leftButton.png", Texture.class);
+		assets.load("rightButton.png", Texture.class);
+		assets.load("rightButtonRed.png", Texture.class);
 		
 		assets.load("Level6/desertEnemy.png", Texture.class);
 		assets.load("Level6/desertTheme.png", Texture.class);

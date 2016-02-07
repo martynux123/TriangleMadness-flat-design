@@ -43,11 +43,12 @@ public class Coin {
 		
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		
-		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_1){
+		switch (GameSc.Level) {
+			
+		case 1:
 			this.txt = txt;
-
-		}
-		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_2){
+			break;
+		case 2:
 			this.txt[0] = GameRunner.assets.get("Level2/1.png");
 			this.txt[1] = GameRunner.assets.get("Level2/2.png");
 			this.txt[2] = GameRunner.assets.get("Level2/3.png");
@@ -55,10 +56,8 @@ public class Coin {
 			this.txt[4] = GameRunner.assets.get("Level2/5.png");
 			this.txt[5] = GameRunner.assets.get("Level2/6.png");
 			this.txt[6] = GameRunner.assets.get("Level2/7.png");
-		
-		}
-		
-		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_3){
+			break;
+		case 3:
 			this.txt[0] = GameRunner.assets.get("Level3/1.png");
 			this.txt[1] = GameRunner.assets.get("Level3/2.png");
 			this.txt[2] = GameRunner.assets.get("Level3/3.png");
@@ -66,11 +65,8 @@ public class Coin {
 			this.txt[4] = GameRunner.assets.get("Level3/5.png");
 			this.txt[5] = GameRunner.assets.get("Level3/6.png");
 			this.txt[6] = GameRunner.assets.get("Level3/7.png");
-			
-			
-		}
-		
-		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_4){
+			break;
+		case 4:
 			this.txt[0] =  GameRunner.assets.get("Level5/1.png");
 			this.txt[1] =  GameRunner.assets.get("Level5/2.png");
 			this.txt[2] =  GameRunner.assets.get("Level5/3.png");
@@ -78,9 +74,15 @@ public class Coin {
 			this.txt[4] =  GameRunner.assets.get("Level5/5.png");
 			this.txt[5] =  GameRunner.assets.get("Level5/6.png");
 			this.txt[6] =  GameRunner.assets.get("Level5/7.png");
+			break;
 			
+		default:
+			this.txt=txt;
+			break;
 			
 		}
+
+
 		
 		
 		bounds = new Rectangle(x, y, getCoinSize(), getCoinSize());
