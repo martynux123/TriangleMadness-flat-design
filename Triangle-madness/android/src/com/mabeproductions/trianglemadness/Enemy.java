@@ -52,6 +52,12 @@ public class Enemy {
 		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4){
 			this.currentTexture = GameRunner.assets.get("Level4/wateEnemy.png");
 		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_5){
+			this.currentTexture = GameRunner.assets.get("Level5/EnemyJungle.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_6){
+			this.currentTexture = GameRunner.assets.get("Level6/desertEnemy.png");
+		}
 		
 		
 		this.x = x;

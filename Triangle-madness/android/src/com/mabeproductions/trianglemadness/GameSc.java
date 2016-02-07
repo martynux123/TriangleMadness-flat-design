@@ -30,8 +30,8 @@ public class GameSc implements Screen {
 	public static final int LEVEL_2 = 1000;
 	public static final int LEVEL_3 = 2000;
 	public static final int LEVEL_4 = 3000;
-	public static final int LEVEL_5 = 40;
-	public static final int LEVEL_6 = 50;
+	public static final int LEVEL_5 = 4000;
+	public static final int LEVEL_6 = 5000;
 	public static final int LEVEL_7 = 60;
 	public static final int LEVEL_8 = 70;
 	public static final int LEVEL_9 = 80;
@@ -112,6 +112,12 @@ public class GameSc implements Screen {
 		}
 		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_4){
 			background = GameRunner.assets.get("Level4/wateBackground.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_5){
+			background = GameRunner.assets.get("Level5/avoidness.png");
+		}
+		if(prefs.getInteger("TotalScore") >= GameSc.LEVEL_6){
+			background = GameRunner.assets.get("Level6/desertTheme.png");
 		}
 	
 		
@@ -290,7 +296,8 @@ public class GameSc implements Screen {
 			if(prefs.getInteger("TotalScore") <= GameSc.LEVEL_4 && prefs.getInteger("TotalScore") >= GameSc.LEVEL_3){
 				font.draw(batch, (Gdx.app.getPreferences("Stats").getInteger("TotalScore") - GameSc.LEVEL_4) + " TO THE NEXT LEVEL", Gdx.graphics.getWidth()/2 - Gdx.graphics.getHeight()*0.5777f , Gdx.graphics.getHeight()*0.2777f);
 			}
-
+			
+			
 			
 			font.getData().setScale(Gdx.graphics.getHeight()*0.0013888f);
 		}

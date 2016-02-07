@@ -29,6 +29,8 @@ public class GameRunner extends Game{
 	public static ParticleEffect snowEmitter;
 	public static ParticleEffect fireEmitter;
 	public static ParticleEffect waterEmitter;
+	public static ParticleEffect jungleEmitter;
+	public static ParticleEffect sandEmitter;
 	
 	public GameRunner(AdController adcontroller) {
 		this.adcontroller = adcontroller;
@@ -62,7 +64,13 @@ public class GameRunner extends Game{
 		assets.load("Level2/FrostLevelChar.png", Texture.class);
 		assets.load("Level2/FrostLevelEnemy.png", Texture.class);
 		assets.load("Level2/avoidness.png", Texture.class);
+		assets.load("Level5/avoidness.png", Texture.class);
+		assets.load("Level5/EnemyJungle.png", Texture.class);
+		assets.load("Level5/jungleCharacter.png", Texture.class);
+		assets.load("Level6/sandyCharacter.png", Texture.class);
 		
+		assets.load("Level6/desertEnemy.png", Texture.class);
+		assets.load("Level6/desertTheme.png", Texture.class);
 		
 		//LEVEL 3
 		assets.load("Level3/FireEnemy.png", Texture.class);
@@ -107,6 +115,14 @@ public class GameRunner extends Game{
 		assets.load("Textures/Menu/8.png", Texture.class);
 		assets.load("Textures/Menu/9.png", Texture.class);
 		assets.load("Textures/Menu/10.png", Texture.class);
+		
+		assets.load("Level5/1.png", Texture.class);
+		assets.load("Level5/2.png", Texture.class);
+		assets.load("Level5/3.png", Texture.class);
+		assets.load("Level5/4.png", Texture.class);
+		assets.load("Level5/5.png", Texture.class);
+		assets.load("Level5/6.png", Texture.class);
+		assets.load("Level5/7.png", Texture.class);
 		
 		assets.load("MuteButton/soundOn.png", Texture.class);
 		assets.load("MuteButton/soundOff.png", Texture.class);
@@ -190,6 +206,15 @@ public class GameRunner extends Game{
 		waterEmitter.scaleEffect(2);
 		assets.finishLoading();
 		
+		jungleEmitter = new ParticleEffect();
+		jungleEmitter.load(Gdx.files.internal("Level5/jungleParticles.p"),Gdx.files.internal("Level5"));
+		jungleEmitter.scaleEffect(2);
+		
+		sandEmitter = new ParticleEffect();
+		sandEmitter.load(Gdx.files.internal("Level6/sandParticles"),Gdx.files.internal("Level6"));
+		sandEmitter.scaleEffect(2);
+		
+		assets.finishLoading();
 		
 		this.setScreen(new GameMenu(this));
 	}

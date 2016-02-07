@@ -46,7 +46,7 @@ public class Box {
 		//Levels
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		totalScore = prefs.getInteger("TotalScore");
-		
+		prefs.flush();
 		if(totalScore >= GameSc.LEVEL_1){
 			ball = GameRunner.assets.get("Textures/defaultBubble.png");
 			this.emitter = GameRunner.emitter;
@@ -63,6 +63,14 @@ public class Box {
 		if(totalScore >= GameSc.LEVEL_4){
 			ball = GameRunner.assets.get("Level4/waterBubble.png");
 			this.emitter = GameRunner.waterEmitter;
+		}
+		if(totalScore >= GameSc.LEVEL_5){
+			ball = GameRunner.assets.get("Level5/jungleCharacter.png");
+			this.emitter = GameRunner.jungleEmitter;
+		}
+		if(totalScore >= GameSc.LEVEL_6){
+			ball = GameRunner.assets.get("Level6/sandyCharacter.png");
+			this.emitter = GameRunner.sandEmitter;
 		}
 		//==================================================
 		

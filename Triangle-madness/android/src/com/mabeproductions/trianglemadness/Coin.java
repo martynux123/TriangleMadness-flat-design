@@ -57,6 +57,7 @@ public class Coin {
 			this.txt[6] = GameRunner.assets.get("Level2/7.png");
 		
 		}
+		
 		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_3){
 			this.txt[0] = GameRunner.assets.get("Level3/1.png");
 			this.txt[1] = GameRunner.assets.get("Level3/2.png");
@@ -68,14 +69,15 @@ public class Coin {
 			
 			
 		}
+		
 		if(prefs.getInteger("TotalScore")>=GameSc.LEVEL_4){
-			this.txt[0] =  GameRunner.assets.get("Coins/1.png");
-			this.txt[1] =  GameRunner.assets.get("Coins/2.png");
-			this.txt[2] =  GameRunner.assets.get("Coins/3.png");
-			this.txt[3] =  GameRunner.assets.get("Coins/4.png");
-			this.txt[4] =  GameRunner.assets.get("Coins/5.png");
-			this.txt[5] =  GameRunner.assets.get("Coins/6.png");
-			this.txt[6] =  GameRunner.assets.get("Coins/7.png");
+			this.txt[0] =  GameRunner.assets.get("Level5/1.png");
+			this.txt[1] =  GameRunner.assets.get("Level5/2.png");
+			this.txt[2] =  GameRunner.assets.get("Level5/3.png");
+			this.txt[3] =  GameRunner.assets.get("Level5/4.png");
+			this.txt[4] =  GameRunner.assets.get("Level5/5.png");
+			this.txt[5] =  GameRunner.assets.get("Level5/6.png");
+			this.txt[6] =  GameRunner.assets.get("Level5/7.png");
 			
 			
 		}

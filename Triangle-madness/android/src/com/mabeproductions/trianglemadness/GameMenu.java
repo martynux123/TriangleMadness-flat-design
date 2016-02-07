@@ -113,7 +113,8 @@ public class GameMenu implements Screen {
 		bg[0] = GameRunner.assets.get("Textures/Menu/1.png");
 		bg[1] = GameRunner.assets.get("Textures/Menu/2.png");
 		bg[2] = GameRunner.assets.get("Textures/Menu/3.png");
-		bg[3] = GameRunner.assets.get("Textures/Menu/4.png");
+		bg[3] = 
+				GameRunner.assets.get("Textures/Menu/4.png");
 		bg[4] = GameRunner.assets.get("Textures/Menu/5.png");
 		bg[5] = GameRunner.assets.get("Textures/Menu/6.png");
 		bg[6] = GameRunner.assets.get("Textures/Menu/7.png");
