@@ -51,7 +51,7 @@ public class GameSc implements Screen {
 	
 	
 	//HourGlass variables
-	private int hourglassDelay = 6000;
+	private int hourglassDelay = 9000;
 	private int hourglassTicks;
 	private Texture hourglassTexture;
 
@@ -664,15 +664,12 @@ public class GameSc implements Screen {
 		box.dispose();
 		rocket.dispose();
 
-		for (int i = 0; i < enemies2.size(); i++) {
-			enemies2.get(i).dispose();
-		}
 
 		
 		
 		coins.clear();		
 		
-		hourglasess.clear();
+	
 
 		Preferences test = Gdx.app.getPreferences("Stats");
 		

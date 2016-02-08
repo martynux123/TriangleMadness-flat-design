@@ -122,6 +122,5 @@ public class Enemy {
 
 	}
 	
-	public void dispose(){
-	}
+	
 }
