@@ -56,9 +56,9 @@ public class GameRunner extends Game{
 	
 		scorefontgen.dispose();
 		
-		
-		
-		
+		//HourGlass
+		assets.load("hourglass.png", Texture.class);
+
 		
 		assets.load("Textures/defaultBubble.png", Texture.class);
 		assets.load("Level2/FrostLevelChar.png", Texture.class);

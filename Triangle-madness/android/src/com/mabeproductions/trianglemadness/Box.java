@@ -1,5 +1,8 @@
 package com.mabeproductions.trianglemadness;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
@@ -35,9 +38,9 @@ public class Box {
 	private TextureRegion screenshot;
 	private Sound sound;
 	private Rectangle touchBounds;
-	
+	public static boolean tookHourglass = false;
 	private int totalScore;
-
+	private Timer t;
 	
 	public Box(GameSc g) {
 
@@ -80,13 +83,14 @@ public class Box {
 			
 		}
 		
-		//==================================================
+
 		
 		sound = GameRunner.assets.get("Sounds/gameOver.wav");
 		size = ball.getWidth() * size;
 
 		pos = new Vector2(Gdx.graphics.getWidth() / 2 - size / 2, Gdx.graphics.getHeight() / 2 - size / 2);
 
+		t = new Timer();
 		
 		bounds = new Rectangle(pos.x, pos.y, size-Gdx.graphics.getHeight()*0.0185f, size-Gdx.graphics.getHeight()*0.0185f);
 		touchBounds = new Rectangle(pos.x - Gdx.graphics.getHeight()*0.025f, pos.y - Gdx.graphics.getHeight()*0.025f, Gdx.graphics.getHeight()*0.15f, Gdx.graphics.getHeight()*0.15f);
@@ -131,8 +135,6 @@ public class Box {
 		touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);
 
 		// Moving the touchX and touchY if it's touched
-
-
 		if (pos.y > Gdx.graphics.getHeight()) {
 			shouldScreenChange = true;
 		}
@@ -177,7 +179,24 @@ public class Box {
 			e.printStackTrace();
 		}
 			
-		
+		//Picking up HOURGLASSES
+		//========================================================
+		System.out.println(tookHourglass);
+		for(int i = 0; i<g.hourglasess.size();i++){
+			if(bounds.overlaps(g.hourglasess.get(i).hourBounds())){
+				g.hourglasess.remove(i);
+				tookHourglass=true;
+				t.schedule(new TimerTask() {//First of all boolean tookHourglass== false. If picked up it becomes true and after 2secs - False. We will change freeze time. 
+					
+					@Override
+					public void run() {
+						tookHourglass=false;
+					}
+				}, 2000);
+				
+			}
+		}
+		//============================================
 		
 	}
 

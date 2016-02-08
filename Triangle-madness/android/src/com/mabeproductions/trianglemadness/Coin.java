@@ -103,6 +103,7 @@ public class Coin {
 	}
 
 	public void render(SpriteBatch batch, ShapeRenderer render) {
+
 		batch.begin();
 		batch.draw(txt[index], x, y, Coin.getCoinSize(), Coin.getCoinSize());
 		batch.end();
@@ -126,12 +127,21 @@ public class Coin {
 	}
 
 	public void update() {
-
-		if (tickCount >= 30) {
-			y -= speed;
-			tickCount = 0;
+		//===============================================================================================================
+		if(Box.tookHourglass==false){
+			if (tickCount >= 30) {
+				y -= speed;
+				tickCount = 0;
+			}
 		}
-
+		if(Box.tookHourglass==true){
+			
+			if (tickCount >= 30) {
+				y -= speed-7;
+				tickCount = 0;
+			}
+		}
+		//===============================================================================================================
 		if (rotationIndex >= 70) {
 			index++;
 			rotationIndex = 0;

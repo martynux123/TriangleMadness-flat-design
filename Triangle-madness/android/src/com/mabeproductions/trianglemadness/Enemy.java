@@ -82,11 +82,20 @@ public class Enemy {
 	}
 
 	public void render(SpriteBatch batch, ShapeRenderer shape) {
-		//System.out.println(x + " " + y);
-		if(tickCount >= 2){
-			y += speed;
-			tickCount = 0;
+		
+		if(Box.tookHourglass==false){
+			if(tickCount >= 2){
+				y += speed;
+				tickCount = 0;
+			}			
 		}
+		if(Box.tookHourglass==true){
+			if(tickCount >= 2){
+				y += speed+7;
+				tickCount = 0;
+			}			
+		}
+		
 		
 		bounds.set(x, y, width, height);
 

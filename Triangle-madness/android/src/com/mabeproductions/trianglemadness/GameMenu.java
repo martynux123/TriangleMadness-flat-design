@@ -239,23 +239,11 @@ public class GameMenu implements Screen {
 		if(rateUs.isPressed()&&rateUsOn){
 			Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.mabeproductions.trianglemadness");
 			rateUsOn=false;
-			if(rateUs.isOver()){
-				rateUsOn=true;
-				
-			}
-			
-			
 		}
 		
 		if(fbButton.isPressed() && facebookOn){
 			Gdx.net.openURI("https://www.facebook.com/MaBeProductions/?skip_nax_wizard=true");
-
 			facebookOn=false;
-			
-			if(fbButton.isOver()){
-				facebookOn=true;
-				
-			}
 		}
 		
 		batch.begin();

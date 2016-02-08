@@ -20,13 +20,15 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class GameSc implements Screen {
 	
+	
 	//Levels
 	public static final int LEVEL_1 = 0;
-	public static final int LEVEL_2 = 10;
-	public static final int LEVEL_3 = 20;
-	public static final int LEVEL_4 = 30;
-	public static final int LEVEL_5 = 40;
-	public static final int LEVEL_6 = 50;
+	public static final int LEVEL_2 = 1000;
+	public static final int LEVEL_3 = 2500;
+	public static final int LEVEL_4 = 4000;
+	public static final int LEVEL_5 = 5500;
+	public static final int LEVEL_6 = 7000;
+	
 	public static int Level = 1;
 	
 
@@ -47,7 +49,11 @@ public class GameSc implements Screen {
 	private int stage = 1;
 	private int rocketSpeed = 0;
 	
-	//Music variables
+	
+	//HourGlass variables
+	private int hourglassDelay = 6000;
+	private int hourglassTicks;
+	private Texture hourglassTexture;
 
 	
 	
@@ -58,18 +64,17 @@ public class GameSc implements Screen {
 	public Box box;
 	private ShapeRenderer shape;
 	public Rocket rocket;
-	public static ArrayList<Coin> coins = new ArrayList<Coin>();
 	public GameRunner runner;
 	private BitmapFont font;
 	private Broadcaster broadcaster;
 	private Sound stageSound;
 	
-	
-	
-	
+
 	// Collections
 	public ArrayList<Enemy> enemies2;
 	private Texture[] cointxt = new Texture[7];
+	public static ArrayList<Coin> coins = new ArrayList<Coin>();
+	public ArrayList<Hourglass> hourglasess;
 
 	// Textures.
 	private Texture background;
@@ -97,14 +102,18 @@ public class GameSc implements Screen {
 		txt = GameRunner.assets.get("Textures/Enemies/Boxers/Enemy.png");
 		enemy2 = GameRunner.assets.get("Textures/Enemies/Enemy2.png");
 		rockettxt = GameRunner.assets.get("Textures/Enemies/rocket.png");
+		hourglassTexture = GameRunner.assets.get("hourglass.png");
+		
 		
 		t = new Timer();
 
 		emitter = GameRunner.rocketEmitter;
 		coinEmitter = GameRunner.coinEmitter;
-
+		
 
 		enemies2 = new ArrayList<Enemy>();
+		hourglasess = new ArrayList<Hourglass>();
+		
 		shape = new ShapeRenderer();
 
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
@@ -177,6 +186,13 @@ public class GameSc implements Screen {
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		prefs.putInteger("Tries", prefs.getInteger("Tries") + 1);
 		prefs.flush();
+		
+		if(!prefs.getBoolean("isScoreReset")){
+			prefs.putInteger("TotalScore", 0);
+			prefs.putBoolean("isScoreReset", true);
+			prefs.flush();
+		}
+		
 		
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
@@ -269,7 +285,7 @@ public class GameSc implements Screen {
 				enemyFromTopThread();
 				
 				
-				// ================== Update thread ================================
+		
 				new Thread(new Runnable() {
 					
 					@Override
@@ -288,7 +304,7 @@ public class GameSc implements Screen {
 						
 					}
 				}, "Update").start();
-				//==========================================//
+			
 				
 				
 			}
@@ -404,15 +420,25 @@ public class GameSc implements Screen {
 		// rendering coins
 		for (int i = 0; i < coins.size(); i++) {
 			coins.get(i).render(batch, shape);
-
 		}
+		
+		
 		if(broadcaster != null)
 			broadcaster.render(batch);
 
 		// rendering rocket
 		rocket.render(batch, shape);
 		box.render(batch);
-
+		
+		
+		//========================================================
+		//Rendering hourglass
+				for(int i = 0; i<hourglasess.size();i++){
+					if(hourglasess.get(i)!=null){
+						hourglasess.get(i).render(batch, shape);						
+					}
+				}
+				//========================================================
 	}
 
 	public void update() {
@@ -422,6 +448,8 @@ public class GameSc implements Screen {
 
 		randomDirection = MathUtils.random(0, 1);
 
+
+		
 		// Updating coins
 		for (int i = 0; i < coins.size(); i++) {
 			coins.get(i).update();
@@ -429,14 +457,16 @@ public class GameSc implements Screen {
 			// Removes a coin if it's < 0
 			if (coins.get(i).getY() < -Coin.getCoinSize()) {
 				coins.remove(coins.get(i));
-
 			}
 
 		}
-
+		
+		
 		box.update();
 		rocket.update();
-
+		
+		
+		
 		// Updating enemies
 		for (int i = 0; i < enemies2.size(); i++) {
 			if (enemies2.get(i) != null) {
@@ -448,32 +478,37 @@ public class GameSc implements Screen {
 
 		// Spawning rockets
 		if (randomDirection == 0) {
+		
+		
+				
 			if(stage == 2)
 				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.0231f);
 			if(stage == 3)
 				rocketSpeed =(int) (Gdx.graphics.getHeight()*0.0324f) ;
 			if(stage == 4)
 				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.0416f);
-				
 			
 			if (rocketTickCount >= rocketDelayTickCount) {
-				rocketDelayTickCount = MathUtils.random(4000, 9000);
+				rocketDelayTickCount = MathUtils.random(4000, 5000);
 
+	
 				spawnRocket(-200, (int) box.getPos().y / 2, rocketSpeed, -90, rockettxt, emitter);
 				rocketTickCount = 0;
 			}
 			if(stage > 1)
 				rocketTickCount++;
-
-		}
+			}
+	
 
 		if (randomDirection == 1) {
-			if(stage == 2)
-				rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0231f);
-			if(stage == 3)
-				rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0324f);
-			if(stage == 4)
-				rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0416f);
+
+				if(stage == 2)
+					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0231f);
+				if(stage == 3)
+					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0324f);
+				if(stage == 4)
+					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0416f);				
+		
 			if (rocketTickCount >= rocketDelayTickCount) {
 				rocketDelayTickCount = MathUtils.random(4000, 5000);
 
@@ -482,10 +517,10 @@ public class GameSc implements Screen {
 			}
 			if(stage>1){
 				rocketTickCount++;
-				
-			}
 
-		}
+			}
+			}
+	
 
 		// Spawning coins
 		if (tickCountsCoins >= CoinsDelay) {
@@ -508,8 +543,35 @@ public class GameSc implements Screen {
 			
 		}
 		tickCountsCoins++;
-
 		
+		
+		//===============================================================================================================
+		//REMOVING HOURGLASESS
+		for(int i = 0; i<hourglasess.size(); i++){
+			if(hourglasess.get(i).getY()+Hourglass.HourGlassSize<0){
+				hourglasess.remove(i);
+			}
+		}
+
+		//Hourglass spawn
+		if(hourglassTicks>=hourglassDelay){
+			float x = MathUtils.random(Gdx.graphics.getWidth()-Hourglass.HourGlassSize);
+			spawnHourglass(x, Gdx.graphics.getHeight(),Gdx.graphics.getHeight()*0.00833f,hourglassTexture );
+			hourglassTicks=0;
+			try{
+				
+				for(int i =0; i<enemies2.size(); i++){
+					if(hourglasess.get(hourglasess.size()-1).hourBounds().overlaps(enemies2.get(i).bounds)){
+						hourglasess.remove(hourglasess.size()-1);
+						hourglassTicks=0;
+			}
+			}
+			}catch(Exception e){	
+			}
+			}
+			
+		hourglassTicks++;
+		//===============================================================================================================
 
 	}
 
@@ -573,8 +635,13 @@ public class GameSc implements Screen {
 	public void spawnEnemyFromTop(float x, float y, float  speed, Texture currentTexture) {
 		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, currentTexture);
 		enemies2.add(enemy);
-
 	}
+	//===============================================================================================================
+	public void spawnHourglass(float x, int y, float speed, Texture texture){
+		Hourglass hourglass = new Hourglass(x,y,speed,texture);
+		hourglasess.add(hourglass);		
+	}
+	//===============================================================================================================
 
 	public void spawnRocket(int x, int y, int speed, int degrees, Texture currentTexture, ParticleEffect emitter) {
 		rocket = new Rocket(x, y, speed, degrees, currentTexture, emitter);
@@ -601,7 +668,11 @@ public class GameSc implements Screen {
 			enemies2.get(i).dispose();
 		}
 
-		coins.clear();
+		
+		
+		coins.clear();		
+		
+		hourglasess.clear();
 
 		Preferences test = Gdx.app.getPreferences("Stats");
 		
