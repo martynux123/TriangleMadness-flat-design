@@ -173,7 +173,7 @@ public class GameSc implements Screen {
 			public void run() {
 				if(GameMenu.isMuted){
 					music.setVolume(0);
-				}else music.setVolume(1f);
+				}else music.setVolume(1f);			
 			}
 		}, 500);
 			
@@ -181,8 +181,6 @@ public class GameSc implements Screen {
 
 	@Override
 	public void show() {
-		
-		
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		prefs.putInteger("Tries", prefs.getInteger("Tries") + 1);
 		prefs.flush();
@@ -305,7 +303,6 @@ public class GameSc implements Screen {
 					}
 				}, "Update").start();
 			
-				
 				
 			}
 		}, 100);
