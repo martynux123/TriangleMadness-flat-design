@@ -74,23 +74,19 @@ public class Rocket {
 	public void render(SpriteBatch batch, ShapeRenderer render){
 		
 		if(rot==90){
-			if(Box.tookHourglass==false){
 				if(tickCount >= 1){
 					x+= speed;
 					tickCount = 0;
-				}
+
 			}
 			
 			
 		}
 		if(rot==-90){
-			if(Box.tookHourglass==false){
 				if(tickCount >= 1){
 					x+= speed;
 					tickCount = 0;
-				}
-			}
-			
+			}	
 		}
 		
 		if(rot==-90){

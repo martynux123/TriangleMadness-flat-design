@@ -44,7 +44,6 @@ public class GameSc implements Screen {
 	private int index = 0;
 	private float enemySpeed = -15;
 	private int enemyDelay = 350;
-	private int tickCountEnemySpeed = 0;
 	public int Score = 0;
 	private int stage = 1;
 	private int rocketSpeed = 0;
@@ -63,7 +62,6 @@ public class GameSc implements Screen {
 	private SpriteBatch batch;
 	public Box box;
 	private ShapeRenderer shape;
-//	public Rocket rocket;
 	public GameRunner runner;
 	private BitmapFont font;
 	private Broadcaster broadcaster;
@@ -118,7 +116,6 @@ public class GameSc implements Screen {
 		shape = new ShapeRenderer();
 
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		spawnRocket(Gdx.graphics.getWidth() + 200, (int) box.getPos().y, (int) (Gdx.graphics.getHeight()*0.0138f), -90, rockettxt, emitter);
 
 
 		cointxt[0] = GameRunner.assets.get("Coins/1.png");
@@ -426,7 +423,6 @@ public class GameSc implements Screen {
 			broadcaster.render(batch);
 
 		// rendering rocket
-		//rocket.render(batch, shape);
 		for(int i = 0; i<rocketList.size(); i++){
 			rocketList.get(i).render(batch, shape);
 		}
@@ -451,7 +447,13 @@ public class GameSc implements Screen {
 
 		randomDirection = MathUtils.random(0, 1);
 
-
+		if(!GameMenu.isMuted&&Box.tookHourglass==false){
+			music.setVolume(1f);
+		}
+		if(!GameMenu.isMuted&&Box.tookHourglass==true){
+			music.setVolume(0.3f);
+		}
+		
 		
 		// Updating coins
 		for (int i = 0; i < coins.size(); i++) {
@@ -492,14 +494,19 @@ public class GameSc implements Screen {
 				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.035f);
 			
 			if (rocketTickCount >= rocketDelayTickCount) {
-				rocketDelayTickCount = MathUtils.random(4000, 5000);
+				rocketDelayTickCount = MathUtils.random(3000, 5000);
 
-				
 				spawnRocket(-200, (int) box.getPos().y / 2, rocketSpeed, -90, rockettxt, emitter);
+				for(int i = 0; i<rocketList.size(); i++){
+					if(rocketList.get(i).getX()>Gdx.graphics.getWidth()){
+						rocketList.remove(rocketList.get(i));
+					}
+				}
 				rocketTickCount = 0;
 			}
 			if(stage > 1)
 				rocketTickCount++;
+			
 			
 		
 			
@@ -507,6 +514,7 @@ public class GameSc implements Screen {
 	
 
 		if (randomDirection == 1) {
+			
 				if(stage == 2)
 					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.015f);
 				if(stage == 3)
@@ -514,15 +522,19 @@ public class GameSc implements Screen {
 				if(stage == 4)
 					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.035f);				
 			if (rocketTickCount >= rocketDelayTickCount) {
-				rocketDelayTickCount = MathUtils.random(4000, 5000);
+				rocketDelayTickCount = MathUtils.random(3000, 5000);
 				spawnRocket(Gdx.graphics.getWidth() + 200, (int) (box.getPos().y - Gdx.graphics.getHeight()*0.2777f), rocketSpeed, 90, rockettxt, emitter);
+				for(int i = 0; i<rocketList.size(); i++){
+					if(rocketList.get(i).getX()<0){
+						rocketList.remove(rocketList.get(i));
+					}
+				}
 				rocketTickCount = 0;
 			}
 			if(stage>1){
 				rocketTickCount++;
 
 			}
-			
 			
 			}
 		
@@ -642,17 +654,11 @@ public class GameSc implements Screen {
 		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, currentTexture);
 		enemies2.add(enemy);
 	}
-	//===============================================================================================================
 	public void spawnHourglass(float x, int y, float speed, Texture texture){
 		Hourglass hourglass = new Hourglass(x,y,speed,texture);
 		hourglasess.add(hourglass);		
 	}
-	//===============================================================================================================
-/*
-	public void spawnRocket(int x, int y, int speed, int degrees, Texture currentTexture, ParticleEffect emitter) {
-		rocket = new Rocket(x, y, speed, degrees, currentTexture, emitter);
-	}
-	*/
+
 	public void spawnRocket(int x, int y, int speed, int degrees,Texture currentTexture, ParticleEffect emitter){
 		Rocket rocket = new Rocket(x,y,speed,degrees,currentTexture,emitter);
 		rocketList.add(rocket);

@@ -187,7 +187,6 @@ public class Box {
 			
 		//Picking up HOURGLASSES
 		//========================================================
-		System.out.println(tookHourglass);
 		for(int i = 0; i<g.hourglasess.size();i++){
 			if(bounds.overlaps(g.hourglasess.get(i).hourBounds())){
 				g.hourglasess.remove(i);
