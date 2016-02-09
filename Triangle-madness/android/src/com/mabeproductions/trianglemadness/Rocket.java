@@ -73,22 +73,36 @@ public class Rocket {
 	
 	public void render(SpriteBatch batch, ShapeRenderer render){
 		
+		if(rot==90){
+			if(Box.tookHourglass==false){
+				if(tickCount >= 1){
+					x+= speed;
+					tickCount = 0;
+				}
+			}
+			
+			
+		}
+		if(rot==-90){
+			if(Box.tookHourglass==false){
+				if(tickCount >= 1){
+					x+= speed;
+					tickCount = 0;
+				}
+			}
+			
+		}
 		
 		if(rot==-90){
-			bounds.setPosition(x-10, y + 60);
-			
+			bounds.setPosition(x-10, y + 60);	
 		}
-		
 		if(rot==90){
 			bounds.setPosition(x - rocket.getWidth()*scale*scale-100, y + 60 +rocket.getHeight()*scale - 10);
-			
-		}
-		//TICK count.
-		if(tickCount >= 2){
-			x+= speed;
-			tickCount = 0;
 		}
 		
+		
+
+
 		batch.begin();
 		
 		if(rot==-90){
@@ -112,6 +126,7 @@ public class Rocket {
 			render.end();
 		}
 		tickCount++;
+		
 		
 	}
 	

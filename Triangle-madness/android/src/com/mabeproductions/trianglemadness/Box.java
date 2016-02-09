@@ -165,16 +165,22 @@ public class Box {
 				}
 			}
 
-			if (bounds.overlaps(g.rocket.getBounds())) {
-
-				shouldScreenChange = true;
-				// vibrate=true;
-				if (vibrate) {
-					Gdx.input.vibrate(200);
-					vibrate = false;
+			for(int i=0; i<g.rocketList.size(); i++){
+				if(bounds.overlaps(g.rocketList.get(i).getBounds())){
+					shouldScreenChange = true;
+					// vibrate=true;
+					if (vibrate) {
+						Gdx.input.vibrate(200);
+						vibrate = false;
+					}
+					
 				}
 			}
+			
+			
 
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

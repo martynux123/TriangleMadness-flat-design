@@ -63,7 +63,7 @@ public class GameSc implements Screen {
 	private SpriteBatch batch;
 	public Box box;
 	private ShapeRenderer shape;
-	public Rocket rocket;
+//	public Rocket rocket;
 	public GameRunner runner;
 	private BitmapFont font;
 	private Broadcaster broadcaster;
@@ -75,6 +75,7 @@ public class GameSc implements Screen {
 	private Texture[] cointxt = new Texture[7];
 	public static ArrayList<Coin> coins = new ArrayList<Coin>();
 	public ArrayList<Hourglass> hourglasess;
+	public ArrayList<Rocket> rocketList;
 
 	// Textures.
 	private Texture background;
@@ -110,7 +111,7 @@ public class GameSc implements Screen {
 		emitter = GameRunner.rocketEmitter;
 		coinEmitter = GameRunner.coinEmitter;
 		
-
+		rocketList = new ArrayList<Rocket>();
 		enemies2 = new ArrayList<Enemy>();
 		hourglasess = new ArrayList<Hourglass>();
 		
@@ -410,6 +411,7 @@ public class GameSc implements Screen {
 		batch.end();
 
 		// Rendering enemies
+		
 		for (int i = 0; i < enemies2.size(); i++) {
 			enemies2.get(i).render(batch, shape);
 		}
@@ -424,7 +426,11 @@ public class GameSc implements Screen {
 			broadcaster.render(batch);
 
 		// rendering rocket
-		rocket.render(batch, shape);
+		//rocket.render(batch, shape);
+		for(int i = 0; i<rocketList.size(); i++){
+			rocketList.get(i).render(batch, shape);
+		}
+		
 		box.render(batch);
 		
 		
@@ -460,11 +466,12 @@ public class GameSc implements Screen {
 		
 		
 		box.update();
-		rocket.update();
+		
 		
 		
 		
 		// Updating enemies
+		
 		for (int i = 0; i < enemies2.size(); i++) {
 			if (enemies2.get(i) != null) {
 				enemies2.get(i).update();
@@ -474,41 +481,40 @@ public class GameSc implements Screen {
 		}
 
 		// Spawning rockets
+		System.out.println(rocketList.size());
 		if (randomDirection == 0) {
-		
-		
-				
+
 			if(stage == 2)
-				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.0231f);
+				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.015f);
 			if(stage == 3)
-				rocketSpeed =(int) (Gdx.graphics.getHeight()*0.0324f) ;
+				rocketSpeed =(int) (Gdx.graphics.getHeight()*0.025f) ;
 			if(stage == 4)
-				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.0416f);
+				rocketSpeed = (int) (Gdx.graphics.getHeight()*0.035f);
 			
 			if (rocketTickCount >= rocketDelayTickCount) {
 				rocketDelayTickCount = MathUtils.random(4000, 5000);
 
-	
+				
 				spawnRocket(-200, (int) box.getPos().y / 2, rocketSpeed, -90, rockettxt, emitter);
 				rocketTickCount = 0;
 			}
 			if(stage > 1)
 				rocketTickCount++;
+			
+		
+			
 			}
 	
 
 		if (randomDirection == 1) {
-
 				if(stage == 2)
-					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0231f);
+					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.015f);
 				if(stage == 3)
-					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0324f);
+					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.025f);
 				if(stage == 4)
-					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.0416f);				
-		
+					rocketSpeed = -(int) (Gdx.graphics.getHeight()*0.035f);				
 			if (rocketTickCount >= rocketDelayTickCount) {
 				rocketDelayTickCount = MathUtils.random(4000, 5000);
-
 				spawnRocket(Gdx.graphics.getWidth() + 200, (int) (box.getPos().y - Gdx.graphics.getHeight()*0.2777f), rocketSpeed, 90, rockettxt, emitter);
 				rocketTickCount = 0;
 			}
@@ -516,8 +522,11 @@ public class GameSc implements Screen {
 				rocketTickCount++;
 
 			}
+			
+			
 			}
-	
+		
+		
 
 		// Spawning coins
 		if (tickCountsCoins >= CoinsDelay) {
@@ -639,11 +648,17 @@ public class GameSc implements Screen {
 		hourglasess.add(hourglass);		
 	}
 	//===============================================================================================================
-
+/*
 	public void spawnRocket(int x, int y, int speed, int degrees, Texture currentTexture, ParticleEffect emitter) {
 		rocket = new Rocket(x, y, speed, degrees, currentTexture, emitter);
 	}
-
+	*/
+	public void spawnRocket(int x, int y, int speed, int degrees,Texture currentTexture, ParticleEffect emitter){
+		Rocket rocket = new Rocket(x,y,speed,degrees,currentTexture,emitter);
+		rocketList.add(rocket);
+	}
+	
+	
 	@Override
 	public void pause() {
 		game_paused = true;
@@ -659,13 +674,13 @@ public class GameSc implements Screen {
 		shape.dispose();
 		batch.dispose();
 		box.dispose();
-		rocket.dispose();
 
 
 		
 		
 		coins.clear();		
-		
+		hourglasess.clear();
+		rocketList.clear();
 	
 
 		Preferences test = Gdx.app.getPreferences("Stats");
