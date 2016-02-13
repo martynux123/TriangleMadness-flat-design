@@ -41,6 +41,7 @@ public class Box {
 	private Rectangle touchBounds;
 	public static boolean tookHourglass = false;
 	private int totalScore;
+	public static boolean isMultiplier=false;
 	private Timer t;
 	public  boolean isCoin=false;
 	
@@ -140,10 +141,8 @@ public class Box {
 				}
 				if(tookHourglass==true){
 					g.Score+=3;
-					
-
-					
 				}
+				
 				g.coins.get(i).onAquire();
 				g.coins.remove(i);
 			}
@@ -176,7 +175,6 @@ public class Box {
 
 				if (bounds.overlaps(g.enemies2.get(i).bounds) && !shouldScreenChange) {
 					shouldScreenChange = true;
-					
 					vibrate = true;
 					if (vibrate) {
 						Gdx.input.vibrate(200);
@@ -184,6 +182,17 @@ public class Box {
 					}
 				}
 			}
+			
+			//==================================================8
+			for(int i = 0; i<g.multiplierList.size(); i++){
+				if(bounds.overlaps(g.multiplierList.get(i).multiBounds())){
+					g.multiplierList.remove(i);
+					g.Score+=5;
+					Multiplier.multiSound();
+				}
+				
+			}
+			
 
 			for(int i=0; i<g.rocketList.size(); i++){
 				if(bounds.overlaps(g.rocketList.get(i).getBounds())){
@@ -229,7 +238,26 @@ public class Box {
 		for(int i = 0; i<g.cleanerList.size();i++){
 			if(g.cleanerList.get(i).cleanerBounds().overlaps(bounds)){
 				g.cleanerList.remove(i);
-				g.enemies2.clear();
+				
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						
+						while(!g.enemies2.isEmpty()){
+							g.enemies2.remove(0);
+							try {
+								Thread.sleep(50);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}							
+						}
+						
+						Thread.currentThread().interrupt();
+					}
+				}).start();
+				
+				Cleaner.cleanerSound();
 			}
 		}
 	}

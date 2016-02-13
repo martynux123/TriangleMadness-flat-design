@@ -19,17 +19,16 @@ public class Cleaner {
 	private float speed;
 	private Texture texture;
 	private int tickCount;
-	public  static float CleanGlassSize = Gdx.graphics.getHeight()*0.09f;
+	public  static float CleanGlassSize = Gdx.graphics.getHeight()*0.12f;
 	private Rectangle cleanerBounds;
 	private static Sound sound;
-	
 	
 	public Cleaner(float x, int y, float speed, Texture texture){
 		this.x = x;
 		this.y = y;
 		this.speed= speed;
 		this.texture=texture;
-		sound = GameRunner.assets.get("Sounds/FreezeTime.wav");
+		sound = GameRunner.assets.get("Sounds/Backtrack.wav");
 		
         cleanerBounds = new Rectangle(x, y, CleanGlassSize, CleanGlassSize);
 	}

@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 
 
-public class Hourglass {
+public class Multiplier {
 
 	private boolean debugMode = false;
 	private float x;
@@ -19,21 +19,21 @@ public class Hourglass {
 	private float speed;
 	private Texture texture;
 	private int tickCount;
-	public  static float HourGlassSize = Gdx.graphics.getHeight()*0.12f;
-	private Rectangle hourBounds;
+	public  static float multiSize = Gdx.graphics.getHeight()*0.12f;
+	private Rectangle multiBounds;
 	private static Sound sound;
 	
-	public Hourglass(float x, int y, float speed, Texture texture){
+	public Multiplier(float x, int y, float speed, Texture texture){
 		this.x = x;
 		this.y = y;
 		this.speed= speed;
 		this.texture=texture;
+		sound = GameRunner.assets.get("Sounds/sparkle.wav");
 		
-		sound = GameRunner.assets.get("Sounds/FreezeTime.wav");
-		hourBounds = new Rectangle(x, y, HourGlassSize, HourGlassSize);
+        multiBounds = new Rectangle(x, y, multiSize, multiSize);
 	}
 
-		public static void hourglassSound(){
+		public static void multiSound(){
 			if(GameMenu.isMuted){			
 				sound.play(0);
 			}else sound.play(2f);
@@ -48,8 +48,8 @@ public class Hourglass {
 	public int getY(){
 		return y;
 	}
-	public Rectangle hourBounds(){
-		return hourBounds;
+	public Rectangle multiBounds(){
+		return multiBounds;
 	}
 	
 	public void render(SpriteBatch batch, ShapeRenderer render){
@@ -57,11 +57,11 @@ public class Hourglass {
 			y-=speed;
 			tickCount =0;
 		}
-		hourBounds.setPosition(x, y);
+		multiBounds.setPosition(x, y);
 		tickCount++;
 	
 		batch.begin();
-		batch.draw(texture, x, y, HourGlassSize,HourGlassSize);
+		batch.draw(texture, x, y, multiSize,multiSize);
 		batch.end();
 		
 		if(debugMode){
@@ -70,7 +70,7 @@ public class Hourglass {
 			render.begin();
 			render.set(ShapeType.Line);
 			render.setColor(Color.BROWN);
-			render.rect(x, y, HourGlassSize, HourGlassSize);
+			render.rect(x, y, multiSize, multiSize);
 			render.end();
 			
 		}
@@ -78,3 +78,4 @@ public class Hourglass {
 	}
 	
 }
+
