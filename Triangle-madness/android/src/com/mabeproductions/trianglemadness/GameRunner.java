@@ -57,8 +57,8 @@ public class GameRunner extends Game{
 		scorefontgen.dispose();
 		
 		//HourGlass
-		assets.load("hourglass.png", Texture.class);
-
+		assets.load("clock.png", Texture.class);
+		assets.load("cleaner.png", Texture.class);
 		
 		assets.load("Textures/defaultBubble.png", Texture.class);
 		assets.load("Level2/FrostLevelChar.png", Texture.class);
@@ -93,6 +93,7 @@ public class GameRunner extends Game{
 		assets.load("Sounds/gameOver.wav", Sound.class);
 		assets.load("Sounds/gameMenu.wav", Music.class);
 		assets.load("Sounds/stageSound.wav", Sound.class);
+		assets.load("Sounds/FreezeTime.wav", Sound.class);
 		
 		//GameOver
 		assets.load("Textures/GameOver/GameOver0001.png", Texture.class);

@@ -20,6 +20,7 @@ public class Broadcaster {
 		this.y = y;
 		this.speed = speed;
 		this.text = text;
+		this.g = g;
 		
 		BigScoreFont = GameRunner.BigScoreFont;
 		broadcastThread();
@@ -50,6 +51,8 @@ public class Broadcaster {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					
+					
 				}
 				while(x<Gdx.graphics.getWidth()/2-Gdx.graphics.getHeight()*0.1851f){
 					try {
@@ -68,10 +71,11 @@ public class Broadcaster {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					
+					if(g.runner.getScreen() != g)
+						Thread.currentThread().interrupt();
 				}
 				Thread.currentThread().interrupt();
-				
-				
 			}
 		}, "BroadCaster").start();
 		

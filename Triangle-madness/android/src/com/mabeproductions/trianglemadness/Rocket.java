@@ -27,7 +27,7 @@ public class Rocket {
 	
 	
 	//Booleans
-	private final boolean debugRocket=true;
+	private final boolean debugRocket=false;
 	
 	
 	//Objects
@@ -72,7 +72,7 @@ public class Rocket {
 	
 	
 	public void render(SpriteBatch batch, ShapeRenderer render){
-		
+/*		
 		if(rot==90){
 				if(tickCount >= 1){
 					x+= speed;
@@ -95,6 +95,7 @@ public class Rocket {
 		if(rot==90){
 			bounds.setPosition(x - rocket.getWidth()*scale*scale-100, y + 60 +rocket.getHeight()*scale - 10);
 		}
+		tickCount++;
 		
 		
 
@@ -121,9 +122,8 @@ public class Rocket {
 			render.rect(bounds.x , bounds.y , bounds.getWidth(), bounds.getHeight());
 			render.end();
 		}
-		tickCount++;
 		
-		
+	*/	
 	}
 	
 	public void update() {

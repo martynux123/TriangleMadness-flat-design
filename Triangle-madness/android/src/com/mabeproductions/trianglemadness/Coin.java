@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -30,7 +31,8 @@ public class Coin {
 	private Rectangle bounds;
 	private ParticleEffect effect;
 	private Sound sound;
-
+	
+	
 	// Booleans
 	private boolean debugMode = false;
 
@@ -42,7 +44,6 @@ public class Coin {
 		this.effect = effect;
 		
 		Preferences prefs = Gdx.app.getPreferences("Stats");
-		
 		switch (GameSc.Level) {
 			
 		case 1:
@@ -85,6 +86,8 @@ public class Coin {
 
 		
 		
+		
+		
 		bounds = new Rectangle(x, y, getCoinSize(), getCoinSize());
 		sound = GameRunner.assets.get("Sounds/dzinkt.wav");
 
@@ -103,24 +106,17 @@ public class Coin {
 	}
 
 	public void render(SpriteBatch batch, ShapeRenderer render) {
-		
-		if(Box.tookHourglass==false){
-			if (tickCount >= 2) {
-				y -= speed;
-				tickCount = 0;
-			}
-		}
-		if(Box.tookHourglass==true){
-			
-			if (tickCount >= 2) {
-				y -= speed+7;
-				tickCount = 0;
-			}
+	
+
+		if (tickCount >= 2) {
+			y -= speed;
+			tickCount = 0;
 		}
 		tickCount++;
 
 		batch.begin();
 		batch.draw(txt[index], x, y, Coin.getCoinSize(), Coin.getCoinSize());
+	
 		batch.end();
 
 		if (debugMode) {
@@ -142,9 +138,7 @@ public class Coin {
 	}
 
 	public void update() {
-		//===============================================================================================================
-		//===============================================================================================================
-		if (rotationIndex >= 70) {
+		if (rotationIndex >= 55) {
 			index++;
 			rotationIndex = 0;
 		}

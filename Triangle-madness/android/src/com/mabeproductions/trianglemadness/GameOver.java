@@ -26,7 +26,6 @@ public class GameOver implements Screen {
 	//Objects
 	public GameRunner runner;
 	private SpriteBatch batch;
-	private ShapeRenderer render;
 	private Rectangle r;
 	private int Score;
 	

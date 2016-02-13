@@ -82,7 +82,6 @@ public class Enemy {
 	}
 
 	public void render(SpriteBatch batch, ShapeRenderer shape) {
-		
 		if(Box.tookHourglass==false){
 			if(tickCount >= 2){
 				y += speed;
@@ -95,7 +94,6 @@ public class Enemy {
 				tickCount = 0;
 			}			
 		}
-		
 		
 		bounds.set(x, y, width, height);
 

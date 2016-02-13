@@ -8,6 +8,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -41,10 +42,14 @@ public class Box {
 	public static boolean tookHourglass = false;
 	private int totalScore;
 	private Timer t;
+	public  boolean isCoin=false;
 	
+	
+
 	public Box(GameSc g) {
 
 		this.g = g;
+		
 		
 		//Levels
 		Preferences prefs = Gdx.app.getPreferences("Stats");
@@ -116,14 +121,29 @@ public class Box {
 			isTouched = true;
 		}
 		
+	
+		
 		touchBounds.setPosition(pos.x - 27f, pos.y - 27f);
 		
 		//Collecting coins!
 		for (int i = 0; i < GameSc.coins.size(); i++) {
 		
-	
+
+			    
+						
+		
+		
 			if(GameSc.coins.get(i).getBounds().overlaps(bounds)){		
-				g.Score++;
+				if(tookHourglass==false){
+					g.Score++;		
+					
+				}
+				if(tookHourglass==true){
+					g.Score+=3;
+					
+
+					
+				}
 				g.coins.get(i).onAquire();
 				g.coins.remove(i);
 			}
@@ -187,22 +207,31 @@ public class Box {
 			
 		//Picking up HOURGLASSES
 		//========================================================
+		
 		for(int i = 0; i<g.hourglasess.size();i++){
-			if(bounds.overlaps(g.hourglasess.get(i).hourBounds())){
+			if(g.hourglasess.get(i).hourBounds().overlaps(bounds)){
 				g.hourglasess.remove(i);
+				Hourglass.hourglassSound();	
 				tookHourglass=true;
-				t.schedule(new TimerTask() {//First of all boolean tookHourglass== false. If picked up it becomes true and after 2secs - False. We will change freeze time. 
+			   
+				t.schedule(new TimerTask() {
 					
 					@Override
 					public void run() {
 						tookHourglass=false;
 					}
-				}, 2000);
+				}, 4000);
 				
 			}
 		}
 		//============================================
 		
+		for(int i = 0; i<g.cleanerList.size();i++){
+			if(g.cleanerList.get(i).cleanerBounds().overlaps(bounds)){
+				g.cleanerList.remove(i);
+				g.enemies2.clear();
+			}
+		}
 	}
 
 	public void render(SpriteBatch batch) {
@@ -227,6 +256,8 @@ public class Box {
 		emitter.setPosition(pos.x + size / 2 + Gdx.graphics.getHeight()*0.00925f, pos.y + size / 2 + Gdx.graphics.getHeight()*0.00925f);
 		emitter.update(Gdx.graphics.getDeltaTime());
 		emitter.draw(batch);
+		
+			
 		batch.draw(ball, pos.x, pos.y, size, size);
 		batch.end();
 
