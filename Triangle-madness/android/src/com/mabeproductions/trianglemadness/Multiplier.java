@@ -24,10 +24,36 @@ public class Multiplier {
 	private static Sound sound;
 	
 	public Multiplier(float x, int y, float speed, Texture texture){
+		
+switch (GameSc.Level) {
+		
+		case 1:
+			this.texture = texture;
+			break;
+		case 2:
+			this.texture = GameRunner.assets.get("Level2/multiplier_winter.png");
+			break;
+		case 3:
+			this.texture = GameRunner.assets.get("Level3/multiplier_hell.png");
+			break;
+		case 4:
+			this.texture = GameRunner.assets.get("Level4/multiplier_underwater.png");
+			break;
+		case 5:
+			this.texture = GameRunner.assets.get("Level5/multiplier_Jungle.png");
+			break;
+		case 6:
+			this.texture = GameRunner.assets.get("Level6/multiplier_desert.png");
+			break;
+		default:
+			break;
+			
+		}
+		
 		this.x = x;
 		this.y = y;
 		this.speed= speed;
-		this.texture=texture;
+		//this.texture=texture;
 		sound = GameRunner.assets.get("Sounds/sparkle.wav");
 		
         multiBounds = new Rectangle(x, y, multiSize, multiSize);

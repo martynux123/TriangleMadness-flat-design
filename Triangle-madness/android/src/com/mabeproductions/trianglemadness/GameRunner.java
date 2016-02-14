@@ -58,12 +58,28 @@ public class GameRunner extends Game{
 		
 		assets.load("Sounds/Backtrack.wav", Sound.class);
 		
+		assets.load("Level2/cleaner_winter.png", Texture.class);
+		assets.load("Level3/cleaner_hell.png", Texture.class);
+		assets.load("Level4/cleaner_underwater.png", Texture.class);
+		assets.load("Level5/cleaner_Jungle.png", Texture.class);
+		assets.load("Level6/cleaner_desert.png", Texture.class);
+		
+		assets.load("Level2/multiplier_winter.png", Texture.class);
+		assets.load("Level3/multiplier_hell.png", Texture.class);
+		assets.load("Level4/multiplier_underwater.png", Texture.class);
+		assets.load("Level5/multiplier_Jungle.png", Texture.class);
+		assets.load("Level6/multiplier_desert.png", Texture.class);
+		
+		
+		
+		
 		//HourGlass
 		assets.load("clock.png", Texture.class);
 		assets.load("cleaner.png", Texture.class);
 		assets.load("multiplier.png", Texture.class);
-		
 		assets.load("Textures/defaultBubble.png", Texture.class);
+		
+		assets.load("Level2/clock_winter.png", Texture.class);
 		assets.load("Level2/FrostLevelChar.png", Texture.class);
 		assets.load("Level2/FrostLevelEnemy.png", Texture.class);
 		assets.load("Level2/avoidness.png", Texture.class);
@@ -82,13 +98,17 @@ public class GameRunner extends Game{
 		assets.load("Level3/FireEnemy.png", Texture.class);
 		assets.load("Level3/AvoidnessLava.png", Texture.class);
 		assets.load("Level3/fireCharacter.png", Texture.class);
+		assets.load("Level3/clock_hell.png", Texture.class);
 		
 		//LEVEL 4
 		assets.load("Level4/wateBackground.png", Texture.class);
 		assets.load("Level4/wateEnemy.png", Texture.class);
 		assets.load("Level4/waterBubble.png", Texture.class);
+		assets.load("Level4/clock_underwater.png", Texture.class);
 		
+		assets.load("Level5/clock_Jungle.png", Texture.class);
 		
+		assets.load("Level6/clock_desert.png", Texture.class);
 		
 		
 		assets.load("Sounds/dzinkt.wav", Sound.class);

@@ -749,7 +749,7 @@ public class GameSc implements Screen {
 		coins.clear();
 		hourglasess.clear();
 		rocketList.clear();
-
+		multiplierList.clear();
 		Preferences test = Gdx.app.getPreferences("Stats");
 
 		try {

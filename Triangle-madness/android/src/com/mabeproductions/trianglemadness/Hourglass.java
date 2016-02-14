@@ -24,10 +24,35 @@ public class Hourglass {
 	private static Sound sound;
 	
 	public Hourglass(float x, int y, float speed, Texture texture){
+		
+switch (GameSc.Level) {
+		
+		case 1:
+			this.texture = texture;
+			break;
+		case 2:
+			this.texture = GameRunner.assets.get("Level2/clock_winter.png");
+			break;
+		case 3:
+			this.texture = GameRunner.assets.get("Level3/clock_hell.png");
+			break;
+		case 4:
+			this.texture = GameRunner.assets.get("Level4/clock_underwater.png");
+			break;
+		case 5:
+			this.texture = GameRunner.assets.get("Level5/clock_Jungle.png");
+			break;
+		case 6:
+			this.texture = GameRunner.assets.get("Level6/clock_desert.png");
+			break;
+		default:
+			break;
+			
+		}
+		
 		this.x = x;
 		this.y = y;
 		this.speed= speed;
-		this.texture=texture;
 		
 		sound = GameRunner.assets.get("Sounds/FreezeTime.wav");
 		hourBounds = new Rectangle(x, y, HourGlassSize, HourGlassSize);
