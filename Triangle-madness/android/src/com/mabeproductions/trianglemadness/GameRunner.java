@@ -57,6 +57,12 @@ public class GameRunner extends Game{
 		scorefontgen.dispose();
 		
 		assets.load("Sounds/Backtrack.wav", Sound.class);
+		assets.load("Sounds/gameMusic.wav", Music.class);
+		assets.load("Sounds/gameMusic1.wav", Music.class);
+		assets.load("Sounds/gameMusic3.wav", Music.class);
+		assets.load("Sounds/gameMusic5.wav", Music.class);
+		assets.load("Sounds/gameMusic6.wav", Music.class);
+		assets.load("Sounds/gameMusic4.wav", Music.class);
 		
 		assets.load("Level2/cleaner_winter.png", Texture.class);
 		assets.load("Level3/cleaner_hell.png", Texture.class);

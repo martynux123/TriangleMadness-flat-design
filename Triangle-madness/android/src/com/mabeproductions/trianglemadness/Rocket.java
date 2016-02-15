@@ -72,7 +72,7 @@ public class Rocket {
 	
 	
 	public void render(SpriteBatch batch, ShapeRenderer render){
-/*		
+		
 		if(rot==90){
 				if(tickCount >= 1){
 					x+= speed;
@@ -123,7 +123,6 @@ public class Rocket {
 			render.end();
 		}
 		
-	*/	
 	}
 	
 	public void update() {

@@ -62,7 +62,7 @@ switch (GameSc.Level) {
 		public static void cleanerSound(){
 			if(GameMenu.isMuted){			
 				sound.play(0);
-			}else sound.play(2f);
+			}else sound.play(0.1f);
 			
 		}
 	
@@ -74,7 +74,7 @@ switch (GameSc.Level) {
 	public int getY(){
 		return y;
 	}
-	public Rectangle cleanerBounds(){
+	public Rectangle cleanerBounds(){ 
 		return cleanerBounds;
 	}
 	

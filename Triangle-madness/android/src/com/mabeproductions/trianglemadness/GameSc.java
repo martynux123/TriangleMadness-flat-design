@@ -1,6 +1,7 @@
 package com.mabeproductions.trianglemadness;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameSc implements Screen {
 
@@ -34,10 +36,10 @@ public class GameSc implements Screen {
 
 	// Variables
 	private int rocketTickCount = 0;
-	private int rocketDelayTickCount = 15000;
+	private int rocketDelayTickCount = 200;
 	private int randomDirection;
 	private int tickCountsCoins;
-	private int CoinsDelay = 900;
+	private int CoinsDelay = 50;
 	private int index = 0;
 	private float enemySpeed = -15;
 	private int enemyDelay = 350;
@@ -46,14 +48,14 @@ public class GameSc implements Screen {
 	private int rocketSpeed = 0;
 	private Texture cleaner;
 	private int cleanerTicks;
-	private int cleanerDelay = 4000;
+	private int cleanerDelay = 70;
 
 	// HourGlass variables
-	private int hourglassDelay = 9000;
+	private int hourglassDelay = 900;
 	private int hourglassTicks;
 	private Texture hourglassTexture;
 
-	private int multiDelay = 5000;
+	private int multiDelay = 1600;
 	private int multiTicks;
 
 	// Objects
@@ -95,7 +97,6 @@ public class GameSc implements Screen {
 		box = new Box(this);
 
 		rightButtonTxt = GameRunner.assets.get("rightButton.png", Texture.class);
-		music = GameRunner.assets.get("Sounds/gameMusic.wav");
 
 		batch = new SpriteBatch();
 
@@ -140,20 +141,26 @@ public class GameSc implements Screen {
 		prefs.flush();
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_1 && Level == 1) {
 			background = GameRunner.assets.get("Textures/avoidness.png");
+			music = GameRunner.assets.get("Sounds/gameMusic.wav");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_2 && Level == 2) {
+			music = GameRunner.assets.get("Sounds/gameMusic1.wav");
 			background = GameRunner.assets.get("Level2/avoidness.png");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_3 && Level == 3) {
+			music = GameRunner.assets.get("Sounds/gameMusic3.wav");
 			background = GameRunner.assets.get("Level3/AvoidnessLava.png");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_4 && Level == 4) {
+			music = GameRunner.assets.get("Sounds/gameMusic4.wav");
 			background = GameRunner.assets.get("Level4/wateBackground.png");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_5 && Level == 5) {
+			music = GameRunner.assets.get("Sounds/gameMusic5.wav");
 			background = GameRunner.assets.get("Level5/avoidness.png");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_6 && Level == 6) {
+			music = GameRunner.assets.get("Sounds/gameMusic6.wav");
 			background = GameRunner.assets.get("Level6/desertTheme.png");
 		}
 
@@ -182,10 +189,11 @@ public class GameSc implements Screen {
 
 				Thread.currentThread().interrupt();
 			}
+			
 
 		}, 500);
 
-	}
+	}						
 
 	@Override
 	public void show() {
@@ -292,25 +300,17 @@ public class GameSc implements Screen {
 				gameStages();
 				enemyFromTopThread();
 
-				new Thread(new Runnable() {
-
+				Timer t = new Timer();
+				t.schedule(new TimerTask() {
+					
 					@Override
 					public void run() {
-						while (runner.getScreen() == GameSc.this) {
-							try {
-								// Sleeping a thread for thread delays to be
-								// alike
-								Thread.sleep(1);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							update();
+						if(runner.getScreen() != GameSc.this){
+							this.cancel();
 						}
-
-						Thread.currentThread().interrupt();
-
+						update();
 					}
-				}, "Update").start();
+				}, 16, 16);
 
 				Thread.currentThread().interrupt();
 			}
@@ -360,6 +360,7 @@ public class GameSc implements Screen {
 		if (game_paused)
 			return;
 
+
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// Drawing an image.
@@ -379,6 +380,7 @@ public class GameSc implements Screen {
 		font.draw(batch, "" + Score, Gdx.graphics.getWidth() / 2 - (String.valueOf(Score).length() * 30),
 				Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight() * 0.0462f);
 
+		
 		font.getData().setScale(Gdx.graphics.getHeight() * 0.000525f);
 		if (!isStarted) {
 			Preferences prefs = Gdx.app.getPreferences("Stats");
@@ -442,6 +444,7 @@ public class GameSc implements Screen {
 		}
 		batch.end();
 
+
 		// Rendering enemies
 
 		for (int i = 0; i < enemies2.size(); i++) {
@@ -486,13 +489,27 @@ public class GameSc implements Screen {
 		}
 		
 	}
-
+	
+	private int tickCount = 0;
+	private int time = 0;
+	
+	
 	public void update() {
 
 		if (game_paused)
 			return;
+		
+		//==============Tick count/sec====================
+		tickCount++;
+		Date date = new Date(TimeUtils.millis());
+		
+		if((date.getSeconds() - time) > 1){
+//			System.out.println("Ticks/sec: " + tickCount);
+			tickCount = 0;
+			time = date.getSeconds();
+		}
+		//==============Testing====================
 
-		randomDirection = MathUtils.random(0, 1);
 
 		if (!GameMenu.isMuted && Box.tookHourglass == false) {
 			music.setVolume(1f);
@@ -523,19 +540,22 @@ public class GameSc implements Screen {
 			}
 
 		}
-
+		
+		randomDirection =MathUtils.random(0, 1);
+		
+		
 		// Spawning rockets
-		if (randomDirection == 0) {
+		if (randomDirection== 1) {
 			if (stage > 1) {
 				if (stage == 2)
 					rocketSpeed = (int) (Gdx.graphics.getHeight() * 0.015f);
 				if (stage == 3)
 					rocketSpeed = (int) (Gdx.graphics.getHeight() * 0.025f);
 				if (stage == 4)
-					rocketSpeed = (int) (Gdx.graphics.getHeight() * 0.035f);
+					rocketSpeed = (int) (Gdx.graphics.getHeight() * 0.03f);
 
 				if (rocketTickCount >= rocketDelayTickCount) {
-					rocketDelayTickCount = MathUtils.random(3000, 5000);
+					rocketDelayTickCount = MathUtils.random(400, 1000);
 
 					spawnRocket(-200, (int) box.getPos().y / 2, rocketSpeed, -90, rockettxt, emitter);
 					for (int i = 0; i < rocketList.size(); i++) {
@@ -547,10 +567,12 @@ public class GameSc implements Screen {
 				}
 
 				rocketTickCount++;
-
 			}
 
-			if (randomDirection == 1) {
+			}
+			
+
+			if (randomDirection==0) {
 
 				if (stage > 1) {
 					if (stage == 2)
@@ -558,9 +580,9 @@ public class GameSc implements Screen {
 					if (stage == 3)
 						rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.025f);
 					if (stage == 4)
-						rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.035f);
+						rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.03f);
 					if (rocketTickCount >= rocketDelayTickCount) {
-						rocketDelayTickCount = MathUtils.random(3000, 5000);
+						rocketDelayTickCount = MathUtils.random(400, 1000);
 						spawnRocket(Gdx.graphics.getWidth() + 200,
 								(int) (box.getPos().y - Gdx.graphics.getHeight() * 0.2777f), rocketSpeed, 90, rockettxt,
 								emitter);
@@ -600,7 +622,7 @@ public class GameSc implements Screen {
 			}
 			tickCountsCoins++;
 
-		}
+		
 		// ===============================================================================================================
 		// REMOVING HOURGLASESS
 
@@ -702,6 +724,7 @@ public class GameSc implements Screen {
 
 	public void spawnCoin(int x, int y, int speed, Texture[] txt, int index, ParticleEffect effect) {
 		coins.add(new Coin(x, y, speed, txt, index, effect));
+		CoinsDelay = MathUtils.random(150, 600);
 
 	}
 
@@ -709,20 +732,23 @@ public class GameSc implements Screen {
 		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, currentTexture);
 		enemies2.add(enemy);
 	}
-
+	
 	public void spawnHourglass(float x, int y, float speed, Texture texture) {
 		Hourglass hourglass = new Hourglass(x, y, speed, texture);
+		hourglassDelay = MathUtils.random(800, 1500);
 		hourglasess.add(hourglass);
 	}
 
 	public void spawnTrashbins(float x, int y, float speed, Texture texture) {
 		Cleaner cleaner = new Cleaner(x, y, speed, texture);
 		cleanerList.add(cleaner);
+		cleanerDelay = MathUtils.random(800, 1500);
 	}
 
 	public void spawnMultiplier(float x, int y, float speed, Texture texture) {
 		Multiplier multi = new Multiplier(x, y, speed, texture);
 		multiplierList.add(multi);
+		multiDelay = MathUtils.random(800, 1500);
 	}
 
 	public void spawnRocket(int x, int y, int speed, int degrees, Texture currentTexture, ParticleEffect emitter) {

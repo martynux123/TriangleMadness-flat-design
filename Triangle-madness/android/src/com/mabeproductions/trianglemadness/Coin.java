@@ -133,12 +133,12 @@ public class Coin {
 	public void onAquire(){
 		if(GameMenu.isMuted){			
 			sound.play(0);
-		}else sound.play(0.05f);
+		}else sound.play(0.07f);
 		
 	}
 
 	public void update() {
-		if (rotationIndex >= 55) {
+		if (rotationIndex >= 6) {
 			index++;
 			rotationIndex = 0;
 		}

@@ -62,10 +62,9 @@ switch (GameSc.Level) {
 		public static void multiSound(){
 			if(GameMenu.isMuted){			
 				sound.play(0);
-			}else sound.play(2f);
+			}else sound.play(0.5f);
 			
 		}
-	
 	
 	public float getX(){
 		return x;

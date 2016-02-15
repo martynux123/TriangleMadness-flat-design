@@ -21,7 +21,7 @@ public class Box {
 
 	// Settings
 	private final boolean debugMode = false;
-	private float size = Gdx.graphics.getHeight()*0.00056f;
+	private float size = Gdx.graphics.getHeight()*0.0004f;
 
 	// Variables
 	private int touchX;
@@ -286,7 +286,7 @@ public class Box {
 		emitter.draw(batch);
 		
 			
-		batch.draw(ball, pos.x, pos.y, size, size);
+//		batch.draw(ball, pos.x, pos.y, size, size);
 		batch.end();
 
 		//Changing the screen
