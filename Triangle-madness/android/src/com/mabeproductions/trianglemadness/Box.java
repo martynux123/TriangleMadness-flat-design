@@ -25,6 +25,7 @@ public class Box {
 
 	// Variables
 	private int touchX;
+	//private boolean drawBox ;
 	private int touchY;
 	private GameSc g;
 	private Texture ball;
@@ -117,8 +118,16 @@ public class Box {
 	}
 
 	public void update() {
-		
+		/*
+		if(Gdx.input.isTouched()){
+			drawBox=false;
+		}else{
+			drawBox=true;
+			
+		}
+		*/
 		if (Gdx.input.isTouched() && touchBounds.contains(touchX, touchY)) {
+			
 			isTouched = true;
 		}
 		
@@ -228,7 +237,11 @@ public class Box {
 					@Override
 					public void run() {
 						tookHourglass=false;
+						//DELETE THIS
+Thread.currentThread().interrupt();
 					}
+					
+					
 				}, 4000);
 				
 			}
@@ -284,10 +297,11 @@ public class Box {
 		emitter.setPosition(pos.x + size / 2 + Gdx.graphics.getHeight()*0.00925f, pos.y + size / 2 + Gdx.graphics.getHeight()*0.00925f);
 		emitter.update(Gdx.graphics.getDeltaTime());
 		emitter.draw(batch);
-		
-			
-//		batch.draw(ball, pos.x, pos.y, size, size);
+		//if(drawBox){
+		//batch.draw(ball, pos.x, pos.y, size, size);
+		//}
 		batch.end();
+		
 
 		//Changing the screen
 		if (shouldScreenChange) {

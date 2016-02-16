@@ -62,7 +62,7 @@ switch (GameSc.Level) {
 		public static void cleanerSound(){
 			if(GameMenu.isMuted){			
 				sound.play(0);
-			}else sound.play(0.1f);
+			}else sound.play(0.4f);
 			
 		}
 	

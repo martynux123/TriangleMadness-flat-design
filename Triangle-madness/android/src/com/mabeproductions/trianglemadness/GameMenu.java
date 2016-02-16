@@ -81,7 +81,9 @@ public class GameMenu implements Screen {
 			@Override
 			public void run() {
 				GameRunner.adcontroller.showAd();
+				
 				Thread.currentThread().interrupt();
+			
 			}
 		}, 200);
 		

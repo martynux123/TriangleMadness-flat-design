@@ -72,8 +72,7 @@ public class Broadcaster {
 						e.printStackTrace();
 					}
 					
-//					if(g.runner.getScreen() != g)
-//						Thread.currentThread().interrupt();
+
 				}
 				Thread.currentThread().interrupt();
 			}

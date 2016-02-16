@@ -4,15 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 
-
 public class Multiplier {
 
+	private ParticleEffect emitter;
 	private boolean debugMode = false;
 	private float x;
 	private int y;
@@ -29,21 +30,27 @@ switch (GameSc.Level) {
 		
 		case 1:
 			this.texture = texture;
+			this.emitter = GameRunner.emitter;
 			break;
 		case 2:
 			this.texture = GameRunner.assets.get("Level2/multiplier_winter.png");
+			this.emitter = GameRunner.snowEmitter;
 			break;
 		case 3:
 			this.texture = GameRunner.assets.get("Level3/multiplier_hell.png");
+			this.emitter = GameRunner.fireEmitter;
 			break;
 		case 4:
 			this.texture = GameRunner.assets.get("Level4/multiplier_underwater.png");
+			this.emitter = GameRunner.waterEmitter;
 			break;
 		case 5:
 			this.texture = GameRunner.assets.get("Level5/multiplier_Jungle.png");
+			this.emitter = GameRunner.jungleEmitter;
 			break;
 		case 6:
 			this.texture = GameRunner.assets.get("Level6/multiplier_desert.png");
+			this.emitter = GameRunner.sandEmitter;
 			break;
 		default:
 			break;
@@ -86,6 +93,9 @@ switch (GameSc.Level) {
 		tickCount++;
 	
 		batch.begin();
+		emitter.setPosition(x+45,y+45);
+		emitter.update(Gdx.graphics.getDeltaTime());
+		emitter.draw(batch);
 		batch.draw(texture, x, y, multiSize,multiSize);
 		batch.end();
 		

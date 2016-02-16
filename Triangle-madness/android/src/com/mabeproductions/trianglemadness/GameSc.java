@@ -144,23 +144,23 @@ public class GameSc implements Screen {
 			music = GameRunner.assets.get("Sounds/gameMusic.wav");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_2 && Level == 2) {
-			music = GameRunner.assets.get("Sounds/gameMusic1.wav");
+			music = GameRunner.assets.get("Sounds/gameMusic1.mp3");
 			background = GameRunner.assets.get("Level2/avoidness.png");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_3 && Level == 3) {
-			music = GameRunner.assets.get("Sounds/gameMusic3.wav");
+			music = GameRunner.assets.get("Sounds/gameMusic3.mp3");
 			background = GameRunner.assets.get("Level3/AvoidnessLava.png");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_4 && Level == 4) {
-			music = GameRunner.assets.get("Sounds/gameMusic4.wav");
+			music = GameRunner.assets.get("Sounds/gameMusic4.mp3");
 			background = GameRunner.assets.get("Level4/wateBackground.png");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_5 && Level == 5) {
-			music = GameRunner.assets.get("Sounds/gameMusic5.wav");
+			music = GameRunner.assets.get("Sounds/gameMusic5.mp3");
 			background = GameRunner.assets.get("Level5/avoidness.png");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_6 && Level == 6) {
-			music = GameRunner.assets.get("Sounds/gameMusic6.wav");
+			music = GameRunner.assets.get("Sounds/gameMusic6.mp3");
 			background = GameRunner.assets.get("Level6/desertTheme.png");
 		}
 
