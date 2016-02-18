@@ -49,6 +49,10 @@ public class GameOver implements Screen {
 	
 	public GameOver(GameRunner runner, int Score, TextureRegion background) {
 		
+		GameSc.t.cancel();
+		GameSc.t.purge();
+		Box.tookHourglass=false;
+		
 		Preferences prefs = Gdx.app.getPreferences("Stats");
 		this.background = background;
 		this.Score = Score;

@@ -27,6 +27,8 @@ public class AndroidLauncher extends AndroidApplication implements AdController{
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+        config.useAccelerometer = false;
+        config.useCompass = false;
         initialize(new GameRunner(this), config);
          
         // Create a gameView and a bannerAd AdView

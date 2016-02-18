@@ -58,6 +58,8 @@ public class GameRunner extends Game{
 		
 		assets.load("Sounds/Backtrack.wav", Sound.class);
 		
+		assets.load("Sounds/menuMusic.mp3", Music.class);
+		assets.load("Sounds/gameMusic.mp3", Music.class);
 		assets.load("Sounds/gameMusic1.mp3", Music.class);
 		assets.load("Sounds/gameMusic3.mp3", Music.class);
 		assets.load("Sounds/gameMusic5.mp3", Music.class);
@@ -118,9 +120,7 @@ public class GameRunner extends Game{
 		
 		
 		assets.load("Sounds/dzinkt.wav", Sound.class);
-		assets.load("Sounds/gameMusic.wav", Music.class);
 		assets.load("Sounds/gameOver.wav", Sound.class);
-		assets.load("Sounds/gameMenu.wav", Music.class);
 		assets.load("Sounds/stageSound.wav", Sound.class);
 		assets.load("Sounds/FreezeTime.wav", Sound.class);
 		assets.load("Sounds/sparkle.wav", Sound.class);

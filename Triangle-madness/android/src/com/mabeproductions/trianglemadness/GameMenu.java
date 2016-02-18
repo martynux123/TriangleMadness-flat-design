@@ -73,10 +73,11 @@ public class GameMenu implements Screen {
 	
 	public GameMenu(GameRunner runner){
 		this.runner = runner;
-		music = GameRunner.assets.get("Sounds/gameMenu.wav");
+		music = GameRunner.assets.get("Sounds/menuMusic.mp3");
 		
+		t = new Timer();
 		//Delaying the ad for it to work propertly
-		new Timer().schedule(new TimerTask() {
+		t.schedule(new TimerTask() {
 			
 			@Override
 			public void run() {
@@ -87,7 +88,6 @@ public class GameMenu implements Screen {
 			}
 		}, 200);
 		
-		t = new Timer();
 		
 		batch = new SpriteBatch();
 		
@@ -274,6 +274,8 @@ public class GameMenu implements Screen {
 	int	touchY = Gdx.input.getY() + ((Gdx.graphics.getHeight() / 2 - Gdx.input.getY()) * 2);
 		
 		if(playBtn.contains(touchX, touchY )&& Gdx.input.justTouched()){
+			t.cancel();
+			t.purge();
 			gameScreenSwitch=true;
 		}
 		

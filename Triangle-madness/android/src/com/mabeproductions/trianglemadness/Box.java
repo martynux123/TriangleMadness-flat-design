@@ -43,7 +43,7 @@ public class Box {
 	public static boolean tookHourglass = false;
 	private int totalScore;
 	public static boolean isMultiplier=false;
-	private Timer t;
+	public Timer t;
 	public  boolean isCoin=false;
 	
 	
@@ -51,6 +51,7 @@ public class Box {
 	public Box(GameSc g) {
 
 		this.g = g;
+		t = g.t;
 		
 		
 		//Levels
@@ -97,7 +98,6 @@ public class Box {
 
 		pos = new Vector2(Gdx.graphics.getWidth() / 2 - size / 2, Gdx.graphics.getHeight() / 2 - size / 2);
 
-		t = new Timer();
 		
 		bounds = new Rectangle(pos.x, pos.y, size-Gdx.graphics.getHeight()*0.0185f, size-Gdx.graphics.getHeight()*0.0185f);
 		touchBounds = new Rectangle(pos.x - Gdx.graphics.getHeight()*0.025f, pos.y - Gdx.graphics.getHeight()*0.025f, Gdx.graphics.getHeight()*0.15f, Gdx.graphics.getHeight()*0.15f);
@@ -251,7 +251,7 @@ Thread.currentThread().interrupt();
 		for(int i = 0; i<g.cleanerList.size();i++){
 			if(g.cleanerList.get(i).cleanerBounds().overlaps(bounds)){
 				g.cleanerList.remove(i);
-				
+				g.rocketList.clear();
 				new Thread(new Runnable() {
 					
 					@Override
@@ -307,7 +307,7 @@ Thread.currentThread().interrupt();
 		if (shouldScreenChange) {
 			gameOverMusic();
 			g.music.stop();
-			g.music = GameRunner.assets.get("Sounds/gameMusic.wav");
+			g.music = GameRunner.assets.get("Sounds/gameMusic.mp3");
 			g.music.setPosition(0);
 			batch.setColor(0,0,0,0.7f);
 			screenshot = ScreenUtils.getFrameBufferTexture();

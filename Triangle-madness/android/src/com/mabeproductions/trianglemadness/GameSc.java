@@ -86,10 +86,11 @@ public class GameSc implements Screen {
 	private Texture multiplierTexture;
 	private boolean isStarted = false;
 	public Music music;
-	private Timer t;
+	public static Timer t;
 	private Texture rightButtonTxt;
 
 	public GameSc(GameRunner runnerClass) {
+		t = new Timer("MainGameLoop");
 
 		this.runner = runnerClass;
 		setupBackground();
@@ -108,7 +109,6 @@ public class GameSc implements Screen {
 		hourglassTexture = GameRunner.assets.get("clock.png");
 		cleaner = GameRunner.assets.get("cleaner.png");
 
-		t = new Timer();
 
 		emitter = GameRunner.rocketEmitter;
 		coinEmitter = GameRunner.coinEmitter;
@@ -132,16 +132,15 @@ public class GameSc implements Screen {
 		cointxt[6] = GameRunner.assets.get("Coins/7.png");
 
 		font = GameRunner.BigScoreFont;
-		
+
 	}
 
 	private void setupBackground() {
 		Preferences prefs = Gdx.app.getPreferences("Stats");
-		prefs.putInteger("TotalScore", 10000);
 		prefs.flush();
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_1 && Level == 1) {
 			background = GameRunner.assets.get("Textures/avoidness.png");
-			music = GameRunner.assets.get("Sounds/gameMusic.wav");
+			music = GameRunner.assets.get("Sounds/gameMusic.mp3");
 		}
 		if (prefs.getInteger("TotalScore") >= GameSc.LEVEL_2 && Level == 2) {
 			music = GameRunner.assets.get("Sounds/gameMusic1.mp3");
@@ -189,11 +188,10 @@ public class GameSc implements Screen {
 
 				Thread.currentThread().interrupt();
 			}
-			
 
 		}, 500);
 
-	}						
+	}
 
 	@Override
 	public void show() {
@@ -207,16 +205,13 @@ public class GameSc implements Screen {
 			prefs.flush();
 		}
 
-		Timer t = new Timer();
 		t.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
 
 				boolean wasPressed = true;
-				broadcaster = new Broadcaster((int) (Gdx.graphics.getHeight() * 0.1203f),
-						(int) (Gdx.graphics.getHeight() - Gdx.graphics.getHeight() * 0.0925f), 0, "PRESS TO START",
-						GameSc.this);
+
 				while (!isStarted) {
 					int touchX = Gdx.input.getX();
 					if (Gdx.input.justTouched() && touchX >= Gdx.graphics.getHeight() * 0.277f
@@ -300,12 +295,11 @@ public class GameSc implements Screen {
 				gameStages();
 				enemyFromTopThread();
 
-				Timer t = new Timer();
 				t.schedule(new TimerTask() {
-					
+
 					@Override
 					public void run() {
-						if(runner.getScreen() != GameSc.this){
+						if (runner.getScreen() != GameSc.this) {
 							this.cancel();
 						}
 						update();
@@ -323,7 +317,7 @@ public class GameSc implements Screen {
 
 			@Override
 			public void run() {
-				while (runner.getScreen() == GameSc.this & stage < 5) {
+				while (runner.getScreen() == GameSc.this && stage < 5) {
 
 					try {
 						stageSound();
@@ -339,6 +333,8 @@ public class GameSc implements Screen {
 					}
 
 				}
+				
+				
 
 				broadcaster = new Broadcaster(0, (int) (Gdx.graphics.getHeight() - Gdx.graphics.getHeight() * 0.0925f),
 						Gdx.graphics.getHeight() * 0.0138f, "Freeplay", GameSc.this);
@@ -346,7 +342,7 @@ public class GameSc implements Screen {
 				Thread.currentThread().interrupt();
 
 			}
-		}).start();
+		}, "Stages").start();
 	}
 
 	@Override
@@ -360,7 +356,6 @@ public class GameSc implements Screen {
 		if (game_paused)
 			return;
 
-
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// Drawing an image.
@@ -373,6 +368,9 @@ public class GameSc implements Screen {
 					Gdx.graphics.getHeight());
 			batch.draw(rightButtonTxt, Gdx.graphics.getWidth() - Gdx.graphics.getHeight() * 0.1851f, 0,
 					Gdx.graphics.getHeight() * 0.1851f, Gdx.graphics.getHeight());
+			GameRunner.BigScoreFont.getData().setScale(Gdx.graphics.getHeight()*0.00075f);
+			GameRunner.BigScoreFont.draw(batch, "PRESS TO START", Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.9f);
+			GameRunner.BigScoreFont.getData().setScale(Gdx.graphics.getHeight()*0.0013888f);
 		}
 
 		font.getData().setScale(Gdx.graphics.getHeight() * 0.000825f);
@@ -380,7 +378,6 @@ public class GameSc implements Screen {
 		font.draw(batch, "" + Score, Gdx.graphics.getWidth() / 2 - (String.valueOf(Score).length() * 30),
 				Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight() * 0.0462f);
 
-		
 		font.getData().setScale(Gdx.graphics.getHeight() * 0.000525f);
 		if (!isStarted) {
 			Preferences prefs = Gdx.app.getPreferences("Stats");
@@ -442,8 +439,8 @@ public class GameSc implements Screen {
 
 			font.getData().setScale(Gdx.graphics.getHeight() * 0.0013888f);
 		}
-		batch.end();
 
+		batch.end();
 
 		// Rendering enemies
 
@@ -481,35 +478,33 @@ public class GameSc implements Screen {
 				cleanerList.get(i).render(batch, shape);
 			}
 		}
-		
+
 		for (int i = 0; i < multiplierList.size(); i++) {
 			if (multiplierList.get(i) != null) {
 				multiplierList.get(i).render(batch, shape);
 			}
 		}
-		
+
 	}
-	
+
 	private int tickCount = 0;
 	private int time = 0;
-	
-	
+
 	public void update() {
 
 		if (game_paused)
 			return;
-		
-		//==============Tick count/sec====================
+
+		// ==============Tick count/sec====================
 		tickCount++;
 		Date date = new Date(TimeUtils.millis());
-		
-		if((date.getSeconds() - time) > 1){
-//			System.out.println("Ticks/sec: " + tickCount);
+
+		if ((date.getSeconds() - time) > 1) {
+			// System.out.println("Ticks/sec: " + tickCount);
 			tickCount = 0;
 			time = date.getSeconds();
 		}
-		//==============Testing====================
-
+		// ==============Testing====================
 
 		if (!GameMenu.isMuted && Box.tookHourglass == false) {
 			music.setVolume(1f);
@@ -540,12 +535,11 @@ public class GameSc implements Screen {
 			}
 
 		}
-		
-		randomDirection =MathUtils.random(0, 1);
-		
-		
+
+		randomDirection = MathUtils.random(0, 1);
+
 		// Spawning rockets
-		if (randomDirection== 1) {
+		if (randomDirection == 1) {
 			if (stage > 1) {
 				if (stage == 2)
 					rocketSpeed = (int) (Gdx.graphics.getHeight() * 0.015f);
@@ -569,60 +563,58 @@ public class GameSc implements Screen {
 				rocketTickCount++;
 			}
 
-			}
-			
+		}
 
-			if (randomDirection==0) {
+		if (randomDirection == 0) {
 
-				if (stage > 1) {
-					if (stage == 2)
-						rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.015f);
-					if (stage == 3)
-						rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.025f);
-					if (stage == 4)
-						rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.03f);
-					if (rocketTickCount >= rocketDelayTickCount) {
-						rocketDelayTickCount = MathUtils.random(400, 1000);
-						spawnRocket(Gdx.graphics.getWidth() + 200,
-								(int) (box.getPos().y - Gdx.graphics.getHeight() * 0.2777f), rocketSpeed, 90, rockettxt,
-								emitter);
-						for (int i = 0; i < rocketList.size(); i++) {
-							if (rocketList.get(i).getX() < 0) {
-								rocketList.remove(rocketList.get(i));
-							}
-						}
-						rocketTickCount = 0;
-					}
-					rocketTickCount++;
-
-				}
-
-			}
-
-			// Spawning coins
-			if (tickCountsCoins >= CoinsDelay) {
-				int x = MathUtils.random(Gdx.graphics.getWidth() - Coin.getCoinSize());
-
-				spawnCoin(x, Gdx.graphics.getHeight(), (int) (Gdx.graphics.getHeight() * 0.0166f), cointxt, index,
-						coinEmitter);
-
-				// Checking if coin spawned on top of enemy
-				tickCountsCoins = 0;
-				try {
-					for (int i = 0; i < enemies2.size(); i++) {
-						if (coins.get(coins.size() - 1).getBounds().overlaps(enemies2.get(i).bounds)) {
-							coins.remove(coins.size() - 1);
-							tickCountsCoins = CoinsDelay;
+			if (stage > 1) {
+				if (stage == 2)
+					rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.015f);
+				if (stage == 3)
+					rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.025f);
+				if (stage == 4)
+					rocketSpeed = -(int) (Gdx.graphics.getHeight() * 0.03f);
+				if (rocketTickCount >= rocketDelayTickCount) {
+					rocketDelayTickCount = MathUtils.random(400, 1000);
+					spawnRocket(Gdx.graphics.getWidth() + 200,
+							(int) (box.getPos().y - Gdx.graphics.getHeight() * 0.2777f), rocketSpeed, 90, rockettxt,
+							emitter);
+					for (int i = 0; i < rocketList.size(); i++) {
+						if (rocketList.get(i).getX() < 0) {
+							rocketList.remove(rocketList.get(i));
 						}
 					}
-
-				} catch (ArrayIndexOutOfBoundsException e) {
+					rocketTickCount = 0;
 				}
+				rocketTickCount++;
 
 			}
-			tickCountsCoins++;
 
-		
+		}
+
+		// Spawning coins
+		if (tickCountsCoins >= CoinsDelay) {
+			int x = MathUtils.random(Gdx.graphics.getWidth() - Coin.getCoinSize());
+
+			spawnCoin(x, Gdx.graphics.getHeight(), (int) (Gdx.graphics.getHeight() * 0.0166f), cointxt, index,
+					coinEmitter);
+
+			// Checking if coin spawned on top of enemy
+			tickCountsCoins = 0;
+			try {
+				for (int i = 0; i < enemies2.size(); i++) {
+					if (coins.get(coins.size() - 1).getBounds().overlaps(enemies2.get(i).bounds)) {
+						coins.remove(coins.size() - 1);
+						tickCountsCoins = CoinsDelay;
+					}
+				}
+
+			} catch (ArrayIndexOutOfBoundsException e) {
+			}
+
+		}
+		tickCountsCoins++;
+
 		// ===============================================================================================================
 		// REMOVING HOURGLASESS
 
@@ -724,7 +716,7 @@ public class GameSc implements Screen {
 
 	public void spawnCoin(int x, int y, int speed, Texture[] txt, int index, ParticleEffect effect) {
 		coins.add(new Coin(x, y, speed, txt, index, effect));
-		CoinsDelay = MathUtils.random(150, 600);
+		CoinsDelay = MathUtils.random(150, 300);
 
 	}
 
@@ -732,7 +724,7 @@ public class GameSc implements Screen {
 		Enemy enemy = new Enemy(x, y, speed, Enemy.UNIFORM_WIDTH, Enemy.UNIFORM_HEIGHT, currentTexture);
 		enemies2.add(enemy);
 	}
-	
+
 	public void spawnHourglass(float x, int y, float speed, Texture texture) {
 		Hourglass hourglass = new Hourglass(x, y, speed, texture);
 		hourglassDelay = MathUtils.random(800, 1500);

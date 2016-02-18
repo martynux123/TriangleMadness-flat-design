@@ -93,7 +93,7 @@ switch (GameSc.Level) {
 		tickCount++;
 	
 		batch.begin();
-		emitter.setPosition(x+45,y+45);
+		emitter.setPosition(x+multiSize/2,y+multiSize/2);
 		emitter.update(Gdx.graphics.getDeltaTime());
 		emitter.draw(batch);
 		batch.draw(texture, x, y, multiSize,multiSize);
